@@ -1,4 +1,16 @@
-.vercel
-node_modules
-.DS_Store
+# Logs
 *.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (if any in future)
+node_modules/
