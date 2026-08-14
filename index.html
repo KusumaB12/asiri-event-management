@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="description"
+    content="ASIRI - India's Premier Luxury Event Management & Wedding Planning Platform. Specializing in Royal Destination Weddings, Pre-Wedding Shoots, Themed Birthdays, Corporate Conferences, Griha Pravesh, Anniversaries, and Bespoke Custom Events across India & worldwide." />
+  <title>ASIRI Events | Luxury Weddings, Corporate &amp; Custom Events</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              DEFAULT: "#f2ca50",
+              light: "#fae087",
+              dark: "#b89222",
+              glow: "rgba(242, 202, 80, 0.25)"
+            },
+            obsidian: {
+              950: "#090a0b",
+              900: "#0c0d0e",
+              800: "#141618",
+              700: "#1e2024",
+              600: "#272a30"
+            }
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "Georgia", "serif"],
+            sans: ["Plus Jakarta Sans", "Manrope", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css?v=4" />
+
+  <style>
+    /* Critical Material Symbols font settings */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined' !important;
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* Critical Form Input Overrides */
+    input,
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="password"],
+    input[type="url"],
+    input[type="search"],
+    select,
+    textarea,
+    .app-input,
+    .modal-input {
+      background: #101114 !important;
+      background-color: #101114 !important;
+      color: #f4f4f5 !important;
+      border: 1px solid rgba(242, 202, 80, 0.25) !important;
+      outline: none !important;
+      border-radius: 4px !important;
+      padding: 10px 14px;
+    }
+
+    .input-with-search {
+      padding-left: 38px !important;
+    }
+
+    input:focus,
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    input[type="datetime-local"]:focus,
+    input[type="password"]:focus,
+    input[type="url"]:focus,
+    input[type="search"]:focus,
+    select:focus,
+    textarea:focus,
+    .app-input:focus,
+    .modal-input:focus {
+      background: #15171c !important;
+      background-color: #15171c !important;
+      color: #ffffff !important;
+      border-color: #f2ca50 !important;
+      box-shadow: 0 0 0 3px rgba(242, 202, 80, 0.2) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .app-input::placeholder,
+    .modal-input::placeholder {
+      color: #71747e !important;
+      opacity: 1 !important;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8) sepia(100%) saturate(500%) hue-rotate(5deg);
+      cursor: pointer;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active,
+    textarea:-webkit-autofill,
+    select:-webkit-autofill {
+      -webkit-text-fill-color: #f4f4f5 !important;
+      -webkit-box-shadow: 0 0 0px 1000px #101114 inset !important;
+      box-shadow: 0 0 0px 1000px #101114 inset !important;
+      caret-color: #f2ca50 !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased selection:bg-[#f2ca50] selection:text-[#0c0d0e]">
+  <!-- Ambient Background Gradients -->
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-bottom"></div>
+
+  <!-- SITE HEADER & COMMAND BAR -->
+  <header class="site-header fixed top-0 w-full z-50">
+    <nav class="flex justify-between items-center px-4 md:px-8 py-3.5 max-w-7xl mx-auto">
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-3 group" id="logo-home-link" aria-label="ASIRI Event Management India">
+        <div
+          class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#f2ca50] via-[#e5a824] to-[#b89222] p-0.5 flex items-center justify-center shadow-lg shadow-gold/20">
+          <div class="w-full h-full bg-[#0c0d0e] rounded-[7px] flex items-center justify-center">
+            <span
+              class="material-symbols-outlined text-[#f2ca50] text-xl group-hover:scale-110 transition-transform">celebration</span>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif text-2xl font-bold tracking-tight text-[#f2ca50]">ASIRI</span>
+          <span class="text-[9px] uppercase tracking-[0.25em] text-neutral-400 -mt-1 font-semibold">Events &amp; Weddings India</span>
+        </div>
+      </a>
+
+      <!-- View Mode Switcher Pill (Public Portal vs Planner Hub with Staff Key) -->
+      <div class="mode-switcher hidden sm:inline-flex items-center">
+        <button type="button" id="btn-mode-portal" class="mode-btn active" title="Switch to Public Client Portal">
+          <span class="material-symbols-outlined text-sm">public</span>
+          <span>Client Portal</span>
+        </button>
+        <button type="button" id="btn-mode-dashboard" class="mode-btn" title="Open Planner & Operations Hub">
+          <span class="material-symbols-outlined text-sm">shield_person</span>
+          <span>Staff Hub</span>
+        </button>
+      </div>
+
+      <!-- Dynamic Portal Navigation Links -->
+      <ul id="portal-nav-links" class="hidden lg:flex gap-6 items-center text-xs uppercase tracking-wider font-semibold">
+        <li><a class="nav-link" href="#services">Services</a></li>
+        <li><a class="nav-link" href="#custom-builder">Custom Events Studio</a></li>
+        <li><a class="nav-link" href="#events">Live Schedule</a></li>
+        <li><a class="nav-link" href="#calculator">Estimator (₹)</a></li>
+        <li><a class="nav-link" href="#portfolio">Our Work</a></li>
+        <li><a class="nav-link" href="#contact">Consultation</a></li>
+      </ul>
+
+      <!-- Dynamic Dashboard Navigation Links (Shown in Staff Mode) -->
+      <ul id="dashboard-nav-links" class="hidden lg:hidden gap-6 items-center text-xs uppercase tracking-wider font-semibold">
+        <li><button class="dash-quick-nav nav-link active" data-tab="tab-events">Event Manager</button></li>
+        <li><button class="dash-quick-nav nav-link" data-tab="tab-guests">Guestlist &amp; Check-In</button></li>
+        <li><button class="dash-quick-nav nav-link" data-tab="tab-timeline">Muhurat &amp; Timeline</button></li>
+        <li><button class="dash-quick-nav nav-link" data-tab="tab-budget">Budget (₹) &amp; Vendors</button></li>
+      </ul>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-3">
+        <button type="button" id="header-create-event-btn" class="btn-gold btn-sm hidden sm:inline-flex shadow-sm">
+          <span class="material-symbols-outlined text-base">add_circle</span>
+          <span>+ Plan Event</span>
+        </button>
+
+        <button type="button" id="menu-toggle"
+          class="lg:hidden text-[#f2ca50] p-2 rounded-md hover:bg-neutral-800 transition-colors" aria-label="Open menu"
+          aria-expanded="false">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#0c0d0e] border-b border-[#f2ca50]/20 px-6 py-5 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
+        <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold">Active Mode</span>
+        <div class="mode-switcher flex">
+          <button type="button" id="mobile-mode-portal" class="mode-btn active">Client</button>
+          <button type="button" id="mobile-mode-dashboard" class="mode-btn">Staff Hub</button>
+        </div>
+      </div>
+
+      <div id="mobile-portal-links" class="space-y-3">
+        <a href="#services" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Services (Weddings, Pre-shoots, B'days)</a>
+        <a href="#custom-builder" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Custom Events Studio</a>
+        <a href="#events" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Live Events</a>
+        <a href="#calculator" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Budget Estimator (₹ INR)</a>
+        <a href="#portfolio" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Highlights &amp; Shoots</a>
+        <a href="#contact" class="block text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]">Book Consultation</a>
+      </div>
+
+      <div id="mobile-dashboard-links" class="hidden space-y-3">
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-events">1. Events Manager</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-guests">2. Guestlist &amp; Check-in</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-timeline">3. Muhurat &amp; Run-of-Show</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-budget">4. Budget (₹) &amp; Vendors</button>
+      </div>
+
+      <button type="button" id="mobile-create-event-btn" class="w-full btn-gold justify-center mt-3">
+        <span class="material-symbols-outlined text-base">add_circle</span>
+        <span>+ Plan New Event</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <!-- =========================================================================
+         VIEW 1: CLIENT PORTAL & PUBLIC EXPERIENCE (Indian Events Showcase & Planner)
+         ========================================================================= -->
+    <div id="view-portal" class="transition-opacity duration-300">
+      <!-- HERO SECTION -->
+      <section id="home" class="relative min-h-[90vh] flex items-center justify-center py-20 px-4 md:px-8 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neutral-900/60 via-[#0c0d0e]/95 to-[#0c0d0e] z-0"></div>
+        
+        <div class="absolute inset-0 opacity-[0.035] pointer-events-none"
+          style="background-image: radial-gradient(#f2ca50 1.5px, transparent 1.5px); background-size: 36px 36px;"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10 space-y-8">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1e2024] border border-[#f2ca50]/30 text-[#f2ca50] text-xs font-semibold uppercase tracking-[0.2em] shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-[#10b981] animate-ping"></span>
+            <span>Royal Weddings · Pre-Wedding Shoots · Birthdays · Conferences · Custom Events</span>
+          </div>
+
+          <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.15]">
+            Crafting Extraordinary <br class="hidden sm:inline" />
+            <span class="italic text-[#f2ca50] font-normal font-serif">Indian Celebrations</span>
+          </h1>
+
+          <p class="text-neutral-300 text-base md:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
+            From regal destination weddings in Rajasthan and cinematic pre-wedding shoots to themed milestone birthdays, corporate conferences, and custom celebrations tailored to your exact vision.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <a href="#custom-builder" class="btn-gold w-full sm:w-auto text-center">
+              <span class="material-symbols-outlined text-base">design_services</span>
+              <span>Build a Custom Event</span>
+            </a>
+            <a href="#calculator" class="btn-gold-outline w-full sm:w-auto text-center">
+              <span class="material-symbols-outlined text-base">calculate</span>
+              <span>Calculate Budget (₹ INR)</span>
+            </a>
+          </div>
+
+          <!-- Quick Live Stats Ribbon -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 max-w-4xl mx-auto text-left">
+            <div class="glass-panel p-4 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined">favorite</span>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-white font-serif" id="stat-hero-weddings">350+</div>
+                <div class="text-[11px] text-neutral-400 uppercase tracking-wider">Weddings &amp; Sangeets</div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-4 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined">photo_camera</span>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-white font-serif">200+</div>
+                <div class="text-[11px] text-neutral-400 uppercase tracking-wider">Pre-Wedding Shoots</div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-4 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined">auto_awesome</span>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-white font-serif">150+</div>
+                <div class="text-[11px] text-neutral-400 uppercase tracking-wider">Custom Bespoke Events</div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-4 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined">verified</span>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-white font-serif">100%</div>
+                <div class="text-[11px] text-neutral-400 uppercase tracking-wider">Turnkey Hospitality</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES OVERVIEW -->
+      <section id="services" class="py-24 px-4 md:px-8 bg-[#0e0f12] border-t border-[#f2ca50]/10">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="text-center max-w-2xl mx-auto space-y-3">
+            <div class="text-[#f2ca50] text-xs font-semibold tracking-[0.3em] uppercase">What We Manage</div>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-white">Bespoke Event Management Services</h2>
+            <p class="text-neutral-400 text-sm">Complete end-to-end planning, vendor coordination, royal decor, hospitality, and show running for every celebration.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 1. Weddings & Sangeet -->
+            <div class="luxury-card p-8 space-y-4">
+              <div class="w-12 h-12 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined text-2xl">favorite</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Grand Weddings &amp; Sangeet</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Heritage palace &amp; resort destination weddings (Jaipur, Udaipur, Goa, Kerala), majestic floral mandaps, celebrity sangeet choreography, baraat with royal band, and curated multi-cuisine banquets.
+              </p>
+              <div class="text-xs text-[#f2ca50] font-semibold flex items-center gap-1 pt-2">
+                <span>Haldi · Mehendi · Sangeet · Pheras · Reception</span>
+              </div>
+            </div>
+
+            <!-- 2. Pre-Wedding Shoots -->
+            <div class="luxury-card p-8 space-y-4">
+              <div class="w-12 h-12 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined text-2xl">photo_camera</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Cinematic Pre-Wedding Shoots</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Exotic location permits, cinematic drone filming, celebrity stylist &amp; makeup artists, conceptual narrative themes (Royal Heritage, Beachside Romance, Desert Dunes), and social teaser video reveals.
+              </p>
+              <div class="text-xs text-[#f2ca50] font-semibold flex items-center gap-1 pt-2">
+                <span>4K Cinema · Drone Pilots · Costume Styling · Location Scouting</span>
+              </div>
+            </div>
+
+            <!-- 3. Themed Birthdays & Jubilees -->
+            <div class="luxury-card p-8 space-y-4">
+              <div class="w-12 h-12 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined text-2xl">cake</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Themed Birthdays &amp; Jubilees</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Luxury 1st birthday wonderland setups, Sweet 16 &amp; 21st DJ night soirees, and 50th/60th Golden &amp; Silver Jubilee banquets with custom cakes, photobooths, illusionists, and live musical troupes.
+              </p>
+              <div class="text-xs text-[#f2ca50] font-semibold flex items-center gap-1 pt-2">
+                <span>Theme Decor · Custom Cakes · Magic &amp; Games · DJ &amp; Sound</span>
+              </div>
+            </div>
+
+            <!-- 4. Corporate Conferences & Summits -->
+            <div class="luxury-card p-8 space-y-4">
+              <div class="w-12 h-12 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined text-2xl">apartment</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Corporate Conferences &amp; Summits</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Annual general meetings, leadership offsites, product launch unveilings, exhibition stalls, high-resolution LED backdrop walls, audio-visual streaming, and delegate hospitality.
+              </p>
+              <div class="text-xs text-[#f2ca50] font-semibold flex items-center gap-1 pt-2">
+                <span>LED Walls · Delegate Registration · Keynote AV · Gala Dinners</span>
+              </div>
+            </div>
+
+            <!-- 5. Cultural & Musical Nights -->
+            <div class="luxury-card p-8 space-y-4">
+              <div class="w-12 h-12 rounded-lg bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                <span class="material-symbols-outlined text-2xl">music_note</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Live Concerts &amp; Sufi Nights</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Bollywood artist bookings, Sufi &amp; Ghazal nights, Dandiya &amp; Garba festivals, acoustic stage design, concert sound systems, crowd management, and police/fire permits.
+              </p>
+              <div class="text-xs text-[#f2ca50] font-semibold flex items-center gap-1 pt-2">
+                <span>Artist Riders · Line Array Audio · Intelligent Lighting · Security</span>
+              </div>
+            </div>
+
+            <!-- 6. Custom & Bespoke Celebrations -->
+            <div class="luxury-card p-8 space-y-4 border-[#14b8a6]/30">
+              <div class="w-12 h-12 rounded-lg bg-[#14b8a6]/10 flex items-center justify-center text-[#14b8a6]">
+                <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-white">Custom &amp; Bespoke Celebrations</h3>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Griha Pravesh &amp; Maha Pujas, Ring Ceremonies &amp; Roka, Baby Showers / Godh Bharai, Yacht &amp; Private Villa soirees, and custom tailor-made event concepts with personalized concierge.
+              </p>
+              <div class="text-xs text-[#14b8a6] font-semibold flex items-center gap-1 pt-2">
+                <span>Griha Pravesh · Roka · Anniversaries · Yacht Soirees · Bespoke</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           CUSTOM EVENT BUILDER STUDIO (Bespoke Celebration Studio)
+           ========================================================================= -->
+      <section id="custom-builder" class="py-24 px-4 md:px-8 bg-[#0c0d0e] border-t border-[#f2ca50]/10 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#14b8a6]/10 border border-[#14b8a6]/30 text-[#14b8a6] text-xs font-semibold uppercase tracking-widest">
+              <span class="material-symbols-outlined text-sm">tune</span>
+              <span>Bespoke Event Studio</span>
+            </div>
+            <h2 class="font-serif text-3xl md:text-5xl font-bold text-white">Build Your Custom Event</h2>
+            <p class="text-neutral-400 text-sm">
+              Design a one-of-a-kind experience from scratch. Select custom rituals, catering styles, production modules, and entertainment to receive an instant bespoke package and launch your event directly.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Custom Builder Form (Left 7 Cols) -->
+            <div class="lg:col-span-7 luxury-card p-6 md:p-8 space-y-6">
+              <!-- Step 1: Custom Event Concept -->
+              <div>
+                <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">1. Select Event Concept / Occasion</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="custom-concept-grid">
+                  <div class="custom-module-card selected" data-concept="Engagement / Roka" data-base="180000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Ring Ceremony &amp; Roka</div>
+                      <div class="text-[10px] text-neutral-400">Intimate / Royal Stage</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-concept="Griha Pravesh & Puja" data-base="120000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Griha Pravesh &amp; Puja</div>
+                      <div class="text-[10px] text-neutral-400">Vedic Rituals &amp; Feast</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-concept="Anniversary Gala" data-base="220000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Milestone Anniversary</div>
+                      <div class="text-[10px] text-neutral-400">Silver/Golden Jubilee</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-concept="Baby Shower / Godh Bharai" data-base="140000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Godh Bharai / Shower</div>
+                      <div class="text-[10px] text-neutral-400">Floral Wonderland</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-concept="Luxury Yacht / Villa Party" data-base="320000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Yacht / Villa Soiree</div>
+                      <div class="text-[10px] text-neutral-400">Goa / Alibaug Private</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-concept="Fashion / Brand Launch" data-base="450000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Fashion &amp; Brand Launch</div>
+                      <div class="text-[10px] text-neutral-400">Ramp Stage &amp; Media</div>
+                    </div>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2: Custom Event Details Input -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-1">Custom Event Title *</label>
+                  <input type="text" id="custom-event-name" value="Bespoke Roka & Cocktail Soiree" class="app-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-1">Target City / Destination *</label>
+                  <input type="text" id="custom-event-city" value="Goa / Mumbai" class="app-input text-xs" />
+                </div>
+              </div>
+
+              <!-- Step 3: Pick & Mix Custom Modular Add-ons -->
+              <div>
+                <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">2. Pick &amp; Mix Custom Experience Modules</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="custom-addons-grid">
+                  <div class="custom-module-card selected" data-addon="Floral & Thematic Decor" data-cost="150000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Royal Floral &amp; Stage Decor</div>
+                      <div class="text-[10px] text-neutral-400">+ Fresh Exotic Florals &amp; Mandap</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹1.5L</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card selected" data-addon="4K Drone & Candid Cinematography" data-cost="120000">
+                    <div>
+                      <div class="text-xs font-bold text-white">4K Drone &amp; Candid Cinema</div>
+                      <div class="text-[10px] text-neutral-400">+ Same-Day Social Video Teaser</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹1.2L</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card selected" data-addon="Celebrity DJ & Intelligent Lights" data-cost="90000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Celebrity DJ &amp; Sound Rig</div>
+                      <div class="text-[10px] text-neutral-400">+ Intelligent Moving Heads &amp; Fog</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹90k</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-addon="Live Chaat & Dessert Counters" data-cost="80000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Live Chaat &amp; Dessert Stalls</div>
+                      <div class="text-[10px] text-neutral-400">+ Artisanal Kulfi &amp; Chaat Chef</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹80k</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-addon="Cold Pyro & Hydraulic Entry" data-cost="65000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Cold Pyro &amp; Grand Entry</div>
+                      <div class="text-[10px] text-neutral-400">+ Sparkulars &amp; Dry Ice Cloud</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹65k</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+
+                  <div class="custom-module-card" data-addon="Pandit Ji & Sacred Samagri" data-cost="35000">
+                    <div>
+                      <div class="text-xs font-bold text-white">Vedic Pandit Ji &amp; Puja Setup</div>
+                      <div class="text-[10px] text-neutral-400">+ Authentic Havankund &amp; Samagri</div>
+                    </div>
+                    <span class="font-mono text-xs text-[#f2ca50] mr-2">₹35k</span>
+                    <div class="module-check-icon"><span class="material-symbols-outlined text-xs font-bold">check</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Guest Count Slider for Custom Event -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label class="text-xs uppercase tracking-wider font-semibold text-neutral-300">3. Estimated Guests</label>
+                  <span id="custom-guests-val" class="font-mono text-sm font-bold text-[#14b8a6]">150 Guests</span>
+                </div>
+                <input type="range" id="custom-guests-input" min="20" max="1500" step="10" value="150" class="w-full cursor-pointer" />
+              </div>
+            </div>
+
+            <!-- Custom Event Live Output & Launch Card (Right 5 Cols) -->
+            <div class="lg:col-span-5 luxury-card p-6 md:p-8 space-y-6 border-[#14b8a6]/40 bg-gradient-to-b from-[#141618] to-[#0c0d0e]">
+              <div class="border-b border-neutral-800 pb-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge-status badge-custom">Custom Package</span>
+                  <span class="text-xs text-neutral-400 font-mono" id="custom-selected-concept">Ring Ceremony &amp; Roka</span>
+                </div>
+                <div class="font-serif text-3xl md:text-4xl font-bold text-white mt-1" id="custom-total-display">₹7,44,000</div>
+                <span class="text-xs text-neutral-400">Total Turnkey Custom Estimate (Incl. Hospitality &amp; GST)</span>
+              </div>
+
+              <!-- Selected Modules Summary List -->
+              <div>
+                <div class="text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">Included Modules &amp; Services</div>
+                <div id="custom-summary-list" class="space-y-2 text-xs">
+                  <!-- Populated by script.js -->
+                </div>
+              </div>
+
+              <!-- Action buttons -->
+              <div class="space-y-3 pt-2">
+                <button type="button" id="btn-launch-custom-event" class="w-full btn-gold justify-center py-3.5 shadow-lg">
+                  <span class="material-symbols-outlined text-base">rocket_launch</span>
+                  <span>Instant Launch &amp; Add Custom Event</span>
+                </button>
+                <p class="text-[11px] text-center text-neutral-400">Creates the custom event immediately into the live system and notifies ASIRI Concierge.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DISCOVER EVENTS & VIP TICKETING SECTION -->
+      <section id="events" class="py-24 px-4 md:px-8 bg-[#0e0f12] border-t border-[#f2ca50]/10">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div class="text-[#f2ca50] text-xs font-semibold tracking-[0.3em] uppercase mb-2">Live Production Schedule</div>
+              <h2 class="font-serif text-3xl md:text-4xl font-bold text-white">Upcoming Events &amp; Reservations</h2>
+              <p class="text-neutral-400 text-sm mt-2 max-w-xl">Browse our confirmed weddings, corporate summits, custom soirees, and public galas. Check in, view seating, or enquire for your date.</p>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <div class="relative min-w-[260px] flex items-center">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-lg pointer-events-none">search</span>
+                <input type="text" id="public-event-search" placeholder="Search event, city, or venue..."
+                  class="app-input input-with-search text-sm" />
+              </div>
+              <button type="button" id="portal-new-event-btn" class="btn-gold-outline text-xs whitespace-nowrap">
+                <span class="material-symbols-outlined text-sm">add</span> Plan New
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Pills (Including Custom Events) -->
+          <div class="flex gap-2 overflow-x-auto pb-2 border-b border-neutral-800" id="portal-category-filters">
+            <button
+              class="portal-filter-btn active px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#f2ca50] text-[#0c0d0e] transition-all"
+              data-category="all">All Events</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Wedding">Royal Weddings</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Pre-Wedding">Pre-Wedding Shoots</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Custom">Custom &amp; Bespoke</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Birthday">Birthdays &amp; Jubilees</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Corporate">Corporate Summits</button>
+            <button
+              class="portal-filter-btn px-4 py-2 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#181a1d] text-neutral-300 hover:text-white transition-all"
+              data-category="Concert">Musical Galas</button>
+          </div>
+
+          <!-- Dynamic Event Cards Grid -->
+          <div id="public-events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Rendered dynamically by script.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- INTERACTIVE EVENT BUDGET ESTIMATOR (IN INR ₹) -->
+      <section id="calculator" class="py-24 px-4 md:px-8 bg-[#0c0d0e] border-t border-[#f2ca50]/10 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="text-center max-w-2xl mx-auto space-y-3">
+            <div class="text-[#f2ca50] text-xs font-semibold tracking-[0.3em] uppercase">Quick Calculation Engine</div>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-white">Standard Event Budget Estimator</h2>
+            <p class="text-neutral-400 text-sm">Calculate instant budgetary requirements in Indian Rupees (₹) across traditional event categories.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Controls Column -->
+            <div class="lg:col-span-7 luxury-card p-6 md:p-8 space-y-6">
+              <!-- Event Type Selection -->
+              <div>
+                <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">1. Event Category</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="calc-type-selector">
+                  <button type="button"
+                    class="calc-type-btn active p-3 rounded bg-[#f2ca50]/15 border border-[#f2ca50] text-white text-xs font-semibold text-center"
+                    data-type="Wedding" data-base="350000">Royal Wedding</button>
+                  <button type="button"
+                    class="calc-type-btn p-3 rounded bg-[#181a1d] border border-neutral-800 text-neutral-400 hover:text-white text-xs font-semibold text-center"
+                    data-type="Pre-Wedding" data-base="120000">Pre-Wedding Shoot</button>
+                  <button type="button"
+                    class="calc-type-btn p-3 rounded bg-[#181a1d] border border-neutral-800 text-neutral-400 hover:text-white text-xs font-semibold text-center"
+                    data-type="Birthday" data-base="150000">Themed Birthday</button>
+                  <button type="button"
+                    class="calc-type-btn p-3 rounded bg-[#181a1d] border border-neutral-800 text-neutral-400 hover:text-white text-xs font-semibold text-center"
+                    data-type="Corporate" data-base="250000">Corporate Summit</button>
+                </div>
+              </div>
+
+              <!-- Guest Count Slider -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label class="text-xs uppercase tracking-wider font-semibold text-neutral-300">2. Estimated Guests</label>
+                  <span id="calc-guests-val" class="font-mono text-sm font-bold text-[#f2ca50]">350 Guests</span>
+                </div>
+                <input type="range" id="calc-guests-input" min="20" max="2500" step="10" value="350"
+                  class="w-full cursor-pointer" />
+                <div class="flex justify-between text-[10px] text-neutral-500 font-mono mt-1">
+                  <span>20 (Intimate)</span>
+                  <span>350</span>
+                  <span>1,000</span>
+                  <span>2,500+ (Grand Mela)</span>
+                </div>
+              </div>
+
+              <!-- Venue Style Tier -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">3. Venue Preference</label>
+                  <select id="calc-venue-select" class="app-input text-sm">
+                    <option value="450000">Heritage Palace / Fort (Jaipur/Udaipur) [₹4.5L]</option>
+                    <option value="300000">5-Star Luxury Ballroom (Mumbai/Bengaluru/Delhi) [₹3.0L]</option>
+                    <option value="250000">Beachside Luxury Resort (Goa/Kerala) [₹2.5L]</option>
+                    <option value="150000">Private Luxury Farmhouse / Lawn [₹1.5L]</option>
+                    <option value="80000">Banquet Hall / Studio [₹80k]</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">4. Royal Catering &amp; Live Stalls</label>
+                  <select id="calc-catering-select" class="app-input text-sm">
+                    <option value="2200">Royal Multi-Cuisine + Live Chaat Stalls (₹2,200/plate)</option>
+                    <option value="1600">Grand Traditional Vegetarian Thali (₹1,600/plate)</option>
+                    <option value="1200">North &amp; South Indian Classic Buffet (₹1,200/plate)</option>
+                    <option value="750">High Tea, Mocktails &amp; Snacks (₹750/plate)</option>
+                    <option value="0">Self-Arranged by Family (₹0)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Production & Decor Tier -->
+              <div>
+                <label class="block text-xs uppercase tracking-wider font-semibold text-neutral-300 mb-2">5. Decor, Mandap, Audio &amp; Lighting</label>
+                <div class="grid grid-cols-3 gap-2" id="calc-production-selector">
+                  <button type="button"
+                    class="calc-prod-btn p-2.5 rounded bg-[#181a1d] border border-neutral-800 text-neutral-400 hover:text-white text-xs font-semibold text-center"
+                    data-cost="150000">Standard Floral &amp; Stage</button>
+                  <button type="button"
+                    class="calc-prod-btn active p-2.5 rounded bg-[#f2ca50]/15 border border-[#f2ca50] text-white text-xs font-semibold text-center"
+                    data-cost="350000">Grand Floral Mandap, Sangeet Truss &amp; DJ</button>
+                  <button type="button"
+                    class="calc-prod-btn p-2.5 rounded bg-[#181a1d] border border-neutral-800 text-neutral-400 hover:text-white text-xs font-semibold text-center"
+                    data-cost="750000">Ultra-Regal Palace Decor, Pyro &amp; LED Walls</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real-time Cost Output Card -->
+            <div
+              class="lg:col-span-5 luxury-card p-6 md:p-8 space-y-6 border-[#f2ca50]/40 bg-gradient-to-b from-[#141618] to-[#0c0d0e]">
+              <div class="border-b border-neutral-800 pb-4">
+                <span class="text-xs uppercase tracking-widest text-[#f2ca50] font-semibold">Estimated Budget (₹ INR)</span>
+                <div class="font-serif text-3xl md:text-4xl font-bold text-white mt-1" id="calc-total-display">₹19,20,500</div>
+                <span class="text-xs text-neutral-400">Comprehensive Turnkey Estimate (Incl. 12% ASIRI Management Fee)</span>
+              </div>
+
+              <!-- Line item breakdown -->
+              <div class="space-y-3 text-xs">
+                <div class="flex justify-between py-1.5 border-b border-neutral-800/60">
+                  <span class="text-neutral-400">Venue Booking &amp; Permits:</span>
+                  <span class="font-mono font-semibold text-white" id="calc-breakdown-venue">₹4,50,000</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-neutral-800/60">
+                  <span class="text-neutral-400">Royal Catering &amp; Live Counters:</span>
+                  <span class="font-mono font-semibold text-white" id="calc-breakdown-catering">₹7,70,000</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-neutral-800/60">
+                  <span class="text-neutral-400">Decor, Mandap, AV &amp; Lighting:</span>
+                  <span class="font-mono font-semibold text-white" id="calc-breakdown-av">₹3,50,000</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-neutral-800/60">
+                  <span class="text-neutral-400">Cinematic Photo, Drone &amp; Staff:</span>
+                  <span class="font-mono font-semibold text-white" id="calc-breakdown-staff">₹1,44,700</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-neutral-800/60">
+                  <span class="text-neutral-400">ASIRI Direction &amp; Hospitality (12%):</span>
+                  <span class="font-mono font-semibold text-[#f2ca50]" id="calc-breakdown-fee">₹2,05,800</span>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="space-y-1.5 pt-2">
+                <div class="flex justify-between text-[11px] text-neutral-400">
+                  <span>Planning Accuracy Index</span>
+                  <span class="text-[#f2ca50] font-bold">High (±5%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 92%"></div>
+                </div>
+              </div>
+
+              <!-- Consultation CTA Button -->
+              <button type="button" id="calc-submit-scope-btn" class="w-full btn-gold justify-center">
+                <span class="material-symbols-outlined text-base">send</span>
+                <span>Lock In Scope &amp; Book Consultation</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO HIGHLIGHTS GALLERY -->
+      <section id="portfolio" class="py-24 px-4 md:px-8 bg-[#0c0d0e]">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div class="text-[#f2ca50] text-xs font-semibold tracking-[0.3em] uppercase mb-2">Visual Showcase</div>
+              <h2 class="font-serif text-3xl md:text-4xl font-bold text-white">Moments of Grandeur</h2>
+            </div>
+            <p class="text-neutral-400 text-sm max-w-md">Glimpse into our royal weddings, pre-wedding shoots, birthday celebrations, and custom soirees across India.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="portfolio-gallery">
+            <div class="luxury-card overflow-hidden group">
+              <div class="h-64 relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1000&auto=format&fit=crop"
+                  alt="Royal Indian Wedding in Udaipur Palace"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0d0e] via-transparent to-transparent"></div>
+                <span class="badge-status badge-live absolute top-4 left-4">Royal Wedding</span>
+              </div>
+              <div class="p-6">
+                <h3 class="font-serif text-lg font-bold text-white">The Rajputana Palace Wedding</h3>
+                <p class="text-neutral-400 text-xs mt-1">Udaipur, Rajasthan · 600 Guests</p>
+              </div>
+            </div>
+
+            <div class="luxury-card overflow-hidden group">
+              <div class="h-64 relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop"
+                  alt="Cinematic Pre-Wedding Shoot"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0d0e] via-transparent to-transparent"></div>
+                <span class="badge-status badge-vip absolute top-4 left-4">Pre-Wedding Shoot</span>
+              </div>
+              <div class="p-6">
+                <h3 class="font-serif text-lg font-bold text-white">Heritage Fort Romance in Jodhpur</h3>
+                <p class="text-neutral-400 text-xs mt-1">Jodhpur &amp; Sam Dunes · 4K Drone Film</p>
+              </div>
+            </div>
+
+            <div class="luxury-card overflow-hidden group">
+              <div class="h-64 relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=1000&auto=format&fit=crop"
+                  alt="Custom Yacht & Villa Soiree"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0d0e] via-transparent to-transparent"></div>
+                <span class="badge-status badge-custom absolute top-4 left-4">Custom Soiree</span>
+              </div>
+              <div class="p-6">
+                <h3 class="font-serif text-lg font-bold text-white">Goa Luxury Sunset Yacht &amp; Villa Gala</h3>
+                <p class="text-neutral-400 text-xs mt-1">North Goa Waters · 120 VIPs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT & CONSULTATION WIZARD -->
+      <section id="contact" class="py-24 px-4 md:px-8 bg-[#0e0f12] border-t border-[#f2ca50]/10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div class="lg:col-span-5 space-y-6">
+            <div class="text-[#f2ca50] text-xs font-semibold tracking-[0.3em] uppercase">Start Planning</div>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-white">Plan Your Event With ASIRI</h2>
+            <p class="text-neutral-400 text-sm leading-relaxed">
+              Whether you are planning a grand wedding, a pre-wedding shoot, a milestone birthday, a corporate summit, or a custom bespoke gathering, our senior directors ensure seamless execution.
+            </p>
+
+            <div class="space-y-4 pt-4 text-sm text-neutral-300">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                  <span class="material-symbols-outlined text-base">mail</span>
+                </div>
+                <span>namaste@asirievents.in</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                  <span class="material-symbols-outlined text-base">call</span>
+                </div>
+                <span>+91 98200 12345 / +91 80 4567 8900</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded bg-[#f2ca50]/10 flex items-center justify-center text-[#f2ca50]">
+                  <span class="material-symbols-outlined text-base">location_on</span>
+                </div>
+                <span>Offices in Mumbai, Bengaluru, Delhi NCR, Jaipur &amp; Goa</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 luxury-card p-6 md:p-8">
+            <form id="public-inquiry-form" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Your Full Name *</label>
+                  <input type="text" name="name" required placeholder="Mr. / Ms. / Dr. Full Name" class="app-input" />
+                </div>
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Contact Phone / WhatsApp *</label>
+                  <input type="tel" name="phone" required placeholder="+91 98765 43210" class="app-input" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Event Category *</label>
+                  <select name="category" class="app-input" required>
+                    <option value="Wedding">Royal Wedding &amp; Sangeet</option>
+                    <option value="Pre-Wedding">Cinematic Pre-Wedding Shoot</option>
+                    <option value="Custom">Custom / Bespoke Event Concept</option>
+                    <option value="Birthday">Themed Birthday / Jubilee Celebration</option>
+                    <option value="Corporate">Corporate Conference / Summit</option>
+                    <option value="Concert">Cultural Musical Night / Concert</option>
+                    <option value="Private">Private Farmhouse / Villa Soiree</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Preferred City &amp; Date</label>
+                  <input type="text" name="date_city" placeholder="e.g. Udaipur / Goa / Nov 2026" class="app-input" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Expected Guests &amp; Special Requirements</label>
+                <textarea name="vision" rows="4" placeholder="Tell us about your guest count, catering preferences, decor vision, or custom requests..." class="app-input"></textarea>
+              </div>
+
+              <button type="submit" class="w-full btn-gold justify-center py-3.5">
+                <span class="material-symbols-outlined text-base">send</span>
+                <span>Submit Event Inquiry</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 2: PLANNER & OPERATIONS DASHBOARD (The Staff Management Application)
+         ========================================================================= -->
+    <div id="view-dashboard" class="hidden transition-opacity duration-300 px-4 md:px-8 py-6 max-w-7xl mx-auto space-y-8">
+      <!-- Dashboard Top Control Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="badge-status badge-live">Live Operations</span>
+            <span class="text-xs text-neutral-400 font-mono" id="dash-live-time"></span>
+          </div>
+          <h1 class="font-serif text-2xl md:text-3xl font-bold text-white mt-1">ASIRI Event Operations &amp; Production Cockpit</h1>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button type="button" id="dash-export-btn" class="btn-surface text-xs">
+            <span class="material-symbols-outlined text-sm">download</span> Export Manifest (JSON)
+          </button>
+          <button type="button" id="dash-add-event-btn" class="btn-gold btn-sm">
+            <span class="material-symbols-outlined text-sm">add_circle</span> + New Event
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 EXECUTIVE KPI CARDS (IN INR ₹) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Active Productions</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">event_available</span>
+          </div>
+          <div class="kpi-number text-white" id="kpi-active-events">0</div>
+          <div class="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+            <span class="material-symbols-outlined text-xs">trending_up</span> All venues locked in
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Total Guests / RSVPs</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">group</span>
+          </div>
+          <div class="kpi-number text-white" id="kpi-total-guests">0</div>
+          <div class="text-xs text-neutral-400" id="kpi-checkedin-subtext">0 Checked In</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Managed Budget</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">currency_rupee</span>
+          </div>
+          <div class="kpi-number text-[#f2ca50]" id="kpi-managed-budget">₹0</div>
+          <div class="text-xs text-neutral-400">Pan-India vendor contracts</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Muhurat &amp; Timing Score</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">verified</span>
+          </div>
+          <div class="kpi-number text-white">99.4%</div>
+          <div class="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+            <span class="material-symbols-outlined text-xs">check_circle</span> Perfect timing alignment
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD TAB NAVIGATION -->
+      <div class="dash-tabs">
+        <button type="button" class="dash-tab-btn active" data-tab="tab-events">
+          <span class="material-symbols-outlined text-lg">calendar_month</span>
+          <span>Events Central (<span id="tab-events-count">0</span>)</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-guests">
+          <span class="material-symbols-outlined text-lg">how_to_reg</span>
+          <span>Guestlist &amp; Check-In</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-timeline">
+          <span class="material-symbols-outlined text-lg">schedule</span>
+          <span>Muhurat &amp; Timeline</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-budget">
+          <span class="material-symbols-outlined text-lg">account_balance</span>
+          <span>Budget (₹) &amp; Vendor Matrix</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: EVENTS CENTRAL -->
+      <div id="tab-events" class="dash-tab-pane space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto" id="dash-event-status-filters">
+            <button class="dash-filter-btn active px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f2ca50] text-[#0c0d0e]" data-status="all">All Statuses</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#181a1d] text-neutral-300 hover:text-white" data-status="Live">Live</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#181a1d] text-neutral-300 hover:text-white" data-status="Production">Production</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#181a1d] text-neutral-300 hover:text-white" data-status="Planning">Planning</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#181a1d] text-neutral-300 hover:text-white" data-status="Completed">Completed</button>
+          </div>
+
+          <!-- Search -->
+          <div class="relative w-full sm:w-64 flex items-center">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base pointer-events-none">search</span>
+            <input type="text" id="dash-event-search" placeholder="Filter by event, city..." class="app-input input-with-search text-xs" />
+          </div>
+        </div>
+
+        <!-- Dynamic Events Grid -->
+        <div id="dash-events-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered by script.js -->
+        </div>
+      </div>
+
+      <!-- TAB 2: GUESTLIST & CHECK-IN HUB -->
+      <div id="tab-guests" class="dash-tab-pane hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <select id="guest-event-filter" class="app-input text-xs w-full sm:w-56">
+              <option value="all">All Assigned Events</option>
+              <!-- Populated dynamically -->
+            </select>
+            <div class="relative w-full sm:w-64 flex items-center">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base pointer-events-none">search</span>
+              <input type="text" id="guest-search-input" placeholder="Search guest name, phone, family..." class="app-input input-with-search text-xs" />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button type="button" id="dash-add-guest-btn" class="btn-gold btn-sm">
+              <span class="material-symbols-outlined text-sm">person_add</span> Add Guest
+            </button>
+          </div>
+        </div>
+
+        <!-- Guest Table -->
+        <div class="luxury-table-container">
+          <table class="luxury-table">
+            <thead>
+              <tr>
+                <th>Guest / Family Name</th>
+                <th>Assigned Event</th>
+                <th>Party Tier</th>
+                <th>Table / Seating Zone</th>
+                <th>Dietary / Food Preferences</th>
+                <th>RSVP Status</th>
+                <th>Check-In Status</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+            <tbody id="guestlist-table-body">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: RUN-OF-SHOW & MUHURAT TIMELINE -->
+      <div id="tab-timeline" class="dash-tab-pane hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3">
+            <label class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Select Production:</label>
+            <select id="timeline-event-filter" class="app-input text-xs w-64 py-2">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <button type="button" id="dash-add-timeline-btn" class="btn-gold btn-sm">
+            <span class="material-symbols-outlined text-sm">add_task</span> + Add Muhurat / Cue
+          </button>
+        </div>
+
+        <div class="luxury-card p-6 md:p-8">
+          <div id="timeline-container" class="timeline-track space-y-6">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: BUDGET & VENDOR MATRIX (IN INR ₹) -->
+      <div id="tab-budget" class="dash-tab-pane hidden space-y-8">
+        <!-- Overall Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Total Authorized Budget</span>
+            <div class="font-serif text-3xl font-bold text-white" id="budget-total-allocated">₹0</div>
+            <p class="text-xs text-neutral-400">Total approved client allocation</p>
+          </div>
+
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Contracted &amp; Paid (₹)</span>
+            <div class="font-serif text-3xl font-bold text-[#f2ca50]" id="budget-total-spent">₹0</div>
+            <p class="text-xs text-neutral-400" id="budget-spent-percentage">0% committed</p>
+          </div>
+
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Contingency Buffer</span>
+            <div class="font-serif text-3xl font-bold text-emerald-400" id="budget-variance">₹0</div>
+            <p class="text-xs text-emerald-400/80">Available buffer</p>
+          </div>
+        </div>
+
+        <!-- Vendor Contracts Table -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-serif text-xl font-bold text-white">Vendor Contracts &amp; Logistics Partners (India)</h3>
+            <button type="button" id="dash-add-vendor-btn" class="btn-gold btn-sm">
+              <span class="material-symbols-outlined text-sm">post_add</span> + Add Vendor Contract
+            </button>
+          </div>
+
+          <div class="luxury-table-container">
+            <table class="luxury-table">
+              <thead>
+                <tr>
+                  <th>Vendor / Partner</th>
+                  <th>Category</th>
+                  <th>Associated Event</th>
+                  <th>Contract Amount (₹)</th>
+                  <th>Payment Status</th>
+                  <th>Lead Contact / Phone</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="vendor-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       STAFF AUTHENTICATION MODAL (Quick Passcode Protection)
+       ========================================================================= -->
+  <div id="modal-staff-auth" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel max-w-md">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div class="text-center space-y-3 mb-6">
+        <div class="w-12 h-12 rounded-full bg-[#f2ca50]/15 border border-[#f2ca50]/40 flex items-center justify-center text-[#f2ca50] mx-auto">
+          <span class="material-symbols-outlined text-2xl">lock</span>
+        </div>
+        <h3 class="font-serif text-2xl font-bold text-white">ASIRI Staff Portal</h3>
+        <p class="text-neutral-400 text-xs">Enter your staff access code to unlock the event operations cockpit.</p>
+      </div>
+
+      <form id="form-staff-login" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Staff Access PIN</label>
+          <input type="password" id="staff-pin-input" placeholder="Enter PIN (Default demo: 1234)" class="modal-input text-center text-lg font-mono tracking-widest" autofocus />
+        </div>
+        <button type="submit" class="w-full btn-gold justify-center py-3">
+          <span class="material-symbols-outlined text-base">key</span>
+          <span>Unlock Planner Hub</span>
+        </button>
+        <div class="text-center">
+          <button type="button" id="btn-quick-demo-login" class="text-xs text-[#f2ca50] hover:underline">
+            Quick 1-Click Demo Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODALS: CREATE EVENT, DETAILS, GUEST, TIMELINE, VENDOR
+       ========================================================================= -->
+
+  <!-- MODAL 1: CREATE NEW EVENT -->
+  <div id="modal-create-event" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-panel-lg">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="material-symbols-outlined text-[#f2ca50]">add_circle</span>
+        <h3 class="font-serif text-2xl font-bold text-white">Create New Event Production</h3>
+      </div>
+      <p class="text-neutral-400 text-xs mb-6">Initialize a wedding, pre-wedding shoot, birthday, corporate summit, or custom bespoke event.</p>
+
+      <form id="form-create-event" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Royal Rajputana Palace Wedding / Custom Gala" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Category *</label>
+            <select name="category" class="modal-input" required>
+              <option value="Wedding">Royal Wedding &amp; Sangeet</option>
+              <option value="Pre-Wedding">Pre-Wedding Shoot</option>
+              <option value="Custom">Custom / Bespoke Event</option>
+              <option value="Birthday">Themed Birthday / Jubilee</option>
+              <option value="Corporate">Corporate Conference / Summit</option>
+              <option value="Concert">Musical Gala &amp; Live Performance</option>
+              <option value="Private">Private Farmhouse / Villa Celebration</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Date *</label>
+            <input type="date" name="date" required class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Muhurat / Time</label>
+            <input type="text" name="time" placeholder="e.g. 18:30 IST / Subh Muhurat" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Production Status</label>
+            <select name="status" class="modal-input">
+              <option value="Planning">Planning</option>
+              <option value="Production">Production</option>
+              <option value="Rehearsal">Rehearsal</option>
+              <option value="Live">Live</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Venue Name *</label>
+            <input type="text" name="venue" required placeholder="e.g. City Palace / Taj Exotica / Private Lawn" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">City &amp; State *</label>
+            <input type="text" name="city" required placeholder="e.g. Udaipur / Goa / Bengaluru" class="modal-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Target Guest Capacity</label>
+            <input type="number" name="capacity" min="10" max="10000" value="350" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Allocated Budget (₹ INR)</label>
+            <input type="number" name="budget" min="50000" step="10000" value="1500000" class="modal-input" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Cover Image URL (Optional)</label>
+          <input type="url" name="image" placeholder="https://images.unsplash.com/photo-..." class="modal-input" />
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Narrative &amp; Scope Summary</label>
+          <textarea name="description" rows="3" placeholder="Overview of mandap decor, artist lineup, catering, custom modules..." class="modal-input"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">
+            <span class="material-symbols-outlined text-sm">check</span>
+            <span>Launch Event</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: EVENT DETAILS & VIP RESERVATION / RSVP -->
+  <div id="modal-event-detail" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-panel-lg">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div id="modal-detail-content" class="space-y-6">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: ADD GUEST -->
+  <div id="modal-add-guest" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-serif text-xl font-bold text-white mb-1">Add Guest to Event Manifest</h3>
+      <p class="text-neutral-400 text-xs mb-4">Register an invited family, dignitary, or corporate delegate.</p>
+
+      <form id="form-add-guest" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Assigned Event *</label>
+          <select name="eventId" id="modal-guest-event-select" class="modal-input" required>
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Full Name / Family Name *</label>
+            <input type="text" name="name" required placeholder="e.g. Sharma Family / Rajesh Verma" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Phone / Email *</label>
+            <input type="text" name="email" required placeholder="+91 98765 43210 or email" class="modal-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Party Tier</label>
+            <select name="tier" class="modal-input">
+              <option value="VIP">VIP / Family Side</option>
+              <option value="Dignitary">Dignitary / Special Invitee</option>
+              <option value="General">General Guest</option>
+              <option value="Press">Media / Crew</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Table / Seating Zone</label>
+            <input type="text" name="seat" placeholder="Royal Pavilion 1 / Table A" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">RSVP Status</label>
+            <select name="rsvpStatus" class="modal-input">
+              <option value="Confirmed">Confirmed</option>
+              <option value="Pending">Pending</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Dietary &amp; Food Preferences</label>
+          <input type="text" name="dietary" placeholder="e.g. Pure Jain / Pure Veg / No Onion Garlic" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Add to Guestlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADD TIMELINE CUE -->
+  <div id="modal-add-timeline" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-serif text-xl font-bold text-white mb-1">Add Muhurat &amp; Timeline Cue</h3>
+      <p class="text-neutral-400 text-xs mb-4">Add a time-coded ritual, stage activity, or technical cue.</p>
+
+      <form id="form-add-timeline" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Production Event *</label>
+          <select name="eventId" id="modal-timeline-event-select" class="modal-input" required>
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Time Marker / Muhurat *</label>
+            <input type="text" name="time" required placeholder="e.g. 19:15 IST / Shubh Muhurat" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Status</label>
+            <select name="status" class="modal-input">
+              <option value="Upcoming">Upcoming</option>
+              <option value="In-Progress">In-Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Ritual / Activity Title *</label>
+          <input type="text" name="title" required placeholder="e.g. Grand Baraat Arrival with Dhol &amp; Royal Entry" class="modal-input" />
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Responsible Lead &amp; Technical Notes</label>
+          <input type="text" name="notes" placeholder="e.g. Cold pyro sparklers ready on entry / Pandit Ji in place" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Save Muhurat Cue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: ADD VENDOR / EXPENSE -->
+  <div id="modal-add-vendor" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-serif text-xl font-bold text-white mb-1">Add Vendor Contract &amp; Budget Item (₹)</h3>
+      <p class="text-neutral-400 text-xs mb-4">Record contractor commitments, catering, decor, and artists.</p>
+
+      <form id="form-add-vendor" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Vendor / Partner Name *</label>
+          <input type="text" name="name" required placeholder="e.g. Royal Jaipur Mandap Decorators" class="modal-input" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Category *</label>
+            <select name="category" class="modal-input" required>
+              <option value="Mandap & Decor">Mandap &amp; Floral Decor</option>
+              <option value="Royal Catering">Royal Catering &amp; Live Stalls</option>
+              <option value="Cinematography">Cinematic Photo &amp; 4K Drone</option>
+              <option value="DJ & Sound">DJ, Sound &amp; Intelligent Lighting</option>
+              <option value="Artist & Band">Artist, Dhol &amp; Band</option>
+              <option value="Venue Hire">Palace / Resort Venue Hire</option>
+              <option value="Hospitality & Security">Hospitality &amp; Bouncers</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Associated Event</label>
+            <select name="eventId" id="modal-vendor-event-select" class="modal-input">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Contract Amount (₹ INR) *</label>
+            <input type="number" name="amount" required min="1000" step="5000" placeholder="e.g. 450000" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Payment Status</label>
+            <select name="paymentStatus" class="modal-input">
+              <option value="Paid">Paid in Full</option>
+              <option value="Deposit Paid">Advance / Deposit Paid (50%)</option>
+              <option value="Pending">Pending Invoice</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Lead Contact Person &amp; Phone</label>
+          <input type="text" name="contact" placeholder="e.g. Rakesh Mehta (+91 98201 55678)" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Record Vendor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- FOOTER -->
+  <footer class="w-full py-12 bg-[#08090a] border-t border-neutral-900 mt-20">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-neutral-400">
+      <div class="flex items-center gap-3">
+        <span class="font-serif text-lg font-bold text-[#f2ca50]">ASIRI</span>
+        <span class="text-neutral-500">|</span>
+        <span>© 2026 ASIRI Luxury Event &amp; Wedding Management India. All rights reserved.</span>
+      </div>
+      
+      <div class="flex items-center gap-6">
+        <button type="button" class="footer-view-toggle text-[#f2ca50] hover:underline" id="footer-switch-view-btn">Staff Operations Login</button>
+        <a href="#custom-builder" class="hover:text-white transition-colors">Custom Events Studio</a>
+        <a href="#services" class="hover:text-white transition-colors">Services</a>
+        <a href="#calculator" class="hover:text-white transition-colors">Budget Calculator (₹)</a>
+        <a href="#contact" class="hover:text-white transition-colors">Concierge</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
