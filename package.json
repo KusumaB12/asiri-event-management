@@ -1,0 +1,17 @@
+{
+  "name": "asiri-event-management",
+  "version": "1.0.0",
+  "description": "Premier Luxury Event Management & Wedding Planning Platform India",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "keywords": [
+    "luxury-events",
+    "wedding-planner",
+    "event-management",
+    "asiri"
+  ],
+  "author": "ASIRI Events India",
+  "license": "MIT"
+}
