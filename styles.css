@@ -859,47 +859,55 @@ main, section, #view-portal, #view-dashboard {
 .dash-tabs {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid var(--gold-border-subtle);
-  padding-bottom: 2px;
+  background: rgba(10, 11, 15, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(242, 202, 80, 0.25);
+  padding: 6px;
+  border-radius: var(--radius-md);
   overflow-x: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
 }
 
 .dash-tab-btn {
   background: transparent;
-  border: none;
-  color: var(--text-muted);
+  border: 1px solid transparent;
+  color: #f0ece1;
   font-weight: 600;
   font-size: 0.875rem;
-  padding: 10px 18px;
+  padding: 10px 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  gap: 9px;
+  border-radius: var(--radius-sm);
   position: relative;
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
 
+.dash-tab-btn span.material-symbols-outlined {
+  color: #f2ca50;
+  font-size: 1.25rem;
+}
+
 .dash-tab-btn:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  background: rgba(242, 202, 80, 0.12);
+  border-color: rgba(242, 202, 80, 0.25);
 }
 
 .dash-tab-btn.active {
-  color: var(--gold-primary);
+  color: #08090b !important;
   font-weight: 700;
-  background: rgba(242, 202, 80, 0.06);
+  background: linear-gradient(135deg, #fce085 0%, #f0c342 50%, #cf9c18 100%);
+  border-color: #fae087;
+  box-shadow: 0 4px 18px rgba(242, 202, 80, 0.35);
 }
 
-.dash-tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--gold-primary);
+.dash-tab-btn.active span.material-symbols-outlined,
+.dash-tab-btn.active span#tab-events-count {
+  color: #08090b !important;
 }
 
 /* Data Tables */
