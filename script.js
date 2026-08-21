@@ -1193,7 +1193,7 @@ function renderDashBudget() {
 
 function switchDashTab(tabId) {
   store.currentDashTab = tabId;
-  document.querySelectorAll('.dash-tab-btn').forEach(btn => {
+  document.querySelectorAll('.dash-tab-btn, .dash-quick-nav, .mobile-dash-nav').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
   document.querySelectorAll('.dash-tab-pane').forEach(pane => {
@@ -1704,20 +1704,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (view === 'portal') {
       viewPortal?.classList.remove('hidden');
       viewDashboard?.classList.add('hidden');
-      portalNav?.classList.remove('lg:hidden');
+      portalNav?.classList.remove('hidden');
+      portalNav?.classList.add('lg:flex');
       dashNav?.classList.add('hidden');
+      dashNav?.classList.remove('lg:flex');
+      document.getElementById('header-plan-event-btn')?.classList.remove('hidden');
       document.querySelectorAll('#btn-mode-portal, #mobile-mode-portal').forEach(b => b.classList.add('active'));
       document.querySelectorAll('#btn-mode-dashboard, #mobile-mode-dashboard').forEach(b => b.classList.remove('active'));
       renderPublicEvents();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       viewPortal?.classList.add('hidden');
       viewDashboard?.classList.remove('hidden');
-      portalNav?.classList.add('lg:hidden');
+      portalNav?.classList.add('hidden');
+      portalNav?.classList.remove('lg:flex');
       dashNav?.classList.remove('hidden');
       dashNav?.classList.add('lg:flex');
+      document.getElementById('header-plan-event-btn')?.classList.add('hidden');
       document.querySelectorAll('#btn-mode-dashboard, #mobile-mode-dashboard').forEach(b => b.classList.add('active'));
       document.querySelectorAll('#btn-mode-portal, #mobile-mode-portal').forEach(b => b.classList.remove('active'));
       renderDashboard();
+      switchDashTab(store.currentDashTab || 'tab-events');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
