@@ -1207,18 +1207,23 @@ function switchDashTab(tabId) {
 }
 
 // ==========================================================================
-// DYNAMIC LUXURY CANVAS BACKGROUND ANIMATION ENGINE (60 FPS)
-// Exact Match to Reference Image: Golden Silk Waves, Starlight & Glowing Bokeh
+// ==========================================================================
+// DYNAMIC LUXURY CANVAS BACKGROUND ANIMATION ENGINE (ULTRA-SMOOTH 60/120 FPS)
+// Optimized for High Performance & Silky Smooth Android/Mobile Scrolling
 // ==========================================================================
 function initLuxuryBackgroundAnimation() {
   const canvas = document.getElementById('luxury-bg-canvas');
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+  
   let width = 0;
   let height = 0;
-  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // Cap DPR to 1 on mobile for maximum fill-rate speed and zero scroll stutter
+  let dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
   let animationFrameId = null;
+  let isTabVisible = true;
 
   // Mouse & Scroll Parallax State
   const mouse = {
@@ -1227,34 +1232,45 @@ function initLuxuryBackgroundAnimation() {
     targetX: window.innerWidth / 2,
     targetY: window.innerHeight / 2
   };
-  let scrollY = window.scrollY;
+  let currentScrollY = 0;
+  let targetScrollY = 0;
 
-  window.addEventListener('mousemove', (e) => {
-    mouse.targetX = e.clientX;
-    mouse.targetY = e.clientY;
-  }, { passive: true });
+  if (!isMobile) {
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
+    }, { passive: true });
+  }
 
   window.addEventListener('scroll', () => {
-    scrollY = window.scrollY;
+    targetScrollY = window.scrollY;
   }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    isTabVisible = !document.hidden;
+    if (isTabVisible && !animationFrameId) {
+      startTime = performance.now();
+      animationFrameId = requestAnimationFrame(animate);
+    }
+  });
 
   function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
   // ------------------------------------------------------------------------
-  // PARTICLE SYSTEM: Glowing Bokeh, Diamond Sparkle Stars & Gold Dust
+  // ADAPTIVE PARTICLE SYSTEM: Optimized Particle Pool
   // ------------------------------------------------------------------------
-  const PARTICLES_COUNT = 220;
+  const PARTICLES_COUNT = isMobile ? 40 : 100;
   const particles = [];
 
   class LuxuryParticle {
@@ -1264,62 +1280,56 @@ function initLuxuryBackgroundAnimation() {
 
     reset(initial = false) {
       this.x = Math.random() * width;
-      this.y = initial ? Math.random() * height : height + 20 + Math.random() * 50;
+      this.y = initial ? Math.random() * height : height + 15 + Math.random() * 40;
       
-      // Types: 0 = Large Glowing Bokeh Orb, 1 = Twinkling Diamond Star, 2 = Shimmering Gold Dust
       const rand = Math.random();
-      if (rand < 0.14) {
+      if (rand < 0.18) {
         this.type = 0; // Bokeh
-        this.radius = 20 + Math.random() * 55;
-        this.baseAlpha = 0.08 + Math.random() * 0.18;
-        this.speedY = -(0.15 + Math.random() * 0.35);
-        this.speedX = (Math.random() - 0.5) * 0.25;
-        this.color = Math.random() > 0.4 ? '#f2ca50' : '#fae087';
-      } else if (rand < 0.42) {
+        this.radius = isMobile ? 14 + Math.random() * 26 : 18 + Math.random() * 42;
+        this.baseAlpha = 0.08 + Math.random() * 0.16;
+        this.speedY = -(0.15 + Math.random() * 0.3);
+        this.speedX = (Math.random() - 0.5) * 0.2;
+      } else if (rand < 0.48) {
         this.type = 1; // Diamond Sparkle Star
-        this.radius = 2.5 + Math.random() * 4.5;
-        this.baseAlpha = 0.45 + Math.random() * 0.55;
-        this.speedY = -(0.25 + Math.random() * 0.6);
-        this.speedX = (Math.random() - 0.5) * 0.4;
-        this.flareLength = 8 + Math.random() * 18;
-        this.color = '#fffbe8';
+        this.radius = 2.0 + Math.random() * 3.5;
+        this.baseAlpha = 0.45 + Math.random() * 0.5;
+        this.speedY = -(0.2 + Math.random() * 0.5);
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.flareLength = isMobile ? 6 + Math.random() * 10 : 8 + Math.random() * 16;
       } else {
         this.type = 2; // Golden Glitter Dust
-        this.radius = 1.0 + Math.random() * 2.2;
-        this.baseAlpha = 0.3 + Math.random() * 0.5;
-        this.speedY = -(0.35 + Math.random() * 0.85);
-        this.speedX = (Math.random() - 0.5) * 0.45;
-        this.color = Math.random() > 0.5 ? '#fae087' : '#f2ca50';
+        this.radius = 1.0 + Math.random() * 1.8;
+        this.baseAlpha = 0.35 + Math.random() * 0.45;
+        this.speedY = -(0.3 + Math.random() * 0.6);
+        this.speedX = (Math.random() - 0.5) * 0.35;
       }
 
       this.twinklePhase = Math.random() * Math.PI * 2;
-      this.twinkleSpeed = 0.02 + Math.random() * 0.045;
+      this.twinkleSpeed = 0.02 + Math.random() * 0.04;
       this.swayPhase = Math.random() * Math.PI * 2;
-      this.swaySpeed = 0.015 + Math.random() * 0.03;
-      this.swayAmp = 0.5 + Math.random() * 1.8;
+      this.swaySpeed = 0.015 + Math.random() * 0.025;
+      this.swayAmp = 0.4 + Math.random() * 1.4;
     }
 
     update(time) {
       this.y += this.speedY;
-      this.x += this.speedX + Math.sin(time * this.swaySpeed + this.swayPhase) * (this.swayAmp * 0.4);
+      this.x += this.speedX + Math.sin(time * this.swaySpeed + this.swayPhase) * (this.swayAmp * 0.3);
       this.twinklePhase += this.twinkleSpeed;
 
-      // Wrap around top/sides
-      if (this.y < -this.radius * 2 || this.x < -60 || this.x > width + 60) {
+      if (this.y < -this.radius * 2 || this.x < -40 || this.x > width + 40) {
         this.reset(false);
       }
     }
 
     draw(ctx) {
       const alphaPulse = Math.sin(this.twinklePhase);
-      const currentAlpha = Math.max(0.04, Math.min(1, this.baseAlpha + alphaPulse * (this.baseAlpha * 0.65)));
+      const currentAlpha = Math.max(0.04, Math.min(1, this.baseAlpha + alphaPulse * (this.baseAlpha * 0.6)));
 
       if (this.type === 0) {
-        // 1. Large Glowing Bokeh Orb with Multi-Stop Radial Gradient
+        // Large Glowing Bokeh Orb (Lightweight radial fill)
         const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-        grad.addColorStop(0, `rgba(255, 235, 140, ${currentAlpha * 0.9})`);
-        grad.addColorStop(0.35, `rgba(242, 202, 80, ${currentAlpha * 0.45})`);
-        grad.addColorStop(0.75, `rgba(212, 160, 26, ${currentAlpha * 0.12})`);
+        grad.addColorStop(0, `rgba(255, 235, 140, ${currentAlpha * 0.75})`);
+        grad.addColorStop(0.5, `rgba(242, 202, 80, ${currentAlpha * 0.35})`);
         grad.addColorStop(1, 'rgba(242, 202, 80, 0)');
 
         ctx.fillStyle = grad;
@@ -1328,164 +1338,108 @@ function initLuxuryBackgroundAnimation() {
         ctx.fill();
 
       } else if (this.type === 1) {
-        // 2. Diamond Twinkle Star Flare with 4-Point Golden Beams
-        ctx.save();
-        ctx.translate(this.x, this.y);
-
-        // Center Glow
-        ctx.shadowColor = '#fae087';
-        ctx.shadowBlur = 12 * currentAlpha;
-
-        const starGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.radius * 2);
-        starGrad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha})`);
-        starGrad.addColorStop(0.3, `rgba(250, 224, 135, ${currentAlpha * 0.8})`);
-        starGrad.addColorStop(1, 'rgba(242, 202, 80, 0)');
-
-        ctx.fillStyle = starGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.radius * 2, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 4-Point Diamond Cross Flare
-        const fl = this.flareLength * (0.65 + currentAlpha * 0.55);
+        // Diamond Twinkle Star Flare (Lightweight lines without heavy blur)
+        const fl = this.flareLength * (0.7 + currentAlpha * 0.5);
         ctx.strokeStyle = `rgba(255, 248, 220, ${currentAlpha * 0.9})`;
         ctx.lineWidth = 1.2;
 
         ctx.beginPath();
-        // Horizontal Ray
-        ctx.moveTo(-fl, 0);
-        ctx.lineTo(fl, 0);
-        // Vertical Ray
-        ctx.moveTo(0, -fl);
-        ctx.lineTo(0, fl);
+        ctx.moveTo(this.x - fl, this.y);
+        ctx.lineTo(this.x + fl, this.y);
+        ctx.moveTo(this.x, this.y - fl);
+        ctx.lineTo(this.x, this.y + fl);
         ctx.stroke();
 
-        // Diagonal Micro Spikes
-        ctx.strokeStyle = `rgba(242, 202, 80, ${currentAlpha * 0.45})`;
-        ctx.lineWidth = 0.8;
-        const dfl = fl * 0.45;
+        ctx.fillStyle = `rgba(255, 255, 255, ${currentAlpha})`;
         ctx.beginPath();
-        ctx.moveTo(-dfl, -dfl);
-        ctx.lineTo(dfl, dfl);
-        ctx.moveTo(dfl, -dfl);
-        ctx.lineTo(-dfl, dfl);
-        ctx.stroke();
-
-        ctx.restore();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
 
       } else {
-        // 3. Shimmering Gold Glitter Particle
-        ctx.save();
-        ctx.shadowColor = '#f2ca50';
-        ctx.shadowBlur = 6 * currentAlpha;
+        // Shimmering Gold Glitter Particle
         ctx.fillStyle = `rgba(250, 224, 135, ${currentAlpha})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       }
     }
   }
 
-  // Populate Initial Particles
   for (let i = 0; i < PARTICLES_COUNT; i++) {
     particles.push(new LuxuryParticle());
   }
 
   // ------------------------------------------------------------------------
-  // GOLDEN SILK WAVE RIBBONS (Harmonic Sweeping Curves Matching Image 2)
+  // GOLDEN SILK WAVE RIBBONS (Harmonic Curves)
   // ------------------------------------------------------------------------
   const ribbons = [
     {
-      // Main Grand Silk Sash (Bottom-Left sweeping through center to Upper-Right)
       baseY: 0.62,
-      thickness: 160,
-      amplitude: 110,
-      frequency: 0.0012,
-      speed: 0.00065,
+      thickness: isMobile ? 120 : 160,
+      amplitude: isMobile ? 70 : 100,
+      frequency: 0.0013,
+      speed: 0.0006,
       phase: 0.2,
-      colorStart: 'rgba(255, 240, 160, 0.42)',
-      colorMid: 'rgba(242, 202, 80, 0.35)',
-      colorEnd: 'rgba(180, 120, 15, 0.08)',
-      edgeColor: 'rgba(255, 248, 200, 0.95)',
-      edgeWidth: 2.2,
-      filaments: 3
+      colorStart: 'rgba(255, 240, 160, 0.38)',
+      colorMid: 'rgba(242, 202, 80, 0.28)',
+      colorEnd: 'rgba(180, 120, 15, 0.06)',
+      edgeColor: 'rgba(255, 248, 200, 0.88)',
+      edgeWidth: isMobile ? 1.5 : 2.0
     },
     {
-      // Counter Upper Arch Ribbon (Top-Left swooping down across Center-Right)
       baseY: 0.38,
-      thickness: 130,
-      amplitude: 95,
+      thickness: isMobile ? 100 : 130,
+      amplitude: isMobile ? 60 : 85,
       frequency: 0.0016,
-      speed: -0.00055,
+      speed: -0.0005,
       phase: 2.4,
-      colorStart: 'rgba(250, 225, 140, 0.36)',
-      colorMid: 'rgba(226, 180, 50, 0.28)',
-      colorEnd: 'rgba(160, 105, 10, 0.05)',
-      edgeColor: 'rgba(250, 230, 160, 0.85)',
-      edgeWidth: 1.8,
-      filaments: 2
+      colorStart: 'rgba(250, 225, 140, 0.32)',
+      colorMid: 'rgba(226, 180, 50, 0.22)',
+      colorEnd: 'rgba(160, 105, 10, 0.04)',
+      edgeColor: 'rgba(250, 230, 160, 0.75)',
+      edgeWidth: isMobile ? 1.2 : 1.6
     },
     {
-      // Lower Foreground Sweeping Ribbon
       baseY: 0.82,
-      thickness: 140,
-      amplitude: 85,
+      thickness: isMobile ? 100 : 140,
+      amplitude: isMobile ? 55 : 80,
       frequency: 0.0014,
-      speed: 0.0008,
+      speed: 0.0007,
       phase: 4.1,
-      colorStart: 'rgba(255, 235, 150, 0.32)',
-      colorMid: 'rgba(242, 202, 80, 0.24)',
-      colorEnd: 'rgba(180, 130, 20, 0.04)',
-      edgeColor: 'rgba(255, 245, 190, 0.8)',
-      edgeWidth: 1.6,
-      filaments: 2
-    },
-    {
-      // Diagonal Top Ambient Ribbon
-      baseY: 0.18,
-      thickness: 100,
-      amplitude: 70,
-      frequency: 0.0019,
-      speed: 0.00045,
-      phase: 1.2,
-      colorStart: 'rgba(255, 230, 130, 0.25)',
-      colorMid: 'rgba(212, 165, 35, 0.18)',
-      colorEnd: 'rgba(140, 90, 10, 0.02)',
-      edgeColor: 'rgba(245, 220, 140, 0.7)',
-      edgeWidth: 1.4,
-      filaments: 1
+      colorStart: 'rgba(255, 235, 150, 0.28)',
+      colorMid: 'rgba(242, 202, 80, 0.20)',
+      colorEnd: 'rgba(180, 130, 20, 0.03)',
+      edgeColor: 'rgba(255, 245, 190, 0.7)',
+      edgeWidth: isMobile ? 1.2 : 1.5
     }
   ];
 
   function drawSilkRibbon(ribbon, time, mouseOffsetX, scrollOffsetY) {
     const pointsTop = [];
     const pointsBottom = [];
-    const step = 20;
+    const step = isMobile ? 32 : 22;
 
-    const centerY = height * ribbon.baseY + scrollOffsetY * 0.12;
+    const centerY = height * ribbon.baseY + scrollOffsetY * 0.08;
 
-    for (let x = -60; x <= width + 60; x += step) {
+    for (let x = -40; x <= width + 40; x += step) {
       const angle = x * ribbon.frequency + time * ribbon.speed + ribbon.phase;
-      const wave = Math.sin(angle) * ribbon.amplitude + Math.cos(angle * 0.6) * (ribbon.amplitude * 0.4);
-      const mouseDist = 1 - Math.min(Math.abs(x - mouse.x) / (width * 0.5), 1);
-      const mouseLift = Math.sin(mouseDist * Math.PI) * mouseOffsetX * 0.3;
+      const wave = Math.sin(angle) * ribbon.amplitude + Math.cos(angle * 0.6) * (ribbon.amplitude * 0.35);
+      const mouseLift = isMobile ? 0 : Math.sin(x / width * Math.PI) * mouseOffsetX * 0.2;
 
       const y = centerY + wave + mouseLift;
-      const halfThick = (ribbon.thickness * 0.5) * (0.85 + Math.sin(angle * 0.8) * 0.25);
+      const halfThick = (ribbon.thickness * 0.5) * (0.85 + Math.sin(angle * 0.8) * 0.2);
 
       pointsTop.push({ x, y: y - halfThick });
       pointsBottom.push({ x, y: y + halfThick });
     }
 
-    // 1. Draw Translucent Ribbon Mesh Body
-    ctx.save();
+    // Draw Ribbon Mesh Body
     ctx.beginPath();
     ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
 
     for (let i = 1; i < pointsTop.length; i++) {
-      const xc = (pointsTop[i].x + pointsTop[i - 1].x) / 2;
-      const yc = (pointsTop[i].y + pointsTop[i - 1].y) / 2;
+      const xc = (pointsTop[i].x + pointsTop[i - 1].x) * 0.5;
+      const yc = (pointsTop[i].y + pointsTop[i - 1].y) * 0.5;
       ctx.quadraticCurveTo(pointsTop[i - 1].x, pointsTop[i - 1].y, xc, yc);
     }
     ctx.lineTo(pointsTop[pointsTop.length - 1].x, pointsTop[pointsTop.length - 1].y);
@@ -1495,7 +1449,6 @@ function initLuxuryBackgroundAnimation() {
     }
     ctx.closePath();
 
-    // Multi-stop Vertical Gold Gradient
     const ribbonGrad = ctx.createLinearGradient(0, centerY - ribbon.thickness, 0, centerY + ribbon.thickness);
     ribbonGrad.addColorStop(0, 'rgba(242, 202, 80, 0)');
     ribbonGrad.addColorStop(0.2, ribbon.colorStart);
@@ -1506,90 +1459,58 @@ function initLuxuryBackgroundAnimation() {
     ctx.fillStyle = ribbonGrad;
     ctx.fill();
 
-    // 2. Draw Bright Glowing Top & Bottom Filaments
-    ctx.shadowColor = '#fce18b';
-    ctx.shadowBlur = 18;
+    // Draw Top & Bottom Edges
     ctx.strokeStyle = ribbon.edgeColor;
     ctx.lineWidth = ribbon.edgeWidth;
 
-    // Top Filament
     ctx.beginPath();
     ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
     for (let i = 1; i < pointsTop.length; i++) {
-      const xc = (pointsTop[i].x + pointsTop[i - 1].x) / 2;
-      const yc = (pointsTop[i].y + pointsTop[i - 1].y) / 2;
+      const xc = (pointsTop[i].x + pointsTop[i - 1].x) * 0.5;
+      const yc = (pointsTop[i].y + pointsTop[i - 1].y) * 0.5;
       ctx.quadraticCurveTo(pointsTop[i - 1].x, pointsTop[i - 1].y, xc, yc);
     }
     ctx.stroke();
 
-    // Bottom Filament
     ctx.beginPath();
     ctx.moveTo(pointsBottom[0].x, pointsBottom[0].y);
     for (let i = 1; i < pointsBottom.length; i++) {
-      const xc = (pointsBottom[i].x + pointsBottom[i - 1].x) / 2;
-      const yc = (pointsBottom[i].y + pointsBottom[i - 1].y) / 2;
+      const xc = (pointsBottom[i].x + pointsBottom[i - 1].x) * 0.5;
+      const yc = (pointsBottom[i].y + pointsBottom[i - 1].y) * 0.5;
       ctx.quadraticCurveTo(pointsBottom[i - 1].x, pointsBottom[i - 1].y, xc, yc);
     }
     ctx.stroke();
-
-    // 3. Inner Woven Silk Filaments
-    for (let f = 1; f <= ribbon.filaments; f++) {
-      const t = f / (ribbon.filaments + 1);
-      ctx.strokeStyle = `rgba(255, 240, 180, ${0.25 - f * 0.05})`;
-      ctx.lineWidth = 1;
-      ctx.shadowBlur = 6;
-
-      ctx.beginPath();
-      ctx.moveTo(
-        pointsTop[0].x,
-        pointsTop[0].y * (1 - t) + pointsBottom[0].y * t
-      );
-      for (let i = 1; i < pointsTop.length; i++) {
-        const px = pointsTop[i].x;
-        const py = pointsTop[i].y * (1 - t) + pointsBottom[i].y * t;
-        const prevPx = pointsTop[i - 1].x;
-        const prevPy = pointsTop[i - 1].y * (1 - t) + pointsBottom[i - 1].y * t;
-        const xc = (px + prevPx) / 2;
-        const yc = (py + prevPy) / 2;
-        ctx.quadraticCurveTo(prevPx, prevPy, xc, yc);
-      }
-      ctx.stroke();
-    }
-
-    ctx.restore();
   }
 
   // ------------------------------------------------------------------------
-  // TOP STAGE DRAPERY & VOLUMETRIC GODRAYS
+  // TOP VOLUMETRIC GODRAYS
   // ------------------------------------------------------------------------
   function drawStageGodrays(time) {
-    const rayCount = 12;
+    const rayCount = isMobile ? 6 : 10;
     const originX = width * 0.5;
-    const originY = -50;
-    const maxRayLength = height * 0.75;
+    const originY = -40;
+    const maxRayLength = height * 0.65;
 
-    ctx.save();
     for (let i = 0; i < rayCount; i++) {
-      const angle = ((i - rayCount / 2) / rayCount) * (Math.PI * 0.55);
-      const pulse = Math.sin(time * 0.001 + i * 0.8) * 0.03 + 0.06;
-      const endX = originX + Math.sin(angle) * maxRayLength * 1.5;
+      const angle = ((i - rayCount / 2) / rayCount) * (Math.PI * 0.5);
+      const pulse = Math.sin(time * 0.001 + i * 0.8) * 0.02 + 0.05;
+      const endX = originX + Math.sin(angle) * maxRayLength * 1.4;
       const endY = originY + Math.cos(angle) * maxRayLength;
 
       const grad = ctx.createLinearGradient(originX, originY, endX, endY);
-      grad.addColorStop(0, `rgba(255, 235, 140, ${pulse * 1.6})`);
-      grad.addColorStop(0.4, `rgba(242, 202, 80, ${pulse * 0.8})`);
+      grad.addColorStop(0, `rgba(255, 235, 140, ${pulse * 1.5})`);
+      grad.addColorStop(0.5, `rgba(242, 202, 80, ${pulse * 0.7})`);
       grad.addColorStop(1, 'rgba(242, 202, 80, 0)');
 
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.moveTo(originX - 30, originY);
-      ctx.lineTo(originX + 30, originY);
-      ctx.lineTo(endX + 70, endY);
-      ctx.lineTo(endX - 70, endY);
+      ctx.moveTo(originX - 20, originY);
+      ctx.lineTo(originX + 20, originY);
+      ctx.lineTo(endX + 50, endY);
+      ctx.lineTo(endX - 50, endY);
       ctx.closePath();
       ctx.fill();
     }
-    ctx.restore();
   }
 
   // ------------------------------------------------------------------------
@@ -1598,25 +1519,34 @@ function initLuxuryBackgroundAnimation() {
   let startTime = performance.now();
 
   function animate(now) {
-    const elapsed = now - startTime;
-
-    // Smooth Mouse Interpolation
-    mouse.x += (mouse.targetX - mouse.x) * 0.05;
-    mouse.y += (mouse.targetY - mouse.y) * 0.05;
-    const mouseOffsetX = (mouse.x - width / 2) / (width / 2) * 25;
-
-    // Clear with Deep Obsidian Background
-    ctx.clearRect(0, 0, width, height);
-
-    // 1. Draw Top Stage Godrays
-    drawStageGodrays(elapsed);
-
-    // 2. Draw 4 Harmonic Golden Silk Wave Ribbons
-    for (const ribbon of ribbons) {
-      drawSilkRibbon(ribbon, elapsed, mouseOffsetX, scrollY);
+    if (!isTabVisible) {
+      animationFrameId = null;
+      return;
     }
 
-    // 3. Draw & Update 220+ Golden Sparkle Stars, Bokeh & Dust Particles
+    const elapsed = now - startTime;
+
+    if (!isMobile) {
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+    }
+    const mouseOffsetX = isMobile ? 0 : (mouse.x - width / 2) / (width / 2) * 20;
+
+    // Smooth Scroll Interpolation
+    currentScrollY += (targetScrollY - currentScrollY) * 0.1;
+
+    // Clear Canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // 1. Draw Godrays
+    drawStageGodrays(elapsed);
+
+    // 2. Draw Silk Ribbons
+    for (const ribbon of ribbons) {
+      drawSilkRibbon(ribbon, elapsed, mouseOffsetX, currentScrollY);
+    }
+
+    // 3. Draw & Update Particles
     for (const p of particles) {
       p.update(elapsed * 0.05);
       p.draw(ctx);
@@ -1629,27 +1559,27 @@ function initLuxuryBackgroundAnimation() {
 }
 
 // ==========================================================================
-// SCROLL SPY & NAVIGATION TRACKING
+// HIGH-PERFORMANCE THROTTLED SCROLL SPY & NAVIGATION TRACKING
 // ==========================================================================
 function initScrollSpy() {
   const sections = ['home', 'about', 'services', 'custom-builder', 'gallery', 'testimonials', 'events', 'calculator', 'contact'];
   const navLinks = document.querySelectorAll('#portal-nav-links .nav-link');
   const header = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
+  let isTicking = false;
+
+  function updateSpy() {
     const scrollY = window.scrollY;
 
-    // Header background toggle on scroll
     if (header) {
       header.classList.toggle('scrolled', scrollY > 40);
     }
 
-    // Scroll spy for active navigation item
     let current = 'home';
     for (const sectionId of sections) {
       const el = document.getElementById(sectionId);
       if (el) {
-        const top = el.offsetTop - 120;
+        const top = el.offsetTop - 140;
         if (scrollY >= top) {
           current = sectionId;
         }
@@ -1664,6 +1594,15 @@ function initScrollSpy() {
         link.classList.remove('active');
       }
     });
+
+    isTicking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      requestAnimationFrame(updateSpy);
+      isTicking = true;
+    }
   }, { passive: true });
 }
 

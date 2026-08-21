@@ -75,6 +75,8 @@ html {
   scroll-behavior: smooth;
   color-scheme: dark;
   background-color: var(--bg-obsidian);
+  touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -85,7 +87,9 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 section {
@@ -151,13 +155,16 @@ section {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .luxury-top-godray {
   position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   width: 100vw;
   height: 90vh;
   background: 
@@ -165,18 +172,20 @@ section {
     repeating-linear-gradient(90deg, transparent 0, transparent 40px, rgba(242, 202, 80, 0.018) 40px, rgba(242, 202, 80, 0.038) 60px, transparent 80px);
   pointer-events: none;
   z-index: 1;
+  backface-visibility: hidden;
 }
 
 .ambient-glow {
   position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   width: 100vw;
   height: 100vh;
   background: radial-gradient(circle at 50% 40%, rgba(242, 202, 80, 0.05) 0%, transparent 65%);
   pointer-events: none;
   z-index: 1;
+  backface-visibility: hidden;
 }
 
 .ambient-glow-bottom {
@@ -188,6 +197,8 @@ section {
   background: radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .bg-black-overlay {
@@ -199,6 +210,8 @@ section {
   background-color: rgba(0, 0, 0, 0.28);
   pointer-events: none;
   z-index: 2;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Foreground Text, Sections and Content (strictly on top of overlay) */
@@ -229,7 +242,9 @@ main, section, #view-portal, #view-dashboard {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--gold-border-subtle);
-  transition: all var(--transition-smooth);
+  transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .site-header.scrolled {
@@ -1265,4 +1280,38 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gold-dark);
+}
+
+/* ==========================================================================
+   MOBILE & ANDROID 60/120Hz ULTRA-SMOOTH SCROLLING OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto !important; /* Enable native high-refresh rate Android inertial momentum scrolling */
+  }
+
+  .site-header {
+    background: rgba(7, 8, 10, 0.94);
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .luxury-card,
+  .glass-panel,
+  .custom-module-card,
+  .dash-tabs {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    transform: translateZ(0);
+    will-change: auto;
+  }
+
+  .luxury-card:hover,
+  .custom-module-card:hover {
+    transform: none !important; /* Disables expensive 3D hover layout calculations on touch */
+  }
+
+  .hero-brand-title {
+    letter-spacing: 0.14em;
+  }
 }
