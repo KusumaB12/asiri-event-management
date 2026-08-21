@@ -136,6 +136,11 @@ section {
 
 /* ==========================================================================
    DYNAMIC FULL-WEBSITE CANVAS BACKGROUND & VOLUMETRIC LIGHTING
+   Layer Hierarchy:
+   z-index 0: Canvas (Silk Waves, Starlight, Bokeh)
+   z-index 1: Ambient Lighting & Godrays
+   z-index 2: Black Overlay (Covers the background animation)
+   z-index 10+: All text, headings, cards, sections & interactive content
    ========================================================================== */
 
 #luxury-bg-canvas {
@@ -146,17 +151,6 @@ section {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-}
-
-.bg-black-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.03);
-  pointer-events: none;
-  z-index: 2;
 }
 
 .luxury-top-godray {
@@ -194,6 +188,36 @@ section {
   background: radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
+}
+
+.bg-black-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.03);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Foreground Text, Sections and Content (strictly on top of overlay) */
+main, section, #view-portal, #view-dashboard {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-brand-title,
+.hero-brand-subtitle,
+.hero-tagline,
+.hero-crown-crest,
+.ornate-divider,
+.btn-hero-glass-gold,
+.hero-scroll-indicator,
+.luxury-card,
+.glass-panel {
+  position: relative;
+  z-index: 15;
 }
 
 /* ==========================================================================
