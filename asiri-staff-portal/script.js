@@ -1213,118 +1213,266 @@ class StaffOperationsApp {
   initCanvasBackground() {
     const canvas = document.getElementById('luxury-bg-canvas');
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
-    let width, height;
-    let step = 0;
+    let width, height, dpr;
+    let animationFrameId;
+    let mouse = { x: null, y: null, targetX: null, targetY: null };
 
-    // Mouse coordinates for interactive particle radiance
-    const mouse = { x: -1000, y: -1000, active: false };
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      mouse.active = true;
-    });
-    window.addEventListener('mouseleave', () => {
-      mouse.active = false;
-    });
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+    }
 
-    const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', resize);
     resize();
+    window.addEventListener('resize', resize);
 
-    // Generate 60 floating golden dust particles
-    const particlesCount = 60;
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.targetX = null;
+      mouse.targetY = null;
+    });
+
+    // Particle System Configuration
+    const PARTICLE_COUNT = 85;
     const particles = [];
-    for (let i = 0; i < particlesCount; i++) {
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 2.2 + 0.8,
-        speedX: (Math.random() - 0.5) * 0.4,
-        speedY: -Math.random() * 0.5 - 0.2,
-        opacity: Math.random() * 0.7 + 0.2,
+        size: Math.random() * 2.4 + 0.6,
+        baseAlpha: Math.random() * 0.6 + 0.2,
         twinkleSpeed: Math.random() * 0.03 + 0.01,
         twinklePhase: Math.random() * Math.PI * 2,
-        isSparkle: Math.random() > 0.65
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -(Math.random() * 0.45 + 0.15),
+        depth: Math.random() * 1.5 + 0.5,
+        isStar: Math.random() > 0.65
       });
     }
 
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
-      step += 0.008;
+    // Soft Bokeh Orbs (Background depth)
+    const BOKEH_COUNT = 8;
+    const bokehOrbs = [];
+    for (let i = 0; i < BOKEH_COUNT; i++) {
+      bokehOrbs.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 90 + 40,
+        alpha: Math.random() * 0.04 + 0.015,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15
+      });
+    }
 
-      // 1. Draw flowing golden waves ribbons
-      for (let i = 0; i < 4; i++) {
-        ctx.beginPath();
-        const baseAlpha = 0.12 - i * 0.02;
-        ctx.strokeStyle = `rgba(242, 202, 80, ${Math.max(0.04, baseAlpha)})`;
-        ctx.lineWidth = 1.6 + i * 0.4;
-        ctx.shadowColor = 'rgba(242, 202, 80, 0.4)';
-        ctx.shadowBlur = 8;
+    // Golden Silk Wave Ribbons Configuration
+    const ribbons = [
+      { yOffset: 0.35, amplitude: 75, frequency: 0.0018, speed: 0.0008, thickness: 120, phase: 0, opacity: 0.07 },
+      { yOffset: 0.55, amplitude: 95, frequency: 0.0014, speed: -0.0006, thickness: 160, phase: 2.2, opacity: 0.08 },
+      { yOffset: 0.75, amplitude: 65, frequency: 0.0022, speed: 0.001, thickness: 100, phase: 4.1, opacity: 0.05 },
+      { yOffset: 0.20, amplitude: 50, frequency: 0.0020, speed: -0.0005, thickness: 80, phase: 1.4, opacity: 0.04 }
+    ];
 
-        for (let x = 0; x < width; x += 15) {
-          const y = height * 0.35 + 
-            Math.sin(x * 0.002 + step + i * 1.2) * (45 + i * 10) + 
-            Math.cos(x * 0.001 - step * 0.5) * 35 + 
-            (i * 45);
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
+    function drawStar4Point(cx, cy, spikes, outerRadius, innerRadius, alpha) {
+      let rot = Math.PI / 2 * 3;
+      let x = cx;
+      let y = cy;
+      let step = Math.PI / spikes;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerRadius);
+      for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
       }
-      ctx.shadowBlur = 0;
+      ctx.lineTo(cx, cy - outerRadius);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(255, 243, 196, ${alpha})`;
+      ctx.shadowColor = 'rgba(242, 202, 80, 0.9)';
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.restore();
+    }
 
-      // 2. Draw Floating Gold Starlight Dust Particles
+    let time = 0;
+
+    function render() {
+      time += 1;
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth mouse easing
+      if (mouse.targetX !== null) {
+        if (mouse.x === null) {
+          mouse.x = mouse.targetX;
+          mouse.y = mouse.targetY;
+        } else {
+          mouse.x += (mouse.targetX - mouse.x) * 0.05;
+          mouse.y += (mouse.targetY - mouse.y) * 0.05;
+        }
+      }
+
+      // 1. Draw Bokeh Orbs
+      for (let i = 0; i < bokehOrbs.length; i++) {
+        const b = bokehOrbs[i];
+        b.x += b.vx;
+        b.y += b.vy;
+        if (b.x < -b.radius) b.x = width + b.radius;
+        if (b.x > width + b.radius) b.x = -b.radius;
+        if (b.y < -b.radius) b.y = height + b.radius;
+        if (b.y > height + b.radius) b.y = -b.radius;
+
+        const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
+        grad.addColorStop(0, `rgba(242, 202, 80, ${b.alpha})`);
+        grad.addColorStop(0.6, `rgba(184, 146, 34, ${b.alpha * 0.4})`);
+        grad.addColorStop(1, 'rgba(7, 7, 9, 0)');
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 2. Draw Golden Silk Wave Ribbons
+      for (let r = 0; r < ribbons.length; r++) {
+        const rib = ribbons[r];
+        const baseY = height * rib.yOffset;
+        const currentPhase = rib.phase + time * rib.speed;
+
+        ctx.save();
+        ctx.beginPath();
+
+        const pointsTop = [];
+        const pointsBottom = [];
+        const step = 40;
+
+        for (let x = 0; x <= width + step; x += step) {
+          const mouseWave = mouse.x !== null ? Math.sin((x - mouse.x) * 0.005) * 20 * Math.exp(-Math.abs(x - mouse.x) / 300) : 0;
+          const wave1 = Math.sin(x * rib.frequency + currentPhase) * rib.amplitude;
+          const wave2 = Math.cos(x * rib.frequency * 0.6 + currentPhase * 1.3) * (rib.amplitude * 0.4);
+          const yTop = baseY + wave1 + wave2 + mouseWave;
+          const yBottom = yTop + rib.thickness + Math.sin(x * 0.002 + currentPhase) * 30;
+
+          pointsTop.push({ x, y: yTop });
+          pointsBottom.push({ x, y: yBottom });
+        }
+
+        // Draw Top Line
+        ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
+        for (let i = 1; i < pointsTop.length - 1; i++) {
+          const xc = (pointsTop[i].x + pointsTop[i + 1].x) / 2;
+          const yc = (pointsTop[i].y + pointsTop[i + 1].y) / 2;
+          ctx.quadraticCurveTo(pointsTop[i].x, pointsTop[i].y, xc, yc);
+        }
+        ctx.lineTo(pointsTop[pointsTop.length - 1].x, pointsTop[pointsTop.length - 1].y);
+
+        // Draw Bottom Line back to start
+        for (let i = pointsBottom.length - 1; i >= 1; i--) {
+          const xc = (pointsBottom[i].x + pointsBottom[i - 1].x) / 2;
+          const yc = (pointsBottom[i].y + pointsBottom[i - 1].y) / 2;
+          ctx.quadraticCurveTo(pointsBottom[i].x, pointsBottom[i].y, xc, yc);
+        }
+        ctx.closePath();
+
+        // Ribbon Gradient Fill
+        const grad = ctx.createLinearGradient(0, baseY - rib.amplitude, 0, baseY + rib.amplitude + rib.thickness);
+        grad.addColorStop(0, 'rgba(242, 202, 80, 0)');
+        grad.addColorStop(0.3, `rgba(250, 224, 135, ${rib.opacity * 1.2})`);
+        grad.addColorStop(0.7, `rgba(242, 202, 80, ${rib.opacity * 1.5})`);
+        grad.addColorStop(1, 'rgba(184, 146, 34, 0)');
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Golden Silk Filament Edge
+        ctx.beginPath();
+        ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
+        for (let i = 1; i < pointsTop.length - 1; i++) {
+          const xc = (pointsTop[i].x + pointsTop[i + 1].x) / 2;
+          const yc = (pointsTop[i].y + pointsTop[i + 1].y) / 2;
+          ctx.quadraticCurveTo(pointsTop[i].x, pointsTop[i].y, xc, yc);
+        }
+        ctx.strokeStyle = `rgba(250, 224, 135, ${rib.opacity * 2.5})`;
+        ctx.lineWidth = 1.2;
+        ctx.shadowColor = 'rgba(242, 202, 80, 0.4)';
+        ctx.shadowBlur = 6;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      // 3. Draw Twinkling Starlight & Gold Dust Particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
 
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.twinklePhase += p.twinkleSpeed;
-
-        if (mouse.active) {
-          const dx = mouse.x - p.x;
-          const dy = mouse.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 160) {
-            const force = (160 - dist) / 160 * 0.5;
-            p.x += (dx / dist) * force;
-            p.y += (dy / dist) * force;
-          }
-        }
-
-        if (p.y < -10) {
-          p.y = height + 10;
-          p.x = Math.random() * width;
-        }
+        // Wrap around bounds
+        if (p.y < -10) p.y = height + 10;
         if (p.x < -10) p.x = width + 10;
         if (p.x > width + 10) p.x = -10;
 
-        const currentAlpha = Math.max(0.1, p.opacity * (0.6 + 0.4 * Math.sin(p.twinklePhase)));
+        // Mouse interactive drift
+        if (mouse.x !== null) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            const force = (140 - dist) / 140;
+            p.x += (dx / dist) * force * 1.5;
+            p.y += (dy / dist) * force * 1.5;
+          }
+        }
 
-        ctx.fillStyle = `rgba(242, 202, 80, ${currentAlpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        // Twinkle calculation
+        p.twinklePhase += p.twinkleSpeed;
+        const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
+        const currentAlpha = p.baseAlpha * (0.4 + 0.6 * twinkle);
 
-        if (p.isSparkle && currentAlpha > 0.5) {
-          ctx.strokeStyle = `rgba(250, 224, 135, ${currentAlpha * 0.8})`;
-          ctx.lineWidth = 0.8;
+        if (p.isStar && twinkle > 0.6) {
+          const starSize = p.size * (1 + twinkle * 1.2);
+          drawStar4Point(p.x, p.y, 4, starSize * 2.8, starSize * 0.6, currentAlpha);
+        } else {
+          ctx.save();
           ctx.beginPath();
-          ctx.moveTo(p.x - p.size * 2.5, p.y);
-          ctx.lineTo(p.x + p.size * 2.5, p.y);
-          ctx.moveTo(p.x, p.y - p.size * 2.5);
-          ctx.lineTo(p.x, p.y + p.size * 2.5);
-          ctx.stroke();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(250, 224, 135, ${currentAlpha})`;
+          ctx.shadowColor = 'rgba(242, 202, 80, 0.8)';
+          ctx.shadowBlur = 4;
+          ctx.fill();
+          ctx.restore();
         }
       }
 
-      requestAnimationFrame(draw);
-    };
-    draw();
+      animationFrameId = requestAnimationFrame(render);
+    }
+
+    // Handle visibility change to save CPU when tab is inactive
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    });
+
+    animationFrameId = requestAnimationFrame(render);
   }
 
   showToast(message, type = 'success') {
