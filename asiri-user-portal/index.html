@@ -90,7 +90,7 @@
        SITE HEADER & NAVIGATION (MATCHING REFERENCE IMAGE)
        ========================================================================= -->
   <header class="site-header fixed top-0 w-full z-50">
-    <nav class="flex justify-between items-center px-4 md:px-8 py-3 max-w-7xl mx-auto">
+    <nav class="flex justify-between items-center px-4 md:px-8 py-3.5 max-w-7xl mx-auto">
       
       <!-- Brand Logo (ASIRI EVENT MANAGEMENT) -->
       <a href="#home" class="brand-header-logo group" id="logo-home-link" aria-label="ASIRI Event Management">
@@ -100,40 +100,77 @@
         </div>
       </a>
 
-      <!-- Primary Navigation Links -->
-      <ul id="portal-nav-links" class="hidden lg:flex gap-6 items-center">
+      <!-- Primary Navigation Links (Clean, Well-Spaced & Luxury Organized) -->
+      <ul id="portal-nav-links" class="hidden lg:flex gap-7 items-center">
         <li><a class="nav-link active" href="#home">Home</a></li>
-        <li><a class="nav-link" href="#about">About Us</a></li>
+        <li><a class="nav-link" href="#about">About</a></li>
         <li><a class="nav-link" href="#services">Services</a></li>
-        <li><a class="nav-link flex items-center gap-1 text-[#f2ca50]" href="#shopping">
-          <span class="material-symbols-outlined text-sm">shopping_bag</span>
-          <span>Shop &amp; Rentals</span>
-        </a></li>
-        <li><a class="nav-link" href="#custom-builder">Custom Studio</a></li>
-        <li><a class="nav-link" href="#gallery">Gallery</a></li>
-        <li><a class="nav-link" href="#testimonials">Testimonials</a></li>
-        <li><a class="nav-link" href="#events">Live Schedule</a></li>
-        <li><a class="nav-link" href="#calculator">Estimator</a></li>
+        <li>
+          <a class="nav-link flex items-center gap-1.5 text-[#f2ca50]" href="#shopping">
+            <span class="material-symbols-outlined text-sm">shopping_bag</span>
+            <span>Shop &amp; Rentals</span>
+          </a>
+        </li>
+        
+        <!-- Experience Dropdown (Groups Studio, Gallery, Reviews & Estimator) -->
+        <li class="nav-dropdown">
+          <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+            <span>Experience</span>
+            <span class="material-symbols-outlined text-xs transition-transform duration-200">expand_more</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="#custom-builder" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon"><span class="material-symbols-outlined text-sm">palette</span></div>
+              <div>
+                <div class="nav-dropdown-title">Custom Studio</div>
+                <div class="nav-dropdown-desc">Bespoke Event Builder</div>
+              </div>
+            </a>
+            <a href="#gallery" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon"><span class="material-symbols-outlined text-sm">photo_library</span></div>
+              <div>
+                <div class="nav-dropdown-title">Gallery</div>
+                <div class="nav-dropdown-desc">Royal Visual Portfolio</div>
+              </div>
+            </a>
+            <a href="#testimonials" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon"><span class="material-symbols-outlined text-sm">hotel_class</span></div>
+              <div>
+                <div class="nav-dropdown-title">Testimonials</div>
+                <div class="nav-dropdown-desc">VIP Client Stories</div>
+              </div>
+            </a>
+            <a href="#calculator" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon"><span class="material-symbols-outlined text-sm">calculate</span></div>
+              <div>
+                <div class="nav-dropdown-title">Budget Estimator</div>
+                <div class="nav-dropdown-desc">Live Cost Calculator (₹)</div>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li><a class="nav-link" href="#events">Schedule</a></li>
         <li><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
 
-      <!-- Action Controls (Solid Gold Pill Button & Discrete Staff Hub Link) -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Quick Cart Trigger -->
-        <button type="button" id="header-nav-cart-btn" class="btn-surface text-xs hidden md:inline-flex items-center gap-1.5 border border-[#f2ca50]/30 hover:border-[#f2ca50] text-[#f2ca50] hover:text-white transition-all shadow-sm py-2 px-3">
-          <span class="material-symbols-outlined text-sm">shopping_bag</span>
-          <span>Bag (<span id="header-badge-cart-count">0</span>)</span>
+      <!-- Action Controls (Sleek Cart Bubble, CTA Pill, Subtle Staff Button) -->
+      <div class="flex items-center gap-3">
+        <!-- Sleek Luxury Cart Button with Animated Badge -->
+        <button type="button" id="header-nav-cart-btn" class="btn-header-cart" aria-label="View Shopping &amp; Rental Bag" title="Shopping &amp; Rental Bag">
+          <span class="material-symbols-outlined text-lg">shopping_bag</span>
+          <span class="header-cart-count-bubble" id="header-badge-cart-count">0</span>
         </button>
 
-        <!-- Solid Gold Pill Button -->
-        <a href="#contact" id="header-plan-event-btn" class="btn-gold-pill hidden sm:inline-flex">
+        <!-- Solid Gold Pill CTA Button -->
+        <a href="#contact" id="header-plan-event-btn" class="btn-gold-pill text-xs hidden sm:inline-flex">
           Plan Your Event
         </a>
 
         <!-- Discrete Staff Portal Link -->
-        <a href="staff.html" class="btn-surface text-xs hidden sm:inline-flex items-center gap-1.5 border border-[#f2ca50]/30 hover:border-[#f2ca50] text-[#f2ca50] hover:text-white transition-all shadow-sm" title="Access Staff Operations Cockpit">
+        <a href="staff.html" class="btn-staff-pill hidden lg:inline-flex" title="Access Staff Operations Cockpit">
           <span class="material-symbols-outlined text-sm">shield_person</span>
-          <span>Staff Portal</span>
+          <span>Staff</span>
         </a>
 
         <!-- Mobile Hamburger Button -->

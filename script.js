@@ -1396,7 +1396,6 @@ class UserAppClient {
   }
 
   addToCart(itemPayload) {
-    // Check if duplicate item with same options exists
     const existingIndex = this.cart.findIndex(c => 
       c.itemId === itemPayload.itemId && 
       c.days === itemPayload.days && 
@@ -1871,7 +1870,6 @@ class UserAppClient {
   }
 
   initShopModals() {
-    // Backdrop clicks for shop and checkout modals
     document.querySelectorAll('[data-close-modal]').forEach(el => {
       el.addEventListener('click', () => {
         this.closeShopItemModal();
@@ -2424,7 +2422,7 @@ class UserAppClient {
   // SCROLL SPY & NAVIGATION
   // ===========================================================================
   initScrollSpy() {
-    const navLinks = document.querySelectorAll('#portal-nav-links .nav-link');
+    const navLinks = document.querySelectorAll('#portal-nav-links .nav-link, .nav-dropdown-item');
     const sections = document.querySelectorAll('section[id]');
 
     window.addEventListener('scroll', () => {
