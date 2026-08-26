@@ -1217,6 +1217,17 @@ class StaffOperationsApp {
     let width, height;
     let step = 0;
 
+    // Mouse coordinates for interactive particle radiance
+    const mouse = { x: -1000, y: -1000, active: false };
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
     const resize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
@@ -1224,24 +1235,91 @@ class StaffOperationsApp {
     window.addEventListener('resize', resize);
     resize();
 
+    // Generate 60 floating golden dust particles
+    const particlesCount = 60;
+    const particles = [];
+    for (let i = 0; i < particlesCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 2.2 + 0.8,
+        speedX: (Math.random() - 0.5) * 0.4,
+        speedY: -Math.random() * 0.5 - 0.2,
+        opacity: Math.random() * 0.7 + 0.2,
+        twinkleSpeed: Math.random() * 0.03 + 0.01,
+        twinklePhase: Math.random() * Math.PI * 2,
+        isSparkle: Math.random() > 0.65
+      });
+    }
+
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
       step += 0.008;
 
-      for (let i = 0; i < 3; i++) {
+      // 1. Draw flowing golden waves ribbons
+      for (let i = 0; i < 4; i++) {
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(242, 202, 80, ${0.035 - i * 0.008})`;
-        ctx.lineWidth = 1.5;
+        const baseAlpha = 0.12 - i * 0.02;
+        ctx.strokeStyle = `rgba(242, 202, 80, ${Math.max(0.04, baseAlpha)})`;
+        ctx.lineWidth = 1.6 + i * 0.4;
+        ctx.shadowColor = 'rgba(242, 202, 80, 0.4)';
+        ctx.shadowBlur = 8;
 
-        for (let x = 0; x < width; x += 20) {
-          const y = height * 0.25 + 
-            Math.sin(x * 0.002 + step + i) * 45 + 
-            Math.cos(x * 0.001 - step * 0.5) * 35 +
-            (i * 50);
+        for (let x = 0; x < width; x += 15) {
+          const y = height * 0.35 + 
+            Math.sin(x * 0.002 + step + i * 1.2) * (45 + i * 10) + 
+            Math.cos(x * 0.001 - step * 0.5) * 35 + 
+            (i * 45);
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
         ctx.stroke();
+      }
+      ctx.shadowBlur = 0;
+
+      // 2. Draw Floating Gold Starlight Dust Particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.twinklePhase += p.twinkleSpeed;
+
+        if (mouse.active) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 160) {
+            const force = (160 - dist) / 160 * 0.5;
+            p.x += (dx / dist) * force;
+            p.y += (dy / dist) * force;
+          }
+        }
+
+        if (p.y < -10) {
+          p.y = height + 10;
+          p.x = Math.random() * width;
+        }
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+
+        const currentAlpha = Math.max(0.1, p.opacity * (0.6 + 0.4 * Math.sin(p.twinklePhase)));
+
+        ctx.fillStyle = `rgba(242, 202, 80, ${currentAlpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.isSparkle && currentAlpha > 0.5) {
+          ctx.strokeStyle = `rgba(250, 224, 135, ${currentAlpha * 0.8})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(p.x - p.size * 2.5, p.y);
+          ctx.lineTo(p.x + p.size * 2.5, p.y);
+          ctx.moveTo(p.x, p.y - p.size * 2.5);
+          ctx.lineTo(p.x, p.y + p.size * 2.5);
+          ctx.stroke();
+        }
       }
 
       requestAnimationFrame(draw);
