@@ -1,0 +1,15 @@
+{
+  "name": "asiri-staff-portal",
+  "version": "1.0.0",
+  "description": "ASIRI Luxury Event Management - Staff Operations Cockpit",
+  "scripts": {
+    "dev": "python -m http.server 8081",
+    "start": "serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.3"
+  },
+  "author": "ASIRI Events India",
+  "license": "MIT"
+}

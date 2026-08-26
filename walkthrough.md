@@ -1,71 +1,98 @@
-# Walkthrough: ASIRI Professional Event Management Web Application
+# Walkthrough: 2 Standalone Projects Connected via Python MongoDB REST API
 
-We transformed **ASIRI** into a state-of-the-art, end-to-end **Professional Event Management Web Application UI** that provides both an ultra-luxury public discovery & VIP booking experience and an interactive operations & planner dashboard.
-
----
-
-## 🌟 Key Architecture & Features Implemented
-
-### 1. Dual-Perspective Mode Switcher
-Located directly in the glass header, users and producers can toggle instantly between:
-- **Client Portal**: Public luxury discovery, interactive budget estimation, season calendar, and VIP RSVP reservation.
-- **Planner Hub (Operations Dashboard)**: Real-time event production cockpit, live status management, guest check-ins, and budget tracking.
+We have completed the restructuring of **ASIRI Event Management** into **2 standalone frontend projects** connected through a **centralized Python FastAPI + MongoDB REST API backend**. Any update made in the Admin/Staff dashboard is immediately saved in **MongoDB** and dynamically reflected on the public User Page.
 
 ---
 
-### 2. Client Portal & Public Experience
-- **Cinematic Luxury Hero**: Obsidian dark styling with champagne gold typography (`Playfair Display` + `Plus Jakarta Sans`), live production metrics ribbon, and quick action CTAs.
-- **Curated Events & VIP Reservation**: Filterable by category (*Concerts, Galas, Corporate, Jazz/Private*) and instant text search.
-- **Detailed Event & VIP RSVP Modal**: Full production scope, venue details, seating breakdown, and direct VIP reservation form.
-- **Interactive Event Budget & Scope Estimator**:
-  - Real-time sliders and category selectors for guest count (20 to 2,500+), venue tier (Ballrooms, Historic Palaces, Pavilions), catering tier ($0 to $160/guest), and AV/lighting scale.
-  - Dynamically calculates line-item breakdowns (Venue, Catering, AV, Staffing, and ASIRI Management Fee) in real time.
-- **Portfolio & Consultation Concierge**: Curated retrospective of past masterworks and structured consultation inquiry form.
+## 🌟 What Was Built
+
+### 1. Central Python MongoDB REST API (`backend/`)
+- **FastAPI + PyMongo**:
+  - Live MongoDB connection (`mongodb://localhost:27017/asiri_events` or MongoDB Atlas).
+  - CORS enabled (`allow_origins=["*"]`) for cross-project communication.
+  - Automatic seed dataset with initial Indian luxury weddings, pre-shoots, timelines, and vendors.
+- **REST Endpoints**:
+  - `GET/POST/PUT/DELETE /api/events` (Events CRUD)
+  - `GET/POST/DELETE /api/guests` (Guestlist & VIP RSVPs)
+  - `PATCH /api/guests/:id/checkin` (1-Click Guest Check-In Toggle)
+  - `GET/POST/DELETE /api/timeline` (Muhurat & Run-of-Show Cues)
+  - `GET/POST/DELETE /api/vendors` (Vendor Contracts & Financial Matrix)
+  - `GET/POST /api/inquiries` (Client Consultation Inquiries)
+  - `GET /api/stats` (Executive KPI Aggregation)
+  - `GET /api/health` (Service & Database Health)
 
 ---
 
-### 3. Planner & Operations Hub (Management Application)
-- **Executive KPI Bar**:
-  - **Active Productions**: Live count of ongoing projects.
-  - **Total RSVPs / Guests**: Real-time guest totals and check-in percentages.
-  - **Managed Budget**: Total authorized production volume across all events.
-  - **Readiness Score**: Compliance and milestone health index.
-- **Operations Tabs**:
-  1. **Events Central**: Filter by status (*Live, Production, Planning, Rehearsal, Completed*), budget consumption progress bars, quick RSVP counts, inspect/timeline shortcuts, and archive/delete options.
-  2. **Guestlist & Check-In Hub**: Searchable guest manifest with VIP badges, seating/table assignments, dietary requirements, and **1-Click Check-In toggle** (`Check In` ↔ `Checked In`) that dynamically updates the dashboard KPIs.
-  3. **Run-of-Show Timeline**: Production cue sheet with live status tags (*Upcoming, In-Progress, Completed*), time markers, and technical stage notes.
-  4. **Budget & Vendor Matrix**: Financial health cards (Allocated vs. Spent vs. Variance) and comprehensive vendor contract registry with payment status badges.
+### 2. Project 1: User / Client Luxury Portal ([`asiri-user-portal/`](file:///d:/Asiri%20Website/asiri-user-portal))
+- **Dedicated Independent Project**: Ready to be pushed to its own GitHub repo.
+- **Features**:
+  - Golden Silk Waves Dynamic Canvas Animation.
+  - Victorian Filigree Crest & Hero showcase.
+  - Pillars of Perfection, Royal Services, and Gallery.
+  - **Live Dynamic Event Schedule**: Fetches live events from Python MongoDB API (`GET /api/events`).
+  - **VIP RSVP Modal**: Submits attendee registrations directly into MongoDB (`POST /api/guests`).
+  - **VIP Consultation Concierge**: Submits bespoke inquiry details directly into MongoDB (`POST /api/inquiries`).
+  - **Interactive Custom Events Studio & Budget Estimator (₹ INR)**.
 
 ---
 
-### 4. Interactive Workflows & Modals
-- **+ Create New Event**: Complete modal wizard to define title, category, date, time, venue, city, budget, target capacity, cover image, and scope narrative.
-- **+ Add Guest to Roster**: Quick registration modal with event assignment, VIP tier, table designation, and dietary specifications.
-- **+ Add Timeline Cue**: Real-time run-of-show milestone builder.
-- **+ Add Vendor Contract**: Financial commitment tracker.
-- **Export Manifest**: 1-click JSON export of the entire production database.
-- **Local Persistence**: All data changes, new events, guest registrations, and check-in statuses persist in `localStorage`.
+### 3. Project 2: Staff Operations Cockpit ([`asiri-staff-portal/`](file:///d:/Asiri%20Website/asiri-staff-portal))
+- **Dedicated Independent Project**: Ready to be pushed to its own GitHub repo.
+- **Features**:
+  - Staff Passcode PIN Gate (`1234` / `admin`).
+  - **Real-Time Executive KPI Cockpit**: Active productions, total guests, live check-in percentage, and managed budget.
+  - **Event Manager**: Add, edit, and delete productions (`POST /api/events` immediately updates MongoDB and makes the event visible on the User Page).
+  - **Guestlist & 1-Click Check-In**: Toggle attendance (`PATCH /api/guests/:id/checkin`) with live status badges.
+  - **Muhurat & Timeline**: Time markers, ritual cues, and lead technical notes.
+  - **Budget & Vendor Matrix**: Financial variance tracking and vendor contract registers.
+  - **1-Click Manifest Export (JSON)**.
 
 ---
 
-## 🛠️ Files Modified & Created
-
-| File | Changes Made |
-|---|---|
-| [styles.css](file:///d:/Asiri%20Website/styles.css) | Custom Obsidian & Champagne Gold design system, glassmorphic headers, KPI stat cards, luxury data tables, modal dialogs, status badges, progress bars, and custom range sliders. |
-| [index.html](file:///d:/Asiri%20Website/index.html) | Semantic markup for Dual-Mode architecture, Public Portal, Planner Hub, 4 KPI cards, Tabbed Operations panes, and 5 interactive modals. |
-| [script.js](file:///d:/Asiri%20Website/script.js) | Full reactive state engine (`EventAppStore`), local storage persistence, event filtering & search, 1-click guest check-in, real-time budget calculator math, modal lifecycle, and toast notifications. |
+### 4. Ecosystem Launcher & Master Controller ([`start_ecosystem.py`](file:///d:/Asiri%20Website/start_ecosystem.py))
+- Single command starts all 3 services concurrently:
+  ```bash
+  python start_ecosystem.py
+  ```
+  - Client / User Portal: `http://localhost:8080`
+  - Staff Operations Cockpit: `http://localhost:8081`
+  - Python FastAPI MongoDB API: `http://localhost:5000/api`
+  - Interactive Swagger Docs: `http://localhost:5000/docs`
 
 ---
 
-## 🚀 How to Run and Test Locally
+## 🛠️ Verification & Test Results
 
-1. Ensure the web server is running:
-   ```bash
-   python -m http.server 8080
-   ```
-2. Open your browser and navigate to:
-   ```text
-   http://localhost:8080
-   ```
-3. Use the **"Client Portal" / "Planner Hub"** switcher in the top navigation bar to explore both perspectives!
+```powershell
+[1/5] Backend Health: {"status":"healthy","service":"ASIRI Event Management Python API","database":"MongoDB","mongo_connected":true}
+[2/5] Created Event via Admin Dashboard: Jaipur Royal Emerald Sangeet & Gala (ID: evt-98197)
+[3/5] Total Events visible to User Portal: 7
+[4/5] Submitted VIP RSVP on User Page: Princess Gayatri Devi & Entourage (ID: gst-2429)
+[5/5] Executed 1-Click Check-In on Staff Dashboard: CheckedIn = True
+```
+
+---
+
+## 📦 Instructions to Push Both Projects to GitHub
+
+### 1. Push User Portal Repository
+```bash
+cd "d:\Asiri Website\asiri-user-portal"
+git init
+git add .
+git commit -m "Initial commit: ASIRI Client Portal"
+git branch -M main
+git remote add origin https://github.com/<your-username>/asiri-user-portal.git
+git push -u origin main
+```
+
+### 2. Push Staff Operations Portal Repository
+```bash
+cd "d:\Asiri Website\asiri-staff-portal"
+git init
+git add .
+git commit -m "Initial commit: ASIRI Staff Operations Cockpit"
+git branch -M main
+git remote add origin https://github.com/<your-username>/asiri-staff-portal.git
+git push -u origin main
+```

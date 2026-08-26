@@ -2,6 +2,11 @@
   "version": 2,
   "name": "asiri-event-management",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/staff", "destination": "/staff.html" },
+    { "source": "/user", "destination": "/index.html" },
+    { "source": "/events", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="description"
+    content="ASIRI Operations Cockpit - Professional Staff Hub for Live Event Management, Guest Check-in, Muhurat Run-of-Show, and Vendor Budgets." />
+  <title>ASIRI Staff Hub | Operations &amp; Production Cockpit</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              DEFAULT: "#f2ca50",
+              light: "#fae087",
+              dark: "#b89222",
+              glow: "rgba(242, 202, 80, 0.35)"
+            },
+            obsidian: {
+              950: "#060608",
+              900: "#0b0c0f",
+              800: "#121418",
+              700: "#191b22",
+              600: "#22252e"
+            }
+          },
+          fontFamily: {
+            cinzel: ["Cinzel", "Georgia", "serif"],
+            "cinzel-dec": ["Cinzel Decorative", "Georgia", "serif"],
+            script: ["Great Vibes", "cursive"],
+            serif: ["Playfair Display", "Georgia", "serif"],
+            sans: ["Plus Jakarta Sans", "Montserrat", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=JetBrains+Mono:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css?v=7" />
+
+  <style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined' !important;
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased selection:bg-[#f2ca50] selection:text-[#060608] bg-[#060608] text-neutral-100 min-h-screen relative page-staff">
+  
+  <!-- BACKGROUND CANVAS & AMBIENT LIGHTS -->
+  <canvas id="luxury-bg-canvas"></canvas>
+  <div class="luxury-top-godray"></div>
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-bottom"></div>
+  <div class="bg-black-overlay"></div>
+
+  <!-- =========================================================================
+       STAFF OPERATIONS HEADER & NAVIGATION
+       ========================================================================= -->
+  <header class="site-header fixed top-0 w-full z-50">
+    <nav class="flex justify-between items-center px-4 md:px-8 py-3 max-w-7xl mx-auto">
+      
+      <!-- Brand Logo + Staff Badge -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="brand-header-logo group" aria-label="ASIRI Staff Hub">
+          <div class="flex flex-col items-center">
+            <span class="brand-header-title">ASIRI</span>
+            <span class="brand-header-sub">OPERATIONS COCKPIT</span>
+          </div>
+        </a>
+        <span class="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-widest bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Staff Portal
+        </span>
+      </div>
+
+      <!-- Staff Tab Quick Navigation Links -->
+      <ul id="dashboard-nav-links" class="hidden lg:flex gap-6 items-center text-xs uppercase tracking-wider font-semibold">
+        <li><button type="button" class="dash-quick-nav nav-link active" data-tab="tab-events">Event Manager</button></li>
+        <li><button type="button" class="dash-quick-nav nav-link" data-tab="tab-guests">Guestlist &amp; Check-In</button></li>
+        <li><button type="button" class="dash-quick-nav nav-link" data-tab="tab-timeline">Muhurat &amp; Timeline</button></li>
+        <li><button type="button" class="dash-quick-nav nav-link" data-tab="tab-budget">Budget (₹) &amp; Vendors</button></li>
+        <li><button type="button" class="dash-quick-nav nav-link" data-tab="tab-orders">Rentals &amp; Orders</button></li>
+      </ul>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- New Event Quick Button -->
+        <button type="button" id="header-add-event-btn" class="btn-gold btn-sm hidden md:inline-flex">
+          <span class="material-symbols-outlined text-sm">add_circle</span> + New Event
+        </button>
+
+        <!-- Link to Public Client Site -->
+        <a href="http://localhost:8080" class="btn-surface text-xs hidden sm:inline-flex items-center gap-1.5" title="Switch to Public Client Website">
+          <span class="material-symbols-outlined text-sm">open_in_new</span>
+          <span>Client Site</span>
+        </a>
+
+        <!-- Lock / Sign Out Button -->
+        <button type="button" id="btn-staff-lock" class="btn-surface text-xs p-2 text-neutral-300 hover:text-[#f2ca50]" title="Lock Staff Session">
+          <span class="material-symbols-outlined text-base">lock</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button type="button" id="menu-toggle"
+          class="lg:hidden text-[#f2ca50] p-2 rounded-md hover:bg-neutral-900 transition-colors" aria-label="Open menu"
+          aria-expanded="false">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Staff Menu Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#0a0b0e]/95 backdrop-blur-xl border-b border-[#f2ca50]/20 px-6 py-5 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Operations Navigation
+        </span>
+        <a href="index.html" class="text-xs text-[#f2ca50] hover:underline flex items-center gap-1">
+          <span>Client View</span>
+          <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </a>
+      </div>
+
+      <div id="mobile-dashboard-links" class="space-y-3">
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-[#f2ca50] font-semibold" data-tab="tab-events">1. Events Manager</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-guests">2. Guestlist &amp; Check-in</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-timeline">3. Muhurat &amp; Run-of-Show</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-budget">4. Budget (₹) &amp; Vendors</button>
+        <button class="mobile-dash-nav block text-left text-sm uppercase tracking-wider text-neutral-300 hover:text-[#f2ca50]" data-tab="tab-orders">5. Rentals &amp; Orders</button>
+      </div>
+
+      <div class="pt-3 border-t border-neutral-800 flex gap-2">
+        <button type="button" id="mobile-add-event-btn" class="w-full btn-gold justify-center py-2.5 text-xs">
+          <span class="material-symbols-outlined text-sm">add_circle</span> + New Event
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN STAFF COCKPIT VIEW
+       ========================================================================= -->
+  <main class="pt-20 md:pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto space-y-8 relative z-10">
+    <div id="view-dashboard" class="space-y-8">
+      
+      <!-- Top Control Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-800/80">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="badge-status badge-live">Live Operations</span>
+            <span class="text-xs text-neutral-400 font-mono" id="dash-live-time"></span>
+          </div>
+          <h1 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1">ASIRI Operations &amp; Production Cockpit</h1>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button type="button" id="dash-export-btn" class="btn-surface text-xs">
+            <span class="material-symbols-outlined text-sm">download</span> Export Manifest (JSON)
+          </button>
+          <button type="button" id="dash-add-event-btn" class="btn-gold btn-sm">
+            <span class="material-symbols-outlined text-sm">add_circle</span> + New Event
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 EXECUTIVE KPI CARDS (IN INR ₹) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Active Productions</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">event_available</span>
+          </div>
+          <div class="kpi-number text-white" id="kpi-active-events">0</div>
+          <div class="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+            <span class="material-symbols-outlined text-xs">trending_up</span> All venues locked in
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Total Guests / RSVPs</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">group</span>
+          </div>
+          <div class="kpi-number text-white" id="kpi-total-guests">0</div>
+          <div class="text-xs text-neutral-400" id="kpi-checkedin-subtext">0 Checked In</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Managed Budget</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">currency_rupee</span>
+          </div>
+          <div class="kpi-number text-[#f2ca50]" id="kpi-managed-budget">₹0</div>
+          <div class="text-xs text-neutral-400">Pan-India vendor contracts</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider font-semibold text-neutral-400">Timing Score</span>
+            <span class="material-symbols-outlined text-[#f2ca50] text-xl">verified</span>
+          </div>
+          <div class="kpi-number text-white" id="kpi-timing-score">99.4%</div>
+          <div class="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+            <span class="material-symbols-outlined text-xs">check_circle</span> Perfect timing alignment
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD TAB NAVIGATION -->
+      <div class="dash-tabs">
+        <button type="button" class="dash-tab-btn active" data-tab="tab-events">
+          <span class="material-symbols-outlined text-lg">calendar_month</span>
+          <span>Events Central (<span id="tab-events-count">0</span>)</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-guests">
+          <span class="material-symbols-outlined text-lg">how_to_reg</span>
+          <span>Guestlist &amp; Check-In</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-timeline">
+          <span class="material-symbols-outlined text-lg">schedule</span>
+          <span>Muhurat &amp; Timeline</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-budget">
+          <span class="material-symbols-outlined text-lg">account_balance</span>
+          <span>Budget (₹) &amp; Vendor Matrix</span>
+        </button>
+        <button type="button" class="dash-tab-btn" data-tab="tab-orders">
+          <span class="material-symbols-outlined text-lg">shopping_bag</span>
+          <span>Rentals &amp; Orders (<span id="tab-orders-count">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: EVENTS CENTRAL -->
+      <div id="tab-events" class="dash-tab-pane space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto" id="dash-event-status-filters">
+            <button class="dash-filter-btn active px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f2ca50] text-[#060608]" data-status="all">All Statuses</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Live">Live</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Production">Production</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Planning">Planning</button>
+            <button class="dash-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Completed">Completed</button>
+          </div>
+
+          <!-- Search -->
+          <div class="relative w-full sm:w-64 flex items-center">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base pointer-events-none">search</span>
+            <input type="text" id="dash-event-search" placeholder="Filter by event, city..." class="app-input input-with-search text-xs" />
+          </div>
+        </div>
+
+        <!-- Dynamic Events Grid -->
+        <div id="dash-events-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered by script.js -->
+        </div>
+      </div>
+
+      <!-- TAB 2: GUESTLIST & CHECK-IN HUB -->
+      <div id="tab-guests" class="dash-tab-pane hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <select id="guest-event-filter" class="app-input text-xs w-full sm:w-56">
+              <option value="all">All Assigned Events</option>
+              <!-- Populated dynamically -->
+            </select>
+            <div class="relative w-full sm:w-64 flex items-center">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base pointer-events-none">search</span>
+              <input type="text" id="guest-search-input" placeholder="Search guest name, phone, family..." class="app-input input-with-search text-xs" />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button type="button" id="dash-add-guest-btn" class="btn-gold btn-sm">
+              <span class="material-symbols-outlined text-sm">person_add</span> Add Guest
+            </button>
+          </div>
+        </div>
+
+        <!-- Guest Table -->
+        <div class="luxury-table-container">
+          <table class="luxury-table">
+            <thead>
+              <tr>
+                <th>Guest / Family Name</th>
+                <th>Assigned Event</th>
+                <th>Party Tier</th>
+                <th>Table / Seating Zone</th>
+                <th>Dietary / Food Preferences</th>
+                <th>RSVP Status</th>
+                <th>Check-In Status</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+            <tbody id="guestlist-table-body">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: RUN-OF-SHOW & MUHURAT TIMELINE -->
+      <div id="tab-timeline" class="dash-tab-pane hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3">
+            <label class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Select Production:</label>
+            <select id="timeline-event-filter" class="app-input text-xs w-64 py-2">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <button type="button" id="dash-add-timeline-btn" class="btn-gold btn-sm">
+            <span class="material-symbols-outlined text-sm">add_task</span> + Add Muhurat / Cue
+          </button>
+        </div>
+
+        <div class="luxury-card p-6 md:p-8">
+          <div id="timeline-container" class="timeline-track space-y-6">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: BUDGET & VENDOR MATRIX (IN INR ₹) -->
+      <div id="tab-budget" class="dash-tab-pane hidden space-y-8">
+        <!-- Overall Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Total Authorized Budget</span>
+            <div class="font-cinzel text-3xl font-bold text-white" id="budget-total-allocated">₹0</div>
+            <p class="text-xs text-neutral-400">Total approved client allocation</p>
+          </div>
+
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Contracted &amp; Paid (₹)</span>
+            <div class="font-cinzel text-3xl font-bold text-[#f2ca50]" id="budget-total-spent">₹0</div>
+            <p class="text-xs text-neutral-400" id="budget-spent-percentage">0% committed</p>
+          </div>
+
+          <div class="luxury-card p-6 space-y-3">
+            <span class="text-xs uppercase tracking-wider text-neutral-400 font-semibold">Contingency Buffer</span>
+            <div class="font-cinzel text-3xl font-bold text-emerald-400" id="budget-variance">₹0</div>
+            <p class="text-xs text-emerald-400/80">Available buffer</p>
+          </div>
+        </div>
+
+        <!-- Vendor Contracts Table -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-cinzel text-xl font-bold text-white">Vendor Contracts &amp; Logistics Partners (India)</h3>
+            <button type="button" id="dash-add-vendor-btn" class="btn-gold btn-sm">
+              <span class="material-symbols-outlined text-sm">post_add</span> + Add Vendor Contract
+            </button>
+          </div>
+
+          <div class="luxury-table-container">
+            <table class="luxury-table">
+              <thead>
+                <tr>
+                  <th>Vendor / Partner</th>
+                  <th>Category</th>
+                  <th>Associated Event</th>
+                  <th>Contract Amount (₹)</th>
+                  <th>Payment Status</th>
+                  <th>Lead Contact / Phone</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="vendor-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: RENTALS & GIFTING ORDERS COCKPIT -->
+      <div id="tab-orders" class="dash-tab-pane hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto" id="dash-order-status-filters">
+            <button class="dash-order-filter-btn active px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f2ca50] text-[#060608]" data-status="all">All Orders</button>
+            <button class="dash-order-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Confirmed">Confirmed</button>
+            <button class="dash-order-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Dispatched">Dispatched</button>
+            <button class="dash-order-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Delivered">Delivered</button>
+            <button class="dash-order-filter-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-[#121418] text-neutral-300 hover:text-white" data-status="Returned">Returned / Done</button>
+          </div>
+
+          <!-- Search input -->
+          <div class="relative w-full sm:w-64 flex items-center">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base pointer-events-none">search</span>
+            <input type="text" id="dash-order-search" placeholder="Search order ID, client, city..." class="app-input input-with-search text-xs" />
+          </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="luxury-table-container">
+          <table class="luxury-table">
+            <thead>
+              <tr>
+                <th>Order # &amp; Date</th>
+                <th>Client / Host Details</th>
+                <th>Reserved Equipments &amp; Hampers</th>
+                <th>Total (₹) &amp; Deposit</th>
+                <th>Payment Mode</th>
+                <th>Logistics Status</th>
+                <th>Quick Dispatch Action</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <!-- Populated dynamically by script.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       STAFF AUTHENTICATION MODAL (Quick Passcode Protection)
+       ========================================================================= -->
+  <div id="modal-staff-auth" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel max-w-md">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div class="text-center space-y-3 mb-6">
+        <div class="w-12 h-12 rounded-full bg-[#f2ca50]/15 border border-[#f2ca50]/40 flex items-center justify-center text-[#f2ca50] mx-auto">
+          <span class="material-symbols-outlined text-2xl">lock</span>
+        </div>
+        <h3 class="font-cinzel text-2xl font-bold text-white">ASIRI Staff Portal</h3>
+        <p class="text-neutral-400 text-xs">Enter your staff access code to unlock the event operations cockpit.</p>
+      </div>
+
+      <form id="form-staff-login" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Staff Access PIN</label>
+          <input type="password" id="staff-pin-input" placeholder="Enter PIN (Default demo: 1234)" class="modal-input text-center text-lg font-mono tracking-widest" autofocus />
+        </div>
+        <button type="submit" class="w-full btn-gold justify-center py-3">
+          <span class="material-symbols-outlined text-base">key</span>
+          <span>Unlock Planner Hub</span>
+        </button>
+        <div class="text-center">
+          <button type="button" id="btn-quick-demo-login" class="text-xs text-[#f2ca50] hover:underline">
+            Quick 1-Click Demo Login (PIN: 1234)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       STAFF OPERATIONS MODALS
+       ========================================================================= -->
+
+  <!-- MODAL 1: CREATE NEW EVENT -->
+  <div id="modal-create-event" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-panel-lg">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="material-symbols-outlined text-[#f2ca50]">add_circle</span>
+        <h3 class="font-cinzel text-2xl font-bold text-white">Create New Event Production</h3>
+      </div>
+      <p class="text-neutral-400 text-xs mb-6">Initialize a wedding, pre-wedding shoot, birthday, corporate summit, or custom bespoke event.</p>
+
+      <form id="form-create-event" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Royal Rajputana Palace Wedding / Custom Gala" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Category *</label>
+            <select name="category" class="modal-input" required>
+              <option value="Wedding">Royal Wedding &amp; Sangeet</option>
+              <option value="Pre-Wedding">Pre-Wedding Shoot</option>
+              <option value="Custom">Custom / Bespoke Event</option>
+              <option value="Birthday">Themed Birthday / Jubilee</option>
+              <option value="Corporate">Corporate Conference / Summit</option>
+              <option value="Concert">Musical Gala &amp; Live Performance</option>
+              <option value="Private">Private Farmhouse / Villa Celebration</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Date *</label>
+            <input type="date" name="date" required class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Time Marker / Muhurat</label>
+            <input type="text" name="time" placeholder="e.g. 18:30 IST / Subh Muhurat" class="modal-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Venue / Palace Name *</label>
+            <input type="text" name="venue" required placeholder="e.g. City Palace &amp; Jagmandir Island" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">City &amp; State *</label>
+            <input type="text" name="city" required placeholder="e.g. Udaipur / Goa / Bengaluru" class="modal-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Target Guest Capacity</label>
+            <input type="number" name="capacity" min="10" max="10000" value="350" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Allocated Budget (₹ INR)</label>
+            <input type="number" name="budget" min="50000" step="10000" value="1500000" class="modal-input" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Cover Image URL (Optional)</label>
+          <input type="url" name="image" placeholder="https://images.unsplash.com/photo-..." class="modal-input" />
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Event Narrative &amp; Scope Summary</label>
+          <textarea name="description" rows="3" placeholder="Overview of mandap decor, artist lineup, catering, custom modules..." class="modal-input"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">
+            <span class="material-symbols-outlined text-sm">check</span>
+            <span>Launch Event</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: EVENT DETAILS & INSPECTION -->
+  <div id="modal-event-detail" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-panel-lg">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <div id="modal-detail-content" class="space-y-6">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: ADD GUEST -->
+  <div id="modal-add-guest" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-cinzel text-xl font-bold text-white mb-1">Add Guest to Event Manifest</h3>
+      <p class="text-neutral-400 text-xs mb-4">Register an invited family, dignitary, or corporate delegate.</p>
+
+      <form id="form-add-guest" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Assigned Event *</label>
+          <select name="eventId" id="modal-guest-event-select" class="modal-input" required>
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Full Name / Family Name *</label>
+            <input type="text" name="name" required placeholder="e.g. Sharma Family / Rajesh Verma" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Phone / Email *</label>
+            <input type="text" name="email" required placeholder="+91 98765 43210 or email" class="modal-input" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Party Tier</label>
+            <select name="tier" class="modal-input">
+              <option value="VIP">VIP Guest</option>
+              <option value="Family">Immediate Family</option>
+              <option value="Dignitary">Dignitary / Corporate Lead</option>
+              <option value="General">Invited Guest</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Table / Seating Zone</label>
+            <input type="text" name="seat" placeholder="e.g. Royal Pavilion 1 / Table 5" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">RSVP Status</label>
+            <select name="rsvpStatus" class="modal-input">
+              <option value="Confirmed">Confirmed (Attending)</option>
+              <option value="Tentative">Tentative</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Dietary &amp; Food Preferences</label>
+          <input type="text" name="dietary" placeholder="e.g. Pure Jain / Sattvic / Non-Veg / Gluten-Free" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Add to Manifest</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADD TIMELINE CUE -->
+  <div id="modal-add-timeline" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-cinzel text-xl font-bold text-white mb-1">Add Muhurat / Run-of-Show Cue</h3>
+      <p class="text-neutral-400 text-xs mb-4">Add a time-coded ritual, stage activity, or technical cue.</p>
+
+      <form id="form-add-timeline" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Production Event *</label>
+          <select name="eventId" id="modal-timeline-event-select" class="modal-input" required>
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Time Marker / Muhurat *</label>
+            <input type="text" name="time" required placeholder="e.g. 19:15 IST / Shubh Muhurat" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Status</label>
+            <select name="status" class="modal-input">
+              <option value="Upcoming">Upcoming</option>
+              <option value="In-Progress">In-Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Ritual / Activity Title *</label>
+          <input type="text" name="title" required placeholder="e.g. Grand Baraat Arrival with Dhol &amp; Royal Entry" class="modal-input" />
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Responsible Lead &amp; Technical Notes</label>
+          <input type="text" name="notes" placeholder="e.g. Cold pyro sparklers ready on entry / Pandit Ji in place" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Save Muhurat Cue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: ADD VENDOR / EXPENSE -->
+  <div id="modal-add-vendor" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+      <h3 class="font-cinzel text-xl font-bold text-white mb-1">Add Vendor Contract &amp; Budget Item (₹)</h3>
+      <p class="text-neutral-400 text-xs mb-4">Record contractor commitments, catering, decor, and artists.</p>
+
+      <form id="form-add-vendor" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Vendor / Partner Name *</label>
+          <input type="text" name="name" required placeholder="e.g. Royal Jaipur Mandap Decorators" class="modal-input" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Category *</label>
+            <select name="category" class="modal-input" required>
+              <option value="Mandap & Decor">Mandap &amp; Floral Decor</option>
+              <option value="Royal Catering">Royal Catering &amp; Live Stalls</option>
+              <option value="Cinematography">Cinematic Photo &amp; 4K Drone</option>
+              <option value="DJ & Sound">DJ, Sound &amp; Intelligent Lighting</option>
+              <option value="Artist & Band">Artist, Dhol &amp; Band</option>
+              <option value="Venue Hire">Palace / Resort Venue Hire</option>
+              <option value="Hospitality & Security">Hospitality &amp; Bouncers</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Associated Event</label>
+            <select name="eventId" id="modal-vendor-event-select" class="modal-input">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Contract Amount (₹ INR) *</label>
+            <input type="number" name="amount" required min="1000" step="5000" placeholder="e.g. 450000" class="modal-input" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Payment Status</label>
+            <select name="paymentStatus" class="modal-input">
+              <option value="Paid">Paid in Full</option>
+              <option value="Deposit Paid">Advance / Deposit Paid (50%)</option>
+              <option value="Pending">Pending Invoice</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-neutral-300 mb-1">Lead Contact Person &amp; Phone</label>
+          <input type="text" name="contact" placeholder="e.g. Rakesh Mehta (+91 98201 55678)" class="modal-input" />
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-neutral-800">
+          <button type="button" class="btn-surface" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-gold">Record Vendor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- STAFF FOOTER -->
+  <footer class="w-full py-8 bg-[#040406]/95 backdrop-blur-xl border-t border-[#f2ca50]/15 mt-16 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
+      <div class="flex items-center gap-2">
+        <span class="font-cinzel font-bold text-[#f2ca50]">ASIRI COCKPIT</span>
+        <span class="text-neutral-600">|</span>
+        <span>Confidential Staff Management Application</span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <a href="http://localhost:8080" class="text-[#f2ca50] hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-xs">arrow_back</span>
+          <span>Return to Public Client Portal</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Unified Application Script -->
+  <script src="script.js"></script>
+</body>
+</html>

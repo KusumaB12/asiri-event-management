@@ -1,16 +1,23 @@
 {
   "name": "asiri-event-management",
-  "version": "1.0.0",
-  "description": "Premier Luxury Event Management & Wedding Planning Platform India",
-  "main": "index.html",
+  "version": "2.0.0",
+  "description": "Premier Luxury Event Management & Wedding Planning Platform India - Multi-Project Architecture Connected via Python MongoDB REST API",
+  "main": "start_ecosystem.py",
   "scripts": {
-    "start": "serve ."
+    "start": "python start_ecosystem.py",
+    "start:all": "python start_ecosystem.py",
+    "start:api": "python backend/app.py",
+    "start:user": "python -m http.server 8080 --directory asiri-user-portal",
+    "start:staff": "python -m http.server 8081 --directory asiri-staff-portal"
   },
   "keywords": [
     "luxury-events",
     "wedding-planner",
     "event-management",
-    "asiri"
+    "asiri",
+    "python",
+    "fastapi",
+    "mongodb"
   ],
   "author": "ASIRI Events India",
   "license": "MIT"

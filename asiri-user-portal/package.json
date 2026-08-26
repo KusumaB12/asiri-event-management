@@ -1,0 +1,15 @@
+{
+  "name": "asiri-user-portal",
+  "version": "1.0.0",
+  "description": "ASIRI Luxury Event Management - Public Client Portal",
+  "scripts": {
+    "dev": "python -m http.server 8080",
+    "start": "serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.3"
+  },
+  "author": "ASIRI Events India",
+  "license": "MIT"
+}

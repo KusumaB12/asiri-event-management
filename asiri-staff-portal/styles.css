@@ -1333,28 +1333,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   -webkit-backdrop-filter: blur(14px);
 }
 
-.shop-item-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold-primary);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(242, 202, 80, 0.18);
-}
-
-.shop-item-card.is-priority {
-  border-color: rgba(242, 202, 80, 0.7);
-  box-shadow: 0 0 20px rgba(242, 202, 80, 0.15);
-  position: relative;
-}
-
-.shop-item-card.is-priority::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gold-metallic);
-}
-
 .badge-rent {
   background: rgba(96, 165, 250, 0.18);
   border: 1px solid rgba(96, 165, 250, 0.45);
@@ -1367,205 +1345,26 @@ input[type="range"]::-webkit-slider-thumb:hover {
   color: #fcd34d;
 }
 
-.badge-recommended {
-  background: linear-gradient(135deg, rgba(242, 202, 80, 0.25), rgba(184, 146, 34, 0.3));
-  border: 1px solid rgba(242, 202, 80, 0.6);
-  color: #fae087;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 8px rgba(242, 202, 80, 0.4);
+.badge-order-confirmed {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
 }
 
-/* Category Priority Banner */
-.shop-priority-banner {
-  background: linear-gradient(90deg, rgba(242, 202, 80, 0.12), rgba(10, 11, 15, 0.85), rgba(242, 202, 80, 0.12));
-  border: 1px solid rgba(242, 202, 80, 0.4);
-  border-radius: var(--radius-md);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  animation: banner-glow 3s ease-in-out infinite alternate;
+.badge-order-dispatched {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
 }
 
-@keyframes banner-glow {
-  0% {
-    border-color: rgba(242, 202, 80, 0.3);
-    box-shadow: 0 0 15px rgba(242, 202, 80, 0.08);
-  }
-  100% {
-    border-color: rgba(242, 202, 80, 0.7);
-    box-shadow: 0 0 25px rgba(242, 202, 80, 0.25);
-  }
+.badge-order-delivered {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #60a5fa;
 }
 
-/* Floating Sticky Cart Button */
-.cart-floating-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 80;
-  background: #0d0f14;
-  border: 1.5px solid var(--gold-primary);
-  border-radius: var(--radius-full);
-  padding: 12px 22px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(242, 202, 80, 0.35);
-  cursor: pointer;
-  transition: all var(--transition-bounce);
-}
-
-.cart-floating-btn:hover {
-  transform: translateY(-3px) scale(1.03);
-  background: rgba(242, 202, 80, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(242, 202, 80, 0.5);
-}
-
-.cart-count-bubble {
-  background: var(--gold-primary);
-  color: #060608;
-  font-weight: 800;
-  font-size: 0.75rem;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Cart Slide-Over / Drawer */
-.cart-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: flex-end;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.cart-drawer.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.cart-drawer-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(4, 5, 8, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.cart-drawer-panel {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  height: 100%;
-  background: #0a0b0f;
-  border-left: 1px solid var(--gold-border);
-  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.9);
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10;
-}
-
-.cart-drawer.active .cart-drawer-panel {
-  transform: translateX(0);
-}
-
-/* Duration / Options Buttons */
-.opt-pill-btn {
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  background: #14161d;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.opt-pill-btn:hover {
-  border-color: var(--gold-primary);
-  color: #fff;
-}
-
-.opt-pill-btn.active {
-  background: rgba(242, 202, 80, 0.15);
-  border-color: var(--gold-primary);
-  color: var(--gold-light);
-  box-shadow: 0 0 15px rgba(242, 202, 80, 0.2);
-}
-
-/* Service Card Shopping Quick Action */
-.service-action-group {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(242, 202, 80, 0.15);
-}
-
-.btn-service-shop {
-  flex: 1;
-  padding: 9px 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: rgba(242, 202, 80, 0.1);
-  border: 1px solid rgba(242, 202, 80, 0.35);
-  border-radius: var(--radius-sm);
-  color: var(--gold-light);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  text-decoration: none;
-}
-
-.btn-service-shop:hover {
-  background: var(--gold-primary);
-  color: #060608;
-  border-color: var(--gold-primary);
-  box-shadow: 0 4px 18px rgba(242, 202, 80, 0.35);
-  transform: translateY(-1px);
-}
-
-.btn-service-plan {
-  flex: 1;
-  padding: 9px 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: #14161d;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-sm);
-  color: #dedad2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  text-decoration: none;
-}
-
-.btn-service-plan:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
+.badge-order-returned {
+  background: rgba(192, 132, 252, 0.15);
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  color: #c084fc;
 }
