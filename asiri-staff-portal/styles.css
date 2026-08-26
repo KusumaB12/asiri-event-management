@@ -180,9 +180,7 @@ section {
   transform: translateX(-50%) translateZ(0);
   width: 100vw;
   height: 90vh;
-  background: 
-    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(242, 202, 80, 0.22) 0%, rgba(212, 175, 55, 0.08) 45%, transparent 75%),
-    repeating-linear-gradient(90deg, transparent 0, transparent 40px, rgba(242, 202, 80, 0.018) 40px, rgba(242, 202, 80, 0.038) 60px, transparent 80px);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(242, 202, 80, 0.12) 0%, rgba(212, 175, 55, 0.04) 50%, transparent 80%);
   pointer-events: none;
   z-index: 1;
   backface-visibility: hidden;
@@ -195,7 +193,7 @@ section {
   transform: translateX(-50%) translateZ(0);
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 40%, rgba(242, 202, 80, 0.08) 0%, transparent 65%);
+  background: radial-gradient(circle at 50% 40%, rgba(242, 202, 80, 0.06) 0%, transparent 65%);
   pointer-events: none;
   z-index: 1;
   backface-visibility: hidden;
@@ -207,7 +205,7 @@ section {
   right: 0;
   width: 70vw;
   height: 60vh;
-  background: radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   transform: translateZ(0);
@@ -220,7 +218,7 @@ section {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(6, 6, 8, 0.22);
+  background-color: rgba(6, 6, 8, 0.12);
   pointer-events: none;
   z-index: 1;
   transform: translateZ(0);

@@ -2368,8 +2368,15 @@ class UserAppClient {
     if (submitScopeBtn) {
       submitScopeBtn.addEventListener('click', () => {
         const contactSec = document.getElementById('contact');
-        if (contactSec) conta  // ===========================================================================
-  // DYNAMIC FULL-WEBSITE CANVAS BACKGROUND & VOLUMETRIC LIGHTING
+        if (contactSec) contactSec.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    updateCalc();
+  }
+
+  // ===========================================================================
+  // DYNAMIC LUXURY CANVAS STAGE SPOTLIGHTS, SILK WAVES & BOKEH ENGINE (IMAGE 2)
   // ===========================================================================
   initCanvasBackground() {
     const canvas = document.getElementById('luxury-bg-canvas');
@@ -2402,73 +2409,74 @@ class UserAppClient {
       mouse.targetY = null;
     });
 
-    // Particle System Configuration
-    const PARTICLE_COUNT = 85;
+    // 1. Particle System Configuration (Golden Dust & Twinkling Sparkles)
+    const PARTICLE_COUNT = 110;
     const particles = [];
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 2.4 + 0.6,
-        baseAlpha: Math.random() * 0.6 + 0.2,
-        twinkleSpeed: Math.random() * 0.03 + 0.01,
+        size: Math.random() * 2.5 + 0.8,
+        baseAlpha: Math.random() * 0.7 + 0.25,
+        twinkleSpeed: Math.random() * 0.035 + 0.015,
         twinklePhase: Math.random() * Math.PI * 2,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -(Math.random() * 0.45 + 0.15),
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -(Math.random() * 0.5 + 0.15),
         depth: Math.random() * 1.5 + 0.5,
-        isStar: Math.random() > 0.65
+        isStar: Math.random() > 0.60
       });
     }
 
-    // Soft Bokeh Orbs (Background depth)
-    const BOKEH_COUNT = 8;
+    // 2. Large Golden Bokeh Orbs (Matching Image 2)
+    const BOKEH_COUNT = 24;
     const bokehOrbs = [];
     for (let i = 0; i < BOKEH_COUNT; i++) {
       bokehOrbs.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: Math.random() * 90 + 40,
-        alpha: Math.random() * 0.04 + 0.015,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15
+        radius: Math.random() * 60 + 20,
+        alpha: Math.random() * 0.28 + 0.12,
+        baseAlpha: Math.random() * 0.28 + 0.12,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: -(Math.random() * 0.35 + 0.1),
+        pulseSpeed: Math.random() * 0.02 + 0.01,
+        pulsePhase: Math.random() * Math.PI * 2
       });
     }
 
-    // Golden Silk Wave Ribbons Configuration
+    // 3. Golden Silk Wave Ribbons (Lower Third of Hero as in Image 2)
     const ribbons = [
-      { yOffset: 0.35, amplitude: 75, frequency: 0.0018, speed: 0.0008, thickness: 120, phase: 0, opacity: 0.07 },
-      { yOffset: 0.55, amplitude: 95, frequency: 0.0014, speed: -0.0006, thickness: 160, phase: 2.2, opacity: 0.08 },
-      { yOffset: 0.75, amplitude: 65, frequency: 0.0022, speed: 0.001, thickness: 100, phase: 4.1, opacity: 0.05 },
-      { yOffset: 0.20, amplitude: 50, frequency: 0.0020, speed: -0.0005, thickness: 80, phase: 1.4, opacity: 0.04 }
+      { yOffset: 0.70, amplitude: 70, frequency: 0.0016, speed: 0.0007, thickness: 110, phase: 0.4, opacity: 0.35, edgeColor: 'rgba(255, 245, 180, 0.95)', edgeWidth: 2.2 },
+      { yOffset: 0.76, amplitude: 85, frequency: 0.0013, speed: -0.0005, thickness: 140, phase: 2.6, opacity: 0.40, edgeColor: 'rgba(255, 230, 140, 0.85)', edgeWidth: 1.8 },
+      { yOffset: 0.82, amplitude: 60, frequency: 0.0018, speed: 0.0009, thickness: 90, phase: 4.2, opacity: 0.28, edgeColor: 'rgba(250, 220, 110, 0.75)', edgeWidth: 1.5 },
+      { yOffset: 0.65, amplitude: 45, frequency: 0.0022, speed: -0.0008, thickness: 70, phase: 1.2, opacity: 0.25, edgeColor: 'rgba(255, 240, 160, 0.8)', edgeWidth: 1.4 }
     ];
 
-    function drawStar4Point(cx, cy, spikes, outerRadius, innerRadius, alpha) {
-      let rot = Math.PI / 2 * 3;
-      let x = cx;
-      let y = cy;
-      let step = Math.PI / spikes;
-
+    function drawStar4Point(cx, cy, outerRadius, innerRadius, alpha) {
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(cx, cy - outerRadius);
-      for (let i = 0; i < spikes; i++) {
-        x = cx + Math.cos(rot) * outerRadius;
-        y = cy + Math.sin(rot) * outerRadius;
-        ctx.lineTo(x, y);
-        rot += step;
-
-        x = cx + Math.cos(rot) * innerRadius;
-        y = cy + Math.sin(rot) * innerRadius;
-        ctx.lineTo(x, y);
-        rot += step;
-      }
-      ctx.lineTo(cx, cy - outerRadius);
+      ctx.lineTo(cx + innerRadius, cy - innerRadius);
+      ctx.lineTo(cx + outerRadius, cy);
+      ctx.lineTo(cx + innerRadius, cy + innerRadius);
+      ctx.lineTo(cx, cy + outerRadius);
+      ctx.lineTo(cx - innerRadius, cy + innerRadius);
+      ctx.lineTo(cx - outerRadius, cy);
+      ctx.lineTo(cx - innerRadius, cy - innerRadius);
       ctx.closePath();
-      ctx.fillStyle = `rgba(255, 243, 196, ${alpha})`;
-      ctx.shadowColor = 'rgba(242, 202, 80, 0.9)';
-      ctx.shadowBlur = 8;
+
+      ctx.fillStyle = `rgba(255, 248, 220, ${alpha})`;
+      ctx.shadowColor = 'rgba(255, 220, 90, 0.95)';
+      ctx.shadowBlur = 10;
       ctx.fill();
+
+      // Bright center core
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.3)})`;
+      ctx.beginPath();
+      ctx.arc(cx, cy, innerRadius * 0.9, 0, Math.PI * 2);
+      ctx.fill();
+
       ctx.restore();
     }
 
@@ -2489,19 +2497,99 @@ class UserAppClient {
         }
       }
 
-      // 1. Draw Bokeh Orbs
+      // ======================================================================
+      // 1. DUAL STAGE SPOTLIGHTS (Top Left & Top Right - Exactly like Image 2)
+      // ======================================================================
+      const beamPulse = Math.sin(time * 0.02) * 0.05;
+
+      // --- Left Stage Spotlight ---
+      const leftOriginX = width * 0.08;
+      const leftOriginY = -15;
+      const leftTargetX = width * 0.38;
+      const leftTargetY = height * 0.95;
+
+      ctx.save();
+      const leftGrad = ctx.createLinearGradient(leftOriginX, leftOriginY, leftTargetX, leftTargetY);
+      leftGrad.addColorStop(0, `rgba(255, 245, 180, ${0.48 + beamPulse})`);
+      leftGrad.addColorStop(0.25, `rgba(242, 202, 80, ${0.28 + beamPulse * 0.5})`);
+      leftGrad.addColorStop(0.65, `rgba(212, 175, 55, ${0.10 + beamPulse * 0.3})`);
+      leftGrad.addColorStop(1, 'rgba(242, 202, 80, 0)');
+
+      ctx.fillStyle = leftGrad;
+      ctx.beginPath();
+      ctx.moveTo(leftOriginX - 18, leftOriginY);
+      ctx.lineTo(leftOriginX + 18, leftOriginY);
+      ctx.lineTo(leftTargetX + width * 0.22, leftTargetY);
+      ctx.lineTo(leftTargetX - width * 0.12, leftTargetY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Left spotlight fixture lamp glow
+      const leftLampGrad = ctx.createRadialGradient(leftOriginX, leftOriginY + 15, 0, leftOriginX, leftOriginY + 15, 38);
+      leftLampGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+      leftLampGrad.addColorStop(0.3, 'rgba(255, 235, 140, 0.85)');
+      leftLampGrad.addColorStop(0.7, 'rgba(242, 202, 80, 0.4)');
+      leftLampGrad.addColorStop(1, 'rgba(242, 202, 80, 0)');
+      ctx.fillStyle = leftLampGrad;
+      ctx.beginPath();
+      ctx.arc(leftOriginX, leftOriginY + 15, 38, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // --- Right Stage Spotlight ---
+      const rightOriginX = width * 0.92;
+      const rightOriginY = -15;
+      const rightTargetX = width * 0.62;
+      const rightTargetY = height * 0.95;
+
+      ctx.save();
+      const rightGrad = ctx.createLinearGradient(rightOriginX, rightOriginY, rightTargetX, rightTargetY);
+      rightGrad.addColorStop(0, `rgba(255, 245, 180, ${0.48 + beamPulse})`);
+      rightGrad.addColorStop(0.25, `rgba(242, 202, 80, ${0.28 + beamPulse * 0.5})`);
+      rightGrad.addColorStop(0.65, `rgba(212, 175, 55, ${0.10 + beamPulse * 0.3})`);
+      rightGrad.addColorStop(1, 'rgba(242, 202, 80, 0)');
+
+      ctx.fillStyle = rightGrad;
+      ctx.beginPath();
+      ctx.moveTo(rightOriginX - 18, rightOriginY);
+      ctx.lineTo(rightOriginX + 18, rightOriginY);
+      ctx.lineTo(rightTargetX + width * 0.12, rightTargetY);
+      ctx.lineTo(rightTargetX - width * 0.22, rightTargetY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Right spotlight fixture lamp glow
+      const rightLampGrad = ctx.createRadialGradient(rightOriginX, rightOriginY + 15, 0, rightOriginX, rightOriginY + 15, 38);
+      rightLampGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+      rightLampGrad.addColorStop(0.3, 'rgba(255, 235, 140, 0.85)');
+      rightLampGrad.addColorStop(0.7, 'rgba(242, 202, 80, 0.4)');
+      rightLampGrad.addColorStop(1, 'rgba(242, 202, 80, 0)');
+      ctx.fillStyle = rightLampGrad;
+      ctx.beginPath();
+      ctx.arc(rightOriginX, rightOriginY + 15, 38, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // ======================================================================
+      // 2. LARGE GOLDEN BOKEH ORBS (Matching Image 2)
+      // ======================================================================
       for (let i = 0; i < bokehOrbs.length; i++) {
         const b = bokehOrbs[i];
         b.x += b.vx;
         b.y += b.vy;
+        b.pulsePhase += b.pulseSpeed;
+
         if (b.x < -b.radius) b.x = width + b.radius;
         if (b.x > width + b.radius) b.x = -b.radius;
         if (b.y < -b.radius) b.y = height + b.radius;
         if (b.y > height + b.radius) b.y = -b.radius;
 
+        const pulseAlpha = b.baseAlpha * (0.8 + 0.3 * Math.sin(b.pulsePhase));
+
         const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
-        grad.addColorStop(0, `rgba(242, 202, 80, ${b.alpha})`);
-        grad.addColorStop(0.6, `rgba(184, 146, 34, ${b.alpha * 0.4})`);
+        grad.addColorStop(0, `rgba(255, 235, 140, ${pulseAlpha * 1.2})`);
+        grad.addColorStop(0.4, `rgba(242, 202, 80, ${pulseAlpha * 0.75})`);
+        grad.addColorStop(0.75, `rgba(184, 146, 34, ${pulseAlpha * 0.3})`);
         grad.addColorStop(1, 'rgba(7, 7, 9, 0)');
 
         ctx.fillStyle = grad;
@@ -2510,7 +2598,9 @@ class UserAppClient {
         ctx.fill();
       }
 
-      // 2. Draw Golden Silk Wave Ribbons
+      // ======================================================================
+      // 3. LUMINOUS GOLDEN SILK WAVE RIBBONS (Lower Third - Image 2)
+      // ======================================================================
       for (let r = 0; r < ribbons.length; r++) {
         const rib = ribbons[r];
         const baseY = height * rib.yOffset;
@@ -2521,14 +2611,14 @@ class UserAppClient {
 
         const pointsTop = [];
         const pointsBottom = [];
-        const step = 40;
+        const step = 30;
 
         for (let x = 0; x <= width + step; x += step) {
-          const mouseWave = mouse.x !== null ? Math.sin((x - mouse.x) * 0.005) * 20 * Math.exp(-Math.abs(x - mouse.x) / 300) : 0;
+          const mouseWave = mouse.x !== null ? Math.sin((x - mouse.x) * 0.005) * 18 * Math.exp(-Math.abs(x - mouse.x) / 320) : 0;
           const wave1 = Math.sin(x * rib.frequency + currentPhase) * rib.amplitude;
-          const wave2 = Math.cos(x * rib.frequency * 0.6 + currentPhase * 1.3) * (rib.amplitude * 0.4);
+          const wave2 = Math.cos(x * rib.frequency * 0.7 + currentPhase * 1.2) * (rib.amplitude * 0.38);
           const yTop = baseY + wave1 + wave2 + mouseWave;
-          const yBottom = yTop + rib.thickness + Math.sin(x * 0.002 + currentPhase) * 30;
+          const yBottom = yTop + rib.thickness + Math.sin(x * 0.002 + currentPhase) * 25;
 
           pointsTop.push({ x, y: yTop });
           pointsBottom.push({ x, y: yBottom });
@@ -2554,14 +2644,15 @@ class UserAppClient {
         // Ribbon Gradient Fill
         const grad = ctx.createLinearGradient(0, baseY - rib.amplitude, 0, baseY + rib.amplitude + rib.thickness);
         grad.addColorStop(0, 'rgba(242, 202, 80, 0)');
-        grad.addColorStop(0.3, `rgba(250, 224, 135, ${rib.opacity * 1.2})`);
-        grad.addColorStop(0.7, `rgba(242, 202, 80, ${rib.opacity * 1.5})`);
+        grad.addColorStop(0.2, `rgba(255, 240, 160, ${rib.opacity * 1.1})`);
+        grad.addColorStop(0.55, `rgba(242, 202, 80, ${rib.opacity * 1.3})`);
+        grad.addColorStop(0.85, `rgba(184, 146, 34, ${rib.opacity * 0.4})`);
         grad.addColorStop(1, 'rgba(184, 146, 34, 0)');
 
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // Golden Silk Filament Edge
+        // Golden Silk Filament Edge (Glowing Line)
         ctx.beginPath();
         ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
         for (let i = 1; i < pointsTop.length - 1; i++) {
@@ -2569,53 +2660,72 @@ class UserAppClient {
           const yc = (pointsTop[i].y + pointsTop[i + 1].y) / 2;
           ctx.quadraticCurveTo(pointsTop[i].x, pointsTop[i].y, xc, yc);
         }
-        ctx.strokeStyle = `rgba(250, 224, 135, ${rib.opacity * 2.5})`;
-        ctx.lineWidth = 1.2;
-        ctx.shadowColor = 'rgba(242, 202, 80, 0.4)';
-        ctx.shadowBlur = 6;
+        ctx.strokeStyle = rib.edgeColor;
+        ctx.lineWidth = rib.edgeWidth;
+        ctx.shadowColor = 'rgba(255, 215, 0, 0.9)';
+        ctx.shadowBlur = 12;
         ctx.stroke();
 
         ctx.restore();
+
+        // Draw Sparkle Diamond Star on the Wave Crests
+        if (r === 0 || r === 1) {
+          const crestIndex1 = Math.floor(pointsTop.length * 0.28);
+          const crestIndex2 = Math.floor(pointsTop.length * 0.72);
+          if (pointsTop[crestIndex1]) {
+            const p1 = pointsTop[crestIndex1];
+            const starPulse = (Math.sin(time * 0.04 + r) + 1) / 2;
+            drawStar4Point(p1.x, p1.y, 14 + starPulse * 10, 3 + starPulse * 2, 0.75 + starPulse * 0.25);
+          }
+          if (pointsTop[crestIndex2]) {
+            const p2 = pointsTop[crestIndex2];
+            const starPulse = (Math.cos(time * 0.035 + r) + 1) / 2;
+            drawStar4Point(p2.x, p2.y, 12 + starPulse * 8, 2.5 + starPulse * 2, 0.7 + starPulse * 0.25);
+          }
+        }
       }
 
-      // 3. Draw Twinkling Starlight & Gold Dust Particles
+      // ======================================================================
+      // 4. TWINKLING GOLD DUST & DIAMOND STARS FIELD
+      // ======================================================================
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
         // Wrap around bounds
-        if (p.y < -10) p.y = height + 10;
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
+        if (p.y < -15) p.y = height + 15;
+        if (p.x < -15) p.x = width + 15;
+        if (p.x > width + 15) p.x = -15;
 
         // Mouse interactive drift
         if (mouse.x !== null) {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 140) {
-            const force = (140 - dist) / 140;
-            p.x += (dx / dist) * force * 1.5;
-            p.y += (dy / dist) * force * 1.5;
+          if (dist < 150) {
+            const force = (150 - dist) / 150;
+            p.x += (dx / dist) * force * 1.6;
+            p.y += (dy / dist) * force * 1.6;
           }
         }
 
         // Twinkle calculation
         p.twinklePhase += p.twinkleSpeed;
         const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
-        const currentAlpha = p.baseAlpha * (0.4 + 0.6 * twinkle);
+        const currentAlpha = p.baseAlpha * (0.35 + 0.65 * twinkle);
 
-        if (p.isStar && twinkle > 0.6) {
-          const starSize = p.size * (1 + twinkle * 1.2);
-          drawStar4Point(p.x, p.y, 4, starSize * 2.8, starSize * 0.6, currentAlpha);
+        if (p.isStar && twinkle > 0.55) {
+          const starOuter = p.size * (3.0 + twinkle * 2.2);
+          const starInner = p.size * (0.8 + twinkle * 0.4);
+          drawStar4Point(p.x, p.y, starOuter, starInner, currentAlpha);
         } else {
           ctx.save();
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(250, 224, 135, ${currentAlpha})`;
-          ctx.shadowColor = 'rgba(242, 202, 80, 0.8)';
-          ctx.shadowBlur = 4;
+          ctx.shadowColor = 'rgba(255, 215, 0, 0.85)';
+          ctx.shadowBlur = 6;
           ctx.fill();
           ctx.restore();
         }
