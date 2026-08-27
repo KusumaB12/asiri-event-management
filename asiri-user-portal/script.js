@@ -2443,15 +2443,6 @@ class UserAppClient {
         pulseSpeed: Math.random() * 0.02 + 0.01,
         pulsePhase: Math.random() * Math.PI * 2
       });
-    }
-
-    // 3. Delicate Luminous Golden Silk Wave Filaments (Bottom curves)
-    const filaments = [
-      { yOffset: 0.74, amplitude: 55, frequency: 0.0016, speed: 0.0007, phase: 0.2, color: 'rgba(255, 235, 140, 0.45)', width: 1.4, glow: 10 },
-      { yOffset: 0.80, amplitude: 65, frequency: 0.0013, speed: -0.0005, phase: 2.4, color: 'rgba(242, 202, 80, 0.35)', width: 1.2, glow: 8 },
-      { yOffset: 0.86, amplitude: 45, frequency: 0.0019, speed: 0.0009, phase: 4.1, color: 'rgba(250, 220, 110, 0.30)', width: 1.0, glow: 6 }
-    ];
-
     function drawStar4Point(cx, cy, outerRadius, innerRadius, alpha) {
       ctx.save();
       ctx.beginPath();
@@ -2521,54 +2512,7 @@ class UserAppClient {
         ctx.fill();
       }
 
-      // 2. Draw Gentle Luminous Silk Filament Lines
-      for (let f = 0; f < filaments.length; f++) {
-        const fil = filaments[f];
-        const baseY = height * fil.yOffset;
-        const currentPhase = fil.phase + time * fil.speed;
-
-        ctx.save();
-        ctx.beginPath();
-
-        const points = [];
-        const step = 35;
-
-        for (let x = 0; x <= width + step; x += step) {
-          const mouseWave = mouse.x !== null ? Math.sin((x - mouse.x) * 0.005) * 15 * Math.exp(-Math.abs(x - mouse.x) / 300) : 0;
-          const wave1 = Math.sin(x * fil.frequency + currentPhase) * fil.amplitude;
-          const wave2 = Math.cos(x * fil.frequency * 0.7 + currentPhase * 1.3) * (fil.amplitude * 0.35);
-          const y = baseY + wave1 + wave2 + mouseWave;
-          points.push({ x, y });
-        }
-
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length - 1; i++) {
-          const xc = (points[i].x + points[i + 1].x) / 2;
-          const yc = (points[i].y + points[i + 1].y) / 2;
-          ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-        }
-
-        ctx.strokeStyle = fil.color;
-        ctx.lineWidth = fil.width;
-        ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
-        ctx.shadowBlur = fil.glow;
-        ctx.stroke();
-        ctx.restore();
-
-        // Glistening star on wave crest
-        if (f === 0 || f === 1) {
-          const crestIdx = Math.floor(points.length * (f === 0 ? 0.35 : 0.65));
-          if (points[crestIdx]) {
-            const p = points[crestIdx];
-            const starPulse = (Math.sin(time * 0.04 + f * 2) + 1) / 2;
-            if (starPulse > 0.4) {
-              drawStar4Point(p.x, p.y, 11 + starPulse * 8, 2.4 + starPulse * 1.8, 0.7 + starPulse * 0.3);
-            }
-          }
-        }
-      }
-
-      // 3. Draw Floating Golden Starlight & Diamond Sparkles
+      // 2. Draw Floating Golden Starlight & Diamond Sparkles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
