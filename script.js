@@ -2387,8 +2387,14 @@ class UserAppClient {
     let animationFrameId;
     let mouse = { x: null, y: null, targetX: null, targetY: null };
 
+    // Adaptive Performance Configuration
+    const isMobile = window.innerWidth < 768;
+    const PARTICLE_COUNT = isMobile ? 38 : 72;
+    const BOKEH_COUNT = isMobile ? 7 : 13;
+
     function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMob = window.innerWidth < 768;
+      dpr = isMob ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = width * dpr;
@@ -2397,75 +2403,80 @@ class UserAppClient {
     }
 
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     window.addEventListener('mousemove', (e) => {
       mouse.targetX = e.clientX;
       mouse.targetY = e.clientY;
-    });
+    }, { passive: true });
 
     window.addEventListener('mouseleave', () => {
       mouse.targetX = null;
       mouse.targetY = null;
-    });
+    }, { passive: true });
 
     // 1. Anchor Stars corresponding directly to the stars in the backdrop image
-    const imageStarAnchors = [
-      { xRatio: 0.355, yRatio: 0.355, baseOuter: 22, baseInner: 4.5, speed: 0.035, phase: 0.0, color: 'rgba(255, 240, 180, ' },
-      { xRatio: 0.665, yRatio: 0.395, baseOuter: 20, baseInner: 4.0, speed: 0.028, phase: 1.8, color: 'rgba(255, 235, 160, ' },
-      { xRatio: 0.285, yRatio: 0.770, baseOuter: 18, baseInner: 3.5, speed: 0.040, phase: 3.2, color: 'rgba(255, 245, 190, ' },
-      { xRatio: 0.120, yRatio: 0.890, baseOuter: 16, baseInner: 3.0, speed: 0.032, phase: 4.5, color: 'rgba(255, 230, 150, ' },
-      { xRatio: 0.875, yRatio: 0.785, baseOuter: 19, baseInner: 3.8, speed: 0.025, phase: 2.3, color: 'rgba(255, 240, 175, ' },
-      { xRatio: 0.480, yRatio: 0.260, baseOuter: 14, baseInner: 2.8, speed: 0.045, phase: 0.9, color: 'rgba(255, 245, 200, ' },
-      { xRatio: 0.730, yRatio: 0.270, baseOuter: 15, baseInner: 3.0, speed: 0.038, phase: 5.1, color: 'rgba(255, 235, 170, ' }
-    ];
+    const imageStarAnchors = isMobile 
+      ? [
+          { xRatio: 0.355, yRatio: 0.355, baseOuter: 18, baseInner: 3.5, speed: 0.035, phase: 0.0 },
+          { xRatio: 0.665, yRatio: 0.395, baseOuter: 16, baseInner: 3.2, speed: 0.028, phase: 1.8 },
+          { xRatio: 0.285, yRatio: 0.770, baseOuter: 15, baseInner: 3.0, speed: 0.040, phase: 3.2 },
+          { xRatio: 0.875, yRatio: 0.785, baseOuter: 15, baseInner: 3.0, speed: 0.025, phase: 2.3 }
+        ]
+      : [
+          { xRatio: 0.355, yRatio: 0.355, baseOuter: 22, baseInner: 4.5, speed: 0.035, phase: 0.0 },
+          { xRatio: 0.665, yRatio: 0.395, baseOuter: 20, baseInner: 4.0, speed: 0.028, phase: 1.8 },
+          { xRatio: 0.285, yRatio: 0.770, baseOuter: 18, baseInner: 3.5, speed: 0.040, phase: 3.2 },
+          { xRatio: 0.120, yRatio: 0.890, baseOuter: 16, baseInner: 3.0, speed: 0.032, phase: 4.5 },
+          { xRatio: 0.875, yRatio: 0.785, baseOuter: 19, baseInner: 3.8, speed: 0.025, phase: 2.3 },
+          { xRatio: 0.480, yRatio: 0.260, baseOuter: 14, baseInner: 2.8, speed: 0.045, phase: 0.9 },
+          { xRatio: 0.730, yRatio: 0.270, baseOuter: 15, baseInner: 3.0, speed: 0.038, phase: 5.1 }
+        ];
 
-    // 2. Floating Golden Starlight Dust Motes (drifting through the scene)
-    const PARTICLE_COUNT = 85;
+    // 2. Floating Golden Starlight Dust Motes
     const particles = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 2.0 + 0.6,
-        baseAlpha: Math.random() * 0.7 + 0.25,
+        size: Math.random() * 1.8 + 0.5,
+        baseAlpha: Math.random() * 0.65 + 0.25,
         twinkleSpeed: Math.random() * 0.035 + 0.015,
         twinklePhase: Math.random() * Math.PI * 2,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: -(Math.random() * 0.4 + 0.12),
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: -(Math.random() * 0.35 + 0.1),
         depth: Math.random() * 1.5 + 0.5,
-        isStar: Math.random() > 0.70
+        isStar: Math.random() > 0.72
       });
     }
 
-    // 3. Soft Floating Bokeh Depth Orbs (Matching background bokeh field)
-    const BOKEH_COUNT = 16;
+    // 3. Soft Floating Bokeh Depth Orbs
     const bokehOrbs = [];
     for (let i = 0; i < BOKEH_COUNT; i++) {
       bokehOrbs.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: Math.random() * 60 + 20,
-        baseAlpha: Math.random() * 0.20 + 0.08,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: -(Math.random() * 0.22 + 0.06),
+        radius: Math.random() * 50 + 20,
+        baseAlpha: Math.random() * 0.18 + 0.06,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: -(Math.random() * 0.18 + 0.05),
         pulseSpeed: Math.random() * 0.02 + 0.01,
         pulsePhase: Math.random() * Math.PI * 2
       });
     }
 
-    // 4. Volumetric Curtain Spotlight Beams (top stage lighting)
+    // 4. Volumetric Curtain Spotlight Beams
     const spotlights = [
-      { xPos: 0.38, widthTop: 30, widthBottom: 160, maxAlpha: 0.08, speed: 0.012, phase: 0 },
-      { xPos: 0.50, widthTop: 45, widthBottom: 220, maxAlpha: 0.12, speed: 0.009, phase: 1.5 },
-      { xPos: 0.62, widthTop: 35, widthBottom: 170, maxAlpha: 0.08, speed: 0.014, phase: 3.1 }
+      { xPos: 0.38, widthTop: 25, widthBottom: 140, maxAlpha: 0.07, speed: 0.012, phase: 0 },
+      { xPos: 0.50, widthTop: 40, widthBottom: 190, maxAlpha: 0.10, speed: 0.009, phase: 1.5 },
+      { xPos: 0.62, widthTop: 30, widthBottom: 150, maxAlpha: 0.07, speed: 0.014, phase: 3.1 }
     ];
 
-    // Star Flare Drawing Function with optional rotation
+    // Star Flare Drawing Function
     function drawStarFlare(cx, cy, outerRadius, innerRadius, alpha, rotation = 0) {
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(rotation);
+      if (rotation !== 0) ctx.rotate(rotation);
 
       // 4-point primary diamond flare
       ctx.beginPath();
@@ -2480,35 +2491,15 @@ class UserAppClient {
       ctx.closePath();
 
       ctx.fillStyle = `rgba(255, 248, 220, ${alpha})`;
-      ctx.shadowColor = 'rgba(255, 215, 80, 0.95)';
-      ctx.shadowBlur = Math.min(25, outerRadius * 0.9);
+      ctx.shadowColor = 'rgba(255, 215, 80, 0.9)';
+      ctx.shadowBlur = Math.min(16, outerRadius * 0.8);
       ctx.fill();
-
-      // Secondary diagonal soft glint spikes (for prominent stars)
-      if (outerRadius > 14) {
-        ctx.rotate(Math.PI / 4);
-        const diagOuter = outerRadius * 0.45;
-        const diagInner = innerRadius * 0.6;
-        ctx.beginPath();
-        ctx.moveTo(0, -diagOuter);
-        ctx.lineTo(diagInner, -diagInner);
-        ctx.lineTo(diagOuter, 0);
-        ctx.lineTo(diagInner, diagInner);
-        ctx.lineTo(0, diagOuter);
-        ctx.lineTo(-diagInner, diagInner);
-        ctx.lineTo(-diagOuter, 0);
-        ctx.lineTo(-diagInner, -diagInner);
-        ctx.closePath();
-        ctx.fillStyle = `rgba(255, 235, 160, ${alpha * 0.6})`;
-        ctx.fill();
-      }
 
       // Brilliant pure white-gold core
       ctx.beginPath();
       ctx.arc(0, 0, Math.max(1.5, innerRadius * 0.85), 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.4)})`;
-      ctx.shadowColor = 'rgba(255, 255, 255, 1)';
-      ctx.shadowBlur = 8;
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.3)})`;
+      ctx.shadowBlur = 4;
       ctx.fill();
 
       ctx.restore();
@@ -2531,33 +2522,31 @@ class UserAppClient {
           mouse.x += (mouse.targetX - mouse.x) * 0.04;
           mouse.y += (mouse.targetY - mouse.y) * 0.04;
         }
-        mouseParallaxX = (mouse.x / width - 0.5) * 12;
-        mouseParallaxY = (mouse.y / height - 0.5) * 8;
+        mouseParallaxX = (mouse.x / width - 0.5) * 10;
+        mouseParallaxY = (mouse.y / height - 0.5) * 6;
       }
 
-      // =======================================================================
-      // A. ANIMATE STAGE VOLUMETRIC SPOTLIGHT BEAMS (Illuminating the curtains)
-      // =======================================================================
+      // A. Volumetric Spotlight Beams
       for (let s = 0; s < spotlights.length; s++) {
         const spot = spotlights[s];
         const breath = (Math.sin(time * spot.speed + spot.phase) + 1) / 2;
         const currentAlpha = spot.maxAlpha * (0.6 + 0.4 * breath);
 
         const topX = width * spot.xPos + mouseParallaxX * 0.5;
-        const botX = width * spot.xPos + mouseParallaxX * 1.5;
+        const botX = width * spot.xPos + mouseParallaxX * 1.2;
 
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(topX - spot.widthTop, 0);
         ctx.lineTo(topX + spot.widthTop, 0);
-        ctx.lineTo(botX + spot.widthBottom, height * 0.75);
-        ctx.lineTo(botX - spot.widthBottom, height * 0.75);
+        ctx.lineTo(botX + spot.widthBottom, height * 0.7);
+        ctx.lineTo(botX - spot.widthBottom, height * 0.7);
         ctx.closePath();
 
-        const grad = ctx.createLinearGradient(topX, 0, botX, height * 0.75);
-        grad.addColorStop(0, `rgba(255, 225, 120, ${currentAlpha * 1.5})`);
+        const grad = ctx.createLinearGradient(topX, 0, botX, height * 0.7);
+        grad.addColorStop(0, `rgba(255, 225, 120, ${currentAlpha * 1.4})`);
         grad.addColorStop(0.3, `rgba(242, 202, 80, ${currentAlpha})`);
-        grad.addColorStop(0.7, `rgba(212, 175, 55, ${currentAlpha * 0.4})`);
+        grad.addColorStop(0.7, `rgba(212, 175, 55, ${currentAlpha * 0.3})`);
         grad.addColorStop(1, 'rgba(6, 6, 8, 0)');
 
         ctx.fillStyle = grad;
@@ -2565,9 +2554,7 @@ class UserAppClient {
         ctx.restore();
       }
 
-      // =======================================================================
-      // B. ANIMATE BACKGROUND BOKEH DEPTH ORBS (Breathing & floating)
-      // =======================================================================
+      // B. Background Bokeh Depth Orbs
       for (let i = 0; i < bokehOrbs.length; i++) {
         const b = bokehOrbs[i];
         b.x += b.vx;
@@ -2580,12 +2567,12 @@ class UserAppClient {
         if (b.y > height + b.radius) b.y = -b.radius;
 
         const pulseAlpha = b.baseAlpha * (0.75 + 0.35 * Math.sin(b.pulsePhase));
-        const drawX = b.x + mouseParallaxX * 0.4;
-        const drawY = b.y + mouseParallaxY * 0.4;
+        const drawX = b.x + mouseParallaxX * 0.3;
+        const drawY = b.y + mouseParallaxY * 0.3;
 
         const grad = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, b.radius);
-        grad.addColorStop(0, `rgba(255, 235, 140, ${pulseAlpha * 1.3})`);
-        grad.addColorStop(0.45, `rgba(242, 202, 80, ${pulseAlpha * 0.6})`);
+        grad.addColorStop(0, `rgba(255, 235, 140, ${pulseAlpha * 1.2})`);
+        grad.addColorStop(0.45, `rgba(242, 202, 80, ${pulseAlpha * 0.5})`);
         grad.addColorStop(1, 'rgba(7, 7, 9, 0)');
 
         ctx.fillStyle = grad;
@@ -2594,45 +2581,41 @@ class UserAppClient {
         ctx.fill();
       }
 
-      // =======================================================================
-      // C. ANIMATE EXACT IMAGE STAR ANCHORS (Dynamic diamond lens flare glints)
-      // =======================================================================
+      // C. Image Star Anchors (Dynamic diamond lens flare glints)
       for (let i = 0; i < imageStarAnchors.length; i++) {
         const star = imageStarAnchors[i];
         const pulse = (Math.sin(time * star.speed + star.phase) + 1) / 2;
         const currentAlpha = 0.35 + 0.65 * Math.pow(pulse, 1.8);
         const dynamicOuter = star.baseOuter * (0.7 + 0.6 * pulse);
         const dynamicInner = star.baseInner * (0.8 + 0.4 * pulse);
-        const rot = time * 0.004 * (i % 2 === 0 ? 1 : -1) + star.phase;
+        const rot = time * 0.003 * (i % 2 === 0 ? 1 : -1) + star.phase;
 
-        const posX = width * star.xRatio + mouseParallaxX * 0.8;
-        const posY = height * star.yRatio + mouseParallaxY * 0.8;
+        const posX = width * star.xRatio + mouseParallaxX * 0.7;
+        const posY = height * star.yRatio + mouseParallaxY * 0.7;
 
         drawStarFlare(posX, posY, dynamicOuter, dynamicInner, currentAlpha, rot);
       }
 
-      // =======================================================================
-      // D. ANIMATE FLOATING GOLDEN STARLIGHT DUST (Upward drift & sparkles)
-      // =======================================================================
+      // D. Floating Golden Starlight Dust Motes
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
         // Wrap around screen bounds
-        if (p.y < -12) p.y = height + 12;
-        if (p.x < -12) p.x = width + 12;
-        if (p.x > width + 12) p.x = -12;
+        if (p.y < -10) p.y = height + 10;
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
 
         // Mouse interactive drift
         if (mouse.x !== null) {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            const force = (130 - dist) / 130;
-            p.x += (dx / dist) * force * 1.4;
-            p.y += (dy / dist) * force * 1.4;
+          if (dist < 110) {
+            const force = (110 - dist) / 110;
+            p.x += (dx / dist) * force * 1.2;
+            p.y += (dy / dist) * force * 1.2;
           }
         }
 
@@ -2641,20 +2624,18 @@ class UserAppClient {
         const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
         const currentAlpha = p.baseAlpha * (0.35 + 0.65 * twinkle);
 
-        const drawPX = p.x + mouseParallaxX * p.depth * 0.5;
-        const drawPY = p.y + mouseParallaxY * p.depth * 0.5;
+        const drawPX = p.x + mouseParallaxX * p.depth * 0.4;
+        const drawPY = p.y + mouseParallaxY * p.depth * 0.4;
 
-        if (p.isStar && twinkle > 0.55) {
-          const starOuter = p.size * (2.6 + twinkle * 2.2);
-          const starInner = p.size * (0.6 + twinkle * 0.4);
+        if (p.isStar && twinkle > 0.60) {
+          const starOuter = p.size * (2.4 + twinkle * 1.8);
+          const starInner = p.size * (0.6 + twinkle * 0.3);
           drawStarFlare(drawPX, drawPY, starOuter, starInner, currentAlpha);
         } else {
           ctx.save();
           ctx.beginPath();
           ctx.arc(drawPX, drawPY, p.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(250, 224, 135, ${currentAlpha})`;
-          ctx.shadowColor = 'rgba(255, 215, 0, 0.85)';
-          ctx.shadowBlur = 4;
           ctx.fill();
           ctx.restore();
         }
@@ -2676,27 +2657,54 @@ class UserAppClient {
   }
 
   // ===========================================================================
-  // SCROLL SPY & NAVIGATION
+  // SCROLL SPY & HIGH-PERFORMANCE SMOOTH NAVIGATION
   // ===========================================================================
   initScrollSpy() {
     const navLinks = document.querySelectorAll('#portal-nav-links .nav-link, .nav-dropdown-item');
     const sections = document.querySelectorAll('section[id]');
+    const header = document.querySelector('.site-header');
+    let ticking = false;
 
+    // Passive, RAF-throttled scroll handler for buttery 60/120fps scrolling
     window.addEventListener('scroll', () => {
-      const scrollY = window.pageYOffset;
-      const header = document.querySelector('.site-header');
-      if (header) {
-        header.classList.toggle('scrolled', scrollY > 60);
-      }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          if (header) {
+            header.classList.toggle('scrolled', scrollY > 50);
+          }
 
-      sections.forEach(sec => {
-        const top = sec.offsetTop - 120;
-        const height = sec.offsetHeight;
-        const id = sec.getAttribute('id');
-        if (scrollY >= top && scrollY < top + height) {
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          sections.forEach(sec => {
+            const top = sec.offsetTop - 140;
+            const height = sec.offsetHeight;
+            const id = sec.getAttribute('id');
+            if (scrollY >= top && scrollY < top + height) {
+              navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+              });
+            }
           });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Smooth Anchor Navigation Click Handler with Offset
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const targetId = anchor.getAttribute('href');
+        if (targetId && targetId !== '#') {
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            const headerHeight = header ? header.offsetHeight : 70;
+            const targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+            window.scrollTo({
+              top: targetPos,
+              behavior: 'smooth'
+            });
+          }
         }
       });
     });

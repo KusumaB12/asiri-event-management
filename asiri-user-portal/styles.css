@@ -90,12 +90,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
 }
 
 section {
   background: transparent !important;
   position: relative;
   z-index: 10;
+}
+
+/* Off-screen Section Performance Containment for silky 60/120fps scrolling */
+#about, #services, #shopping, #custom-builder, #gallery, #testimonials, #events, #calculator, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 750px;
 }
 
 /* Typography Utility Classes */
