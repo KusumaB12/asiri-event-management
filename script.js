@@ -2368,7 +2368,14 @@ class UserAppClient {
     if (submitScopeBtn) {
       submitScopeBtn.addEventListener('click', () => {
         const contactSec = document.getElementById('contact');
-        if (contactSec) conta  // ===========================================================================
+        if (contactSec) contactSec.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    updateCalc();
+  }
+
+  // ===========================================================================
   // DYNAMIC FULL-WEBSITE CANVAS BACKGROUND & VOLUMETRIC LIGHTING
   // ===========================================================================
   initCanvasBackground() {

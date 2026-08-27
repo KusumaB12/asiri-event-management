@@ -205,7 +205,7 @@ section {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(6, 6, 8, 0.15);
+  background-color: rgba(6, 6, 8, 0.08);
   pointer-events: none;
   z-index: 1;
   transform: translateZ(0);
@@ -571,9 +571,9 @@ main, section, #view-portal, #view-dashboard {
 #home {
   position: relative;
   background: 
-    radial-gradient(ellipse at 50% 40%, rgba(6, 6, 8, 0.30) 0%, rgba(6, 6, 8, 0.68) 65%, rgba(6, 6, 8, 0.95) 100%),
+    radial-gradient(ellipse at 50% 45%, rgba(6, 6, 8, 0.20) 0%, rgba(6, 6, 8, 0.58) 60%, rgba(6, 6, 8, 0.92) 100%),
     url('assets/hero-backdrop.jpg') center top / cover no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
 .hero-crown-crest {
