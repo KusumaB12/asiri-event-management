@@ -2409,62 +2409,106 @@ class UserAppClient {
       mouse.targetY = null;
     });
 
-    // 1. Particle System Configuration (Golden Starlight & Fairy Dust)
-    const PARTICLE_COUNT = 95;
-    const particles = [];
+    // 1. Anchor Stars corresponding directly to the stars in the backdrop image
+    const imageStarAnchors = [
+      { xRatio: 0.355, yRatio: 0.355, baseOuter: 22, baseInner: 4.5, speed: 0.035, phase: 0.0, color: 'rgba(255, 240, 180, ' },
+      { xRatio: 0.665, yRatio: 0.395, baseOuter: 20, baseInner: 4.0, speed: 0.028, phase: 1.8, color: 'rgba(255, 235, 160, ' },
+      { xRatio: 0.285, yRatio: 0.770, baseOuter: 18, baseInner: 3.5, speed: 0.040, phase: 3.2, color: 'rgba(255, 245, 190, ' },
+      { xRatio: 0.120, yRatio: 0.890, baseOuter: 16, baseInner: 3.0, speed: 0.032, phase: 4.5, color: 'rgba(255, 230, 150, ' },
+      { xRatio: 0.875, yRatio: 0.785, baseOuter: 19, baseInner: 3.8, speed: 0.025, phase: 2.3, color: 'rgba(255, 240, 175, ' },
+      { xRatio: 0.480, yRatio: 0.260, baseOuter: 14, baseInner: 2.8, speed: 0.045, phase: 0.9, color: 'rgba(255, 245, 200, ' },
+      { xRatio: 0.730, yRatio: 0.270, baseOuter: 15, baseInner: 3.0, speed: 0.038, phase: 5.1, color: 'rgba(255, 235, 170, ' }
+    ];
 
+    // 2. Floating Golden Starlight Dust Motes (drifting through the scene)
+    const PARTICLE_COUNT = 85;
+    const particles = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 2.2 + 0.6,
+        size: Math.random() * 2.0 + 0.6,
         baseAlpha: Math.random() * 0.7 + 0.25,
         twinkleSpeed: Math.random() * 0.035 + 0.015,
         twinklePhase: Math.random() * Math.PI * 2,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -(Math.random() * 0.45 + 0.15),
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -(Math.random() * 0.4 + 0.12),
         depth: Math.random() * 1.5 + 0.5,
-        isStar: Math.random() > 0.65
+        isStar: Math.random() > 0.70
       });
     }
 
-    // 2. Soft Floating Bokeh Depth Orbs (Matching Image 2)
-    const BOKEH_COUNT = 14;
+    // 3. Soft Floating Bokeh Depth Orbs (Matching background bokeh field)
+    const BOKEH_COUNT = 16;
     const bokehOrbs = [];
     for (let i = 0; i < BOKEH_COUNT; i++) {
       bokehOrbs.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: Math.random() * 55 + 20,
-        alpha: Math.random() * 0.22 + 0.08,
-        baseAlpha: Math.random() * 0.22 + 0.08,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: -(Math.random() * 0.25 + 0.08),
+        radius: Math.random() * 60 + 20,
+        baseAlpha: Math.random() * 0.20 + 0.08,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: -(Math.random() * 0.22 + 0.06),
         pulseSpeed: Math.random() * 0.02 + 0.01,
         pulsePhase: Math.random() * Math.PI * 2
       });
-    function drawStar4Point(cx, cy, outerRadius, innerRadius, alpha) {
+    }
+
+    // 4. Volumetric Curtain Spotlight Beams (top stage lighting)
+    const spotlights = [
+      { xPos: 0.38, widthTop: 30, widthBottom: 160, maxAlpha: 0.08, speed: 0.012, phase: 0 },
+      { xPos: 0.50, widthTop: 45, widthBottom: 220, maxAlpha: 0.12, speed: 0.009, phase: 1.5 },
+      { xPos: 0.62, widthTop: 35, widthBottom: 170, maxAlpha: 0.08, speed: 0.014, phase: 3.1 }
+    ];
+
+    // Star Flare Drawing Function with optional rotation
+    function drawStarFlare(cx, cy, outerRadius, innerRadius, alpha, rotation = 0) {
       ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation);
+
+      // 4-point primary diamond flare
       ctx.beginPath();
-      ctx.moveTo(cx, cy - outerRadius);
-      ctx.lineTo(cx + innerRadius, cy - innerRadius);
-      ctx.lineTo(cx + outerRadius, cy);
-      ctx.lineTo(cx + innerRadius, cy + innerRadius);
-      ctx.lineTo(cx, cy + outerRadius);
-      ctx.lineTo(cx - innerRadius, cy + innerRadius);
-      ctx.lineTo(cx - outerRadius, cy);
-      ctx.lineTo(cx - innerRadius, cy - innerRadius);
+      ctx.moveTo(0, -outerRadius);
+      ctx.lineTo(innerRadius, -innerRadius);
+      ctx.lineTo(outerRadius, 0);
+      ctx.lineTo(innerRadius, innerRadius);
+      ctx.lineTo(0, outerRadius);
+      ctx.lineTo(-innerRadius, innerRadius);
+      ctx.lineTo(-outerRadius, 0);
+      ctx.lineTo(-innerRadius, -innerRadius);
       ctx.closePath();
 
       ctx.fillStyle = `rgba(255, 248, 220, ${alpha})`;
-      ctx.shadowColor = 'rgba(255, 220, 90, 0.95)';
-      ctx.shadowBlur = 10;
+      ctx.shadowColor = 'rgba(255, 215, 80, 0.95)';
+      ctx.shadowBlur = Math.min(25, outerRadius * 0.9);
       ctx.fill();
 
-      // Bright center core
-      ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.3)})`;
+      // Secondary diagonal soft glint spikes (for prominent stars)
+      if (outerRadius > 14) {
+        ctx.rotate(Math.PI / 4);
+        const diagOuter = outerRadius * 0.45;
+        const diagInner = innerRadius * 0.6;
+        ctx.beginPath();
+        ctx.moveTo(0, -diagOuter);
+        ctx.lineTo(diagInner, -diagInner);
+        ctx.lineTo(diagOuter, 0);
+        ctx.lineTo(diagInner, diagInner);
+        ctx.lineTo(0, diagOuter);
+        ctx.lineTo(-diagInner, diagInner);
+        ctx.lineTo(-diagOuter, 0);
+        ctx.lineTo(-diagInner, -diagInner);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(255, 235, 160, ${alpha * 0.6})`;
+        ctx.fill();
+      }
+
+      // Brilliant pure white-gold core
       ctx.beginPath();
-      ctx.arc(cx, cy, innerRadius * 0.9, 0, Math.PI * 2);
+      ctx.arc(0, 0, Math.max(1.5, innerRadius * 0.85), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.4)})`;
+      ctx.shadowColor = 'rgba(255, 255, 255, 1)';
+      ctx.shadowBlur = 8;
       ctx.fill();
 
       ctx.restore();
@@ -2476,18 +2520,54 @@ class UserAppClient {
       time += 1;
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth mouse easing
+      // Smooth mouse easing with gentle parallax offset
+      let mouseParallaxX = 0;
+      let mouseParallaxY = 0;
       if (mouse.targetX !== null) {
         if (mouse.x === null) {
           mouse.x = mouse.targetX;
           mouse.y = mouse.targetY;
         } else {
-          mouse.x += (mouse.targetX - mouse.x) * 0.05;
-          mouse.y += (mouse.targetY - mouse.y) * 0.05;
+          mouse.x += (mouse.targetX - mouse.x) * 0.04;
+          mouse.y += (mouse.targetY - mouse.y) * 0.04;
         }
+        mouseParallaxX = (mouse.x / width - 0.5) * 12;
+        mouseParallaxY = (mouse.y / height - 0.5) * 8;
       }
 
-      // 1. Draw Soft Floating Bokeh Orbs
+      // =======================================================================
+      // A. ANIMATE STAGE VOLUMETRIC SPOTLIGHT BEAMS (Illuminating the curtains)
+      // =======================================================================
+      for (let s = 0; s < spotlights.length; s++) {
+        const spot = spotlights[s];
+        const breath = (Math.sin(time * spot.speed + spot.phase) + 1) / 2;
+        const currentAlpha = spot.maxAlpha * (0.6 + 0.4 * breath);
+
+        const topX = width * spot.xPos + mouseParallaxX * 0.5;
+        const botX = width * spot.xPos + mouseParallaxX * 1.5;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(topX - spot.widthTop, 0);
+        ctx.lineTo(topX + spot.widthTop, 0);
+        ctx.lineTo(botX + spot.widthBottom, height * 0.75);
+        ctx.lineTo(botX - spot.widthBottom, height * 0.75);
+        ctx.closePath();
+
+        const grad = ctx.createLinearGradient(topX, 0, botX, height * 0.75);
+        grad.addColorStop(0, `rgba(255, 225, 120, ${currentAlpha * 1.5})`);
+        grad.addColorStop(0.3, `rgba(242, 202, 80, ${currentAlpha})`);
+        grad.addColorStop(0.7, `rgba(212, 175, 55, ${currentAlpha * 0.4})`);
+        grad.addColorStop(1, 'rgba(6, 6, 8, 0)');
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // =======================================================================
+      // B. ANIMATE BACKGROUND BOKEH DEPTH ORBS (Breathing & floating)
+      // =======================================================================
       for (let i = 0; i < bokehOrbs.length; i++) {
         const b = bokehOrbs[i];
         b.x += b.vx;
@@ -2499,26 +2579,47 @@ class UserAppClient {
         if (b.y < -b.radius) b.y = height + b.radius;
         if (b.y > height + b.radius) b.y = -b.radius;
 
-        const pulseAlpha = b.baseAlpha * (0.8 + 0.3 * Math.sin(b.pulsePhase));
+        const pulseAlpha = b.baseAlpha * (0.75 + 0.35 * Math.sin(b.pulsePhase));
+        const drawX = b.x + mouseParallaxX * 0.4;
+        const drawY = b.y + mouseParallaxY * 0.4;
 
-        const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
-        grad.addColorStop(0, `rgba(255, 235, 140, ${pulseAlpha * 1.2})`);
-        grad.addColorStop(0.5, `rgba(242, 202, 80, ${pulseAlpha * 0.6})`);
+        const grad = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, b.radius);
+        grad.addColorStop(0, `rgba(255, 235, 140, ${pulseAlpha * 1.3})`);
+        grad.addColorStop(0.45, `rgba(242, 202, 80, ${pulseAlpha * 0.6})`);
         grad.addColorStop(1, 'rgba(7, 7, 9, 0)');
 
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, b.radius, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // 2. Draw Floating Golden Starlight & Diamond Sparkles
+      // =======================================================================
+      // C. ANIMATE EXACT IMAGE STAR ANCHORS (Dynamic diamond lens flare glints)
+      // =======================================================================
+      for (let i = 0; i < imageStarAnchors.length; i++) {
+        const star = imageStarAnchors[i];
+        const pulse = (Math.sin(time * star.speed + star.phase) + 1) / 2;
+        const currentAlpha = 0.35 + 0.65 * Math.pow(pulse, 1.8);
+        const dynamicOuter = star.baseOuter * (0.7 + 0.6 * pulse);
+        const dynamicInner = star.baseInner * (0.8 + 0.4 * pulse);
+        const rot = time * 0.004 * (i % 2 === 0 ? 1 : -1) + star.phase;
+
+        const posX = width * star.xRatio + mouseParallaxX * 0.8;
+        const posY = height * star.yRatio + mouseParallaxY * 0.8;
+
+        drawStarFlare(posX, posY, dynamicOuter, dynamicInner, currentAlpha, rot);
+      }
+
+      // =======================================================================
+      // D. ANIMATE FLOATING GOLDEN STARLIGHT DUST (Upward drift & sparkles)
+      // =======================================================================
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap around bounds
+        // Wrap around screen bounds
         if (p.y < -12) p.y = height + 12;
         if (p.x < -12) p.x = width + 12;
         if (p.x > width + 12) p.x = -12;
@@ -2528,10 +2629,10 @@ class UserAppClient {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 140) {
-            const force = (140 - dist) / 140;
-            p.x += (dx / dist) * force * 1.5;
-            p.y += (dy / dist) * force * 1.5;
+          if (dist < 130) {
+            const force = (130 - dist) / 130;
+            p.x += (dx / dist) * force * 1.4;
+            p.y += (dy / dist) * force * 1.4;
           }
         }
 
@@ -2540,17 +2641,20 @@ class UserAppClient {
         const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
         const currentAlpha = p.baseAlpha * (0.35 + 0.65 * twinkle);
 
-        if (p.isStar && twinkle > 0.60) {
-          const starOuter = p.size * (2.8 + twinkle * 2.0);
-          const starInner = p.size * (0.7 + twinkle * 0.4);
-          drawStar4Point(p.x, p.y, starOuter, starInner, currentAlpha);
+        const drawPX = p.x + mouseParallaxX * p.depth * 0.5;
+        const drawPY = p.y + mouseParallaxY * p.depth * 0.5;
+
+        if (p.isStar && twinkle > 0.55) {
+          const starOuter = p.size * (2.6 + twinkle * 2.2);
+          const starInner = p.size * (0.6 + twinkle * 0.4);
+          drawStarFlare(drawPX, drawPY, starOuter, starInner, currentAlpha);
         } else {
           ctx.save();
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.arc(drawPX, drawPY, p.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(250, 224, 135, ${currentAlpha})`;
           ctx.shadowColor = 'rgba(255, 215, 0, 0.85)';
-          ctx.shadowBlur = 5;
+          ctx.shadowBlur = 4;
           ctx.fill();
           ctx.restore();
         }
