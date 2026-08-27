@@ -186,7 +186,7 @@ section {
   backface-visibility: hidden;
 }
 
-/* Foreground Text, Sections and Content (Strictly above overlay) */
+/* Foreground Text, Sections and Content */
 main, #view-portal, #view-dashboard {
   position: relative;
   z-index: 10;
