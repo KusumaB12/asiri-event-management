@@ -571,8 +571,8 @@ main, section, #view-portal, #view-dashboard {
 #home {
   position: relative;
   background: 
-    radial-gradient(ellipse at 50% 45%, rgba(6, 6, 8, 0.20) 0%, rgba(6, 6, 8, 0.58) 60%, rgba(6, 6, 8, 0.92) 100%),
-    url('assets/hero-backdrop.jpg') center top / cover no-repeat;
+    radial-gradient(ellipse at 50% 45%, rgba(6, 6, 8, 0.08) 0%, rgba(6, 6, 8, 0.35) 60%, rgba(6, 6, 8, 0.82) 100%),
+    url('assets/hero-backdrop.jpg') center center / cover no-repeat;
   background-attachment: scroll;
 }
 
