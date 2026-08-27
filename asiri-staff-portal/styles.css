@@ -160,6 +160,21 @@ section {
   backface-visibility: hidden;
 }
 
+.site-luxury-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    radial-gradient(ellipse at 50% 50%, rgba(6, 6, 8, 0.20) 0%, rgba(6, 6, 8, 0.50) 60%, rgba(6, 6, 8, 0.85) 100%),
+    url('assets/hero-backdrop.jpg') center center / cover no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
 #luxury-bg-canvas {
   position: fixed;
   top: 0;
@@ -167,62 +182,16 @@ section {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
 }
 
-.luxury-top-godray {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateZ(0);
-  width: 100vw;
-  height: 90vh;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(242, 202, 80, 0.12) 0%, rgba(212, 175, 55, 0.04) 50%, transparent 80%);
-  pointer-events: none;
-  z-index: 1;
-  backface-visibility: hidden;
-}
-
-.ambient-glow {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateZ(0);
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle at 50% 40%, rgba(242, 202, 80, 0.06) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 1;
-  backface-visibility: hidden;
-}
-
-.ambient-glow-bottom {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 70vw;
-  height: 60vh;
-  background: radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.bg-black-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(6, 6, 8, 0.08);
-  pointer-events: none;
-  z-index: 1;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+/* Foreground Content */
+main, header, footer {
+  position: relative;
+  z-index: 10;
 }
 
 /* Foreground Text, Sections and Content (strictly on top of overlay) */
