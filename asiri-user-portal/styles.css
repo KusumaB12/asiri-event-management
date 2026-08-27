@@ -149,15 +149,45 @@ section {
 
 .site-luxury-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: -3vh;
+  left: -3vw;
+  width: 106vw;
+  height: 106vh;
   background: url('assets/hero-backdrop.jpg') center center / cover no-repeat;
   pointer-events: none;
   z-index: 0;
   transform: translateZ(0);
-  will-change: transform;
+  will-change: transform, filter;
+  animation: 
+    backdropCinematicMotion 24s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate,
+    backdropGlowPulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes backdropCinematicMotion {
+  0% {
+    transform: scale(1.0) translate(0, 0);
+  }
+  35% {
+    transform: scale(1.045) translate(-0.8%, -0.6%);
+  }
+  70% {
+    transform: scale(1.07) translate(0.6%, -0.8%);
+  }
+  100% {
+    transform: scale(1.035) translate(-0.3%, 0.5%);
+  }
+}
+
+@keyframes backdropGlowPulse {
+  0% {
+    filter: brightness(1.0) contrast(1.02) saturate(1.02);
+  }
+  50% {
+    filter: brightness(1.15) contrast(1.08) saturate(1.20);
+  }
+  100% {
+    filter: brightness(0.96) contrast(1.0) saturate(1.0);
+  }
 }
 
 #luxury-bg-canvas {
