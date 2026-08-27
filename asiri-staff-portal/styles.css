@@ -166,9 +166,7 @@ section {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: 
-    radial-gradient(ellipse at 50% 50%, rgba(6, 6, 8, 0.20) 0%, rgba(6, 6, 8, 0.50) 60%, rgba(6, 6, 8, 0.85) 100%),
-    url('assets/hero-backdrop.jpg') center center / cover no-repeat;
+  background: url('assets/hero-backdrop.jpg') center center / cover no-repeat;
   pointer-events: none;
   z-index: 0;
   transform: translateZ(0);
