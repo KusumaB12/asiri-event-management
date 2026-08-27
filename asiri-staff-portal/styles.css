@@ -186,7 +186,20 @@ section {
   backface-visibility: hidden;
 }
 
-/* Foreground Content */
+.bg-black-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 2;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Foreground Content (Strictly above overlay) */
 main, header, footer {
   position: relative;
   z-index: 10;

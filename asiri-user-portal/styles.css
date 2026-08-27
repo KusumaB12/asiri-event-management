@@ -173,7 +173,20 @@ section {
   backface-visibility: hidden;
 }
 
-/* Foreground Text, Sections and Content */
+.bg-black-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 2;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Foreground Text, Sections and Content (Strictly above overlay) */
 main, #view-portal, #view-dashboard {
   position: relative;
   z-index: 10;
