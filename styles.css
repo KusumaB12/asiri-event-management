@@ -400,7 +400,7 @@ main, #view-portal, #view-dashboard {
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(8px);
-  min-width: 240px;
+  min-width: 250px;
   background: rgba(10, 11, 15, 0.96);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -413,6 +413,22 @@ main, #view-portal, #view-dashboard {
   pointer-events: none;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 100;
+}
+
+.nav-dropdown-menu.nav-dropdown-menu-events {
+  min-width: 540px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 8px;
+}
+
+.nav-dropdown-menu.nav-dropdown-menu-wide {
+  min-width: 590px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 8px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu,
@@ -1765,3 +1781,168 @@ html, body, * {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.3);
 }
+
+/* ==========================================================================
+   ABDHI CREATIONS REFERENCE EXPANSIONS
+   Top Contact Bar, Dual Value Pillars, 12-Service Grid & 8-Category Showcase
+   ========================================================================== */
+
+.top-contact-bar {
+  background: rgba(5, 6, 8, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(242, 202, 80, 0.12);
+  transition: all var(--transition-smooth);
+}
+
+.hero-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 860px;
+  margin: 28px auto 0 auto;
+}
+
+@media (min-width: 640px) {
+  .hero-pillars-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.hero-pillar-card {
+  background: rgba(16, 17, 24, 0.65);
+  border: 1px solid rgba(242, 202, 80, 0.22);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  text-align: left;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, #fae087, #d49f1a);
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.hero-pillar-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(242, 202, 80, 0.45);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(242, 202, 80, 0.18);
+}
+
+.hero-pillar-card:hover::before {
+  opacity: 1;
+}
+
+.service-12-card {
+  background: rgba(14, 15, 20, 0.85);
+  border: 1px solid rgba(242, 202, 80, 0.15);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.service-12-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle at top right, rgba(242, 202, 80, 0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.service-12-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(242, 202, 80, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(242, 202, 80, 0.15);
+}
+
+.expertise-card {
+  background: rgba(13, 14, 19, 0.9);
+  border: 1px solid rgba(242, 202, 80, 0.16);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+}
+
+.expertise-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(242, 202, 80, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(242, 202, 80, 0.2);
+}
+
+.expertise-card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.expertise-card:hover .expertise-card-img {
+  transform: scale(1.05);
+}
+
+.category-tab-btn {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: rgba(20, 22, 28, 0.8);
+  border: 1px solid rgba(242, 202, 80, 0.2);
+  color: #c8c5bc;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.category-tab-btn:hover,
+.category-tab-btn.active {
+  background: var(--gold-primary);
+  color: #060608;
+  border-color: var(--gold-primary);
+  box-shadow: 0 4px 15px rgba(242, 202, 80, 0.35);
+}
+
+.footer-4col-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+}
+
+@media (min-width: 640px) {
+  .footer-4col-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-4col-grid {
+    grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr;
+    gap: 48px;
+  }
+}
