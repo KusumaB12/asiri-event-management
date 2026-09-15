@@ -1,7 +1,8 @@
 {
-  "name": "asiri-staff-portal",
+  "name": "asiri-staff-hub",
   "version": "1.0.0",
-  "description": "ASIRI Luxury Event Management - Staff Operations Cockpit",
+  "description": "ASIRI Luxury Event Management - Staff Operations Hub",
+  "main": "index.html",
   "scripts": {
     "dev": "python -m http.server 8081",
     "start": "serve ."
