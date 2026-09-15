@@ -1945,4 +1945,22 @@ html, body, * {
     grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr;
     gap: 48px;
   }
-}
+}
+
+/* Instagram Feed Card Polish */
+.instagram-post-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: #0e0f14;
+  border: 1px solid rgba(242, 202, 80, 0.2);
+  transition: all var(--transition-smooth);
+}
+
+.instagram-post-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(242, 202, 80, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(242, 202, 80, 0.2);
+}
+
